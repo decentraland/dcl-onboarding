@@ -197,6 +197,9 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     claimUI.openClaimInProgress()
                     claimUI.openRequiresWeb3(new ClaimTokenResult(),claimCallbacks)
                     claimUI.openNotOnMap(new ClaimTokenResult(),claimCallbacks)
+                    claimUI.openOKPrompt("example error short",ClaimUiType.ERROR,undefined,claimCallbacks)
+                    claimUI.openOKPrompt("example error longerror longerror longerror longerror longerror longerror "+
+                        "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror long",ClaimUiType.ERROR,undefined,claimCallbacks)
                 },{hoverText: "test all claim UIs"})
             )
             /*
@@ -249,6 +252,8 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
             storeInst({ dispData:h,entity:booth })
         }else if(h.model == "parachute"){  
             log(METHOD_NAME,"MODEL TYPE IS parachute crate not creating now")
+        }else if(h.model == "no-model"){  
+            log(METHOD_NAME,"MODEL TYPE IS no-model not creating now")
         }else{
 
             const claimUI = new ClaimUI(h.claimUIConfig,h.claimConfig)

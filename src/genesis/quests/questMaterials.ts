@@ -11,9 +11,14 @@ import { AudioManager } from "../components/audio/audio.manager";
 import { UserData } from "src/imports/user/user.data";
 import { sendTrak } from "../stats/segment";
 import { BubbleTalk } from "src/imports/components/bubbleTalk";
+import { initClaimProvider, lookupDispenerPosByCampId } from "src/modules/claiming/claimSetup";
+import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
+import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
+import { DispenserPos } from "src/claiming-dropin/claiming/claimTypes";
+import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot";
 
 //Quest collect matterials
-export class QuestMaterials {
+export class QuestMaterials implements IClaimProvider{
 
     private static instanceRef: QuestMaterials;
     npc2Anim: Entity;
@@ -30,6 +35,19 @@ export class QuestMaterials {
     cable_off: Entity;
     cable_on: Entity;
     blocker: Entity;
+
+    
+    //start claim code
+    hasReward:boolean 
+    dispenserPos:DispenserPos
+    claimUI:ClaimUI|undefined
+    claimCallbacks!:HandleClaimTokenCallbacks
+    claimTokenReady:boolean = false
+    claimInformedPending:boolean = false
+    claimTokenResult:ClaimTokenResult|undefined
+    showClaimPrompts:boolean = false
+    //end claim code
+
 
     debug: boolean = false
     private constructor() { }
@@ -76,6 +94,12 @@ export class QuestMaterials {
         this.setBubbleNpc()
         this.setQuestStartDialog()
         this.setUpTriggerHi()
+        this.setUpClaim()
+    }
+
+    private setUpClaim(){
+        this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.VEST.refId )
+        initClaimProvider( this )
     }
 
     private spawnBlockToNextIsalnd() {
@@ -383,7 +407,7 @@ export class QuestMaterials {
 
 
         let usetWallet = UserData.instance().getWallet()
-
+ 
         //Give Reward Emote 
         AudioManager.instance().playPopupOpen()
         if (usetWallet != null || usetWallet != undefined) {
@@ -393,6 +417,8 @@ export class QuestMaterials {
             //********************************************************************************************************************
             //**                DISPENSER OF WEREABLES GOES HERE.  THIS IS WHERE THE PLAYER GETS THE REWARD.                    **
             //******************************************************************************************************************** 
+            const showUIHere_NO = false //will be shown when claim is clicked
+            doClaim(this,showUIHere_NO)
         } else {
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
@@ -403,6 +429,7 @@ export class QuestMaterials {
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()
+            showClaimPrompt(this)
         }
         getHUD().wgPopUp.leftButtonClic = () => {
             this.onCloseRewardUI()

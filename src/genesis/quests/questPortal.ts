@@ -11,8 +11,14 @@ import * as bubbleText from "src/jsonData/textsTutorialBubble"
 import { AudioManager } from "../components/audio/audio.manager";
 import { sendTrak } from "../stats/segment";
 import { TriggerComponent, TriggerSphereShape } from "@dcl/ecs-scene-utils";
+import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot";
+import { DispenserPos } from "src/claiming-dropin/claiming/claimTypes";
+import { doClaim, doClaimSilent, IClaimProvider } from "src/claiming-dropin/claiming/defaultClaimProvider";
+import { CONFIG } from "src/config";
+import { initClaimProvider, lookupDispenerPosByCampId } from "src/modules/claiming/claimSetup";
+import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 
-export class QuestPortal {
+export class QuestPortal implements IClaimProvider{
 
     portal: Entity
     private static instanceRef: QuestPortal;
@@ -30,6 +36,17 @@ export class QuestPortal {
     eventpositions: IEntity[]
     refreshbuttons: Entity[]
     titleSpots: Entity[]
+
+    //start claim code
+    hasReward:boolean 
+    dispenserPos:DispenserPos
+    claimUI:ClaimUI|undefined
+    claimCallbacks!:HandleClaimTokenCallbacks
+    claimTokenReady:boolean = false
+    claimInformedPending:boolean = false
+    claimTokenResult:ClaimTokenResult|undefined
+    showClaimPrompts:boolean = false
+    //end claim code
 
     private constructor() { }
     public static instance(): QuestPortal { return this.instanceRef || (this.instanceRef = new this()); }
@@ -53,7 +70,15 @@ export class QuestPortal {
 
     public startQuestPortal() {
         this.robotToPortal()
+        this.setUpClaim()
     }
+
+    
+    private setUpClaim(){
+        this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.CAP.refId )
+        initClaimProvider( this )
+    }
+
 
     private robotToPortal() {
         //Robot adjust to portal
@@ -166,6 +191,8 @@ export class QuestPortal {
             //********************************************************************************************************************
             //**                DISPENSER OF WEREABLES GOES HERE.  THIS IS WHERE THE PLAYER GETS THE REWARD.                    **
             //******************************************************************************************************************** 
+            const showUIHere_NO = false //will be shown when claim is clicked
+            doClaim(this,showUIHere_NO)
 
         } else {
             //Set up popup with disclaimer
@@ -223,3 +250,4 @@ export class QuestPortal {
 
 
 }
+

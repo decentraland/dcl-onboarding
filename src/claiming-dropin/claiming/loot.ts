@@ -2,7 +2,7 @@ import * as ui from '@dcl/ui-scene-utils'
 import { signedFetch } from '@decentraland/SignedFetch'
 import { ImageSection } from 'node_modules/@dcl/ui-scene-utils/dist/utils/types'
 import resources,  { setSection } from 'src/dcl-scene-ui-workaround/resources'
-import { custUiAtlas, dispenserInstRecord, dispenserRefIdInstRecord, dispenserSchedule } from 'src/claiming-dropin/claiming/claimResources'
+import { custUiAtlas, dispenserInstRecord, dispenserRefIdInstRecord, dispenserSchedule, sharedClaimBgTexture } from 'src/claiming-dropin/claiming/claimResources'
 import { CampaignSchedule } from 'src/claiming-dropin/claiming/schedule/claimSchedule'
 import { CampaignDayType, ShowResultType } from 'src/claiming-dropin/claiming/schedule/types'
 import { ChainId, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
@@ -335,10 +335,11 @@ function hasRefId(show: ShowResultType,claimConfig?:ClaimConfigCampaignType){
  * @param onCompleteCallback 
  */
 function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callbacks?:HandleClaimTokenCallbacks,claimConfig?:ClaimConfigCampaignType):ui.CustomPrompt|ui.OkPrompt {
+  const METHOD_NAME = "_handleClaimJson"
   const json=claimResult.json
   const overrideCode=claimResult.claimCode
   const error=claimResult.exception
-  log("_handleClaimJson",json,overrideCode,callbacks)
+  log(METHOD_NAME,"ENTRY",json,overrideCode,callbacks)
 
   let returnVal:ui.OkPrompt|ui.CustomPrompt|undefined = undefined
   let p: ui.OkPrompt
@@ -355,7 +356,7 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
 
   if (json && !json.ok) {
     PlayOpenSound()
-    log('ERROR: ', json.code)
+    log(METHOD_NAME,'ERROR: ', json.code)
     let code = json.code
     if(overrideCode){
       code = overrideCode
@@ -412,7 +413,7 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
   }else if (_isOutOfStock(json)) {
     returnVal = claimUI.openOutOfStockPrompt(claimResult,callbacks)
   }else if (!json || !json.data[0]) {
-    log('no rewards',overrideCode)
+    log(METHOD_NAME,'no rewards',overrideCode)
     switch (overrideCode) {
       case ClaimCodes.BENEFICIARY_WEB3_CONNECTED:
         returnVal = claimUI.openRequiresWeb3(claimResult,callbacks)
@@ -425,6 +426,7 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
         if(error && error.message){
           msg += '\n' + error.message
         }
+        log(METHOD_NAME,'open error',msg,overrideCode)
         returnVal = claimUI.openOKPrompt(msg,ClaimUiType.ERROR,claimResult,callbacks)
       
         break 
@@ -457,9 +459,10 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
 
 
 const claimConfigDefaults:ClaimUIConfig = {
-  bgTexture: 'images/claim/WearablePopUp.png',
+  bgTexture: sharedClaimBgTexture,//'src/claiming-dropin/images/claim/GenericWearablePopUp.png',
   claimServer: /*TESTING ? */'https://rewards.decentraland.io' /*:  'https://rewards.decentraland.org'*/ //default is non prod to avoid accidents
   ,resolveSourceImageSize:(data:ItemData)=>{return 512}
+  ,customPromptStyle: ui.PromptStyles.LIGHTLARGE
 }
 
 export class ClaimUI {
@@ -668,8 +671,10 @@ export class ClaimUI {
     switch(style){
       case ui.PromptStyles.DARK: 
       case ui.PromptStyles.DARKLARGE: 
+      log("getCustomPromptFontColor",style,"WHITE")
         return Color4.White()  
       default:
+        log("getCustomPromptFontColor",style,"BLACK")
         return Color4.Black()
     }
   }
@@ -679,8 +684,10 @@ export class ClaimUI {
     switch(style){
       case ui.PromptStyles.DARK: 
       case ui.PromptStyles.DARKLARGE: 
+        log("getOKPromptUseDarkTheme",style,"true")
         return true
       default:
+        log("getOKPromptUseDarkTheme",style,"false")
         return false
     }
   }
@@ -745,6 +752,7 @@ export class ClaimUI {
         'OK',
         this.getOKPromptUseDarkTheme()
       )
+      p.text.color = this.getCustomPromptFontColor()
       this.applyCustomAtlas(p)
       
       //p.background.width = 500

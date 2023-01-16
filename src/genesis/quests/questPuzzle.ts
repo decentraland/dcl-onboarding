@@ -10,10 +10,15 @@ import { QuestNpc } from '../components/npcs/questNpc'
 import { AudioManager } from '../components/audio/audio.manager'
 import { sendTrak } from '../stats/segment'
 import { CameraModeManager } from '../cameraMode'
+import { initClaimProvider, lookupDispenerPosByCampId } from 'src/modules/claiming/claimSetup'
+import { ClaimConfig } from 'src/claiming-dropin/claiming/loot-config'
+import { DispenserPos } from 'src/claiming-dropin/claiming/claimTypes'
+import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from 'src/claiming-dropin/claiming/loot'
+import { IClaimProvider } from 'src/claiming-dropin/claiming/defaultClaimProvider'
 
 //Quest restore energy
 
-export class QuestPuzzle {
+export class QuestPuzzle /*implements IClaimProvider*/{
 
     private static instanceRef: QuestPuzzle;
     particle: Entity
@@ -25,6 +30,17 @@ export class QuestPuzzle {
     pilar4: Entity
     cable_off: Entity
     cable_on: Entity
+
+    /*//start claim code
+    hasReward:boolean 
+    dispenserPos:DispenserPos
+    claimUI:ClaimUI|undefined
+    claimCallbacks!:HandleClaimTokenCallbacks
+    claimTokenReady:boolean = false
+    claimInformedPending:boolean = false
+    claimTokenResult:ClaimTokenResult|undefined
+    showClaimPrompts:boolean = false
+    //end claim code*/
 
     connect_game: ConnectMiniGame
 
@@ -53,9 +69,13 @@ export class QuestPuzzle {
         this.setBubbleNpc2()
         this.setUpInitQuest()
         this.setUpTriggerHi()
+        this.setUpClaim()
     }
 
-
+    private setUpClaim(){
+        /*this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.CAP.refId )
+        initClaimProvider( this )*/
+    }
 
     private setBubbleNpc2() {
 
