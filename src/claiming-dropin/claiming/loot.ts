@@ -818,9 +818,9 @@ export class ClaimUI {
     claimUI.background.sourceHeight = 512
     claimUI.background.sourceTop = 0
     claimUI.background.sourceLeft = 0
-    claimUI.background.opacity = .9
+    claimUI.background.opacity = .98
     
-    const fontColor = Color4.White() //this.getCustomPromptFontColor()
+    const fontColor = Color4.Black() //this.getCustomPromptFontColor()
 
     claimUI.addText(
       data.status == ClaimState.SUCCESS

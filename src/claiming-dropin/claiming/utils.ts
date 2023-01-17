@@ -38,12 +38,12 @@ export function testForWearable(data:ItemData,wearable:WearableEnumInst):boolean
 
 
 export function customResolveSourceImageSize(data:ItemData):number{
-    let sourceSize = 512 
+    let sourceSize = 1024 
 
     //if 0x956b8d57066fc3d2562de22efd63624a1ba56e35 then its 1024
 
     if(testForWearable(data,WearableEnum.CAP) ){
-        sourceSize = 512 
+        sourceSize = 1024 
     }
     
     return sourceSize
