@@ -1,3 +1,7 @@
+import { bootStrapClaimingDropins } from "src/claiming-dropin/bootstrapClaiming";
+import { initClaimConfig } from "src/claiming-dropin/claiming/loot-config";
+import { initConfig } from "src/config";
+import { initDispenserPositions, initSceneClaiming } from "src/modules/claiming/claimSetup";
 import { CameraModeManager } from "./cameraMode";
 import { QuestEmote } from "./quests/questEmote";
 import { QuestMaterials } from "./quests/questMaterials";
@@ -30,6 +34,16 @@ export class GenesisManager {
         StateManager.instance().initState("IslandQuest3State");
 
         StateManager.instance().initState("PortalState");
+
+        
+
+        //INITIALIZING claiming
+        initConfig()
+        bootStrapClaimingDropins()
+        initClaimConfig()
+        initSceneClaiming()
+        initDispenserPositions()
+        
     }
 
     start() {

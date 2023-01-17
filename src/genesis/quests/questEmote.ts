@@ -9,8 +9,13 @@ import * as bubbleTalk from 'src/jsonData/textsTutorialBubble';
 import { POPUP_STATE } from "../ui/popupUI";
 import { UserData } from "src/imports/user/user.data";
 import { sendTrak } from "../stats/segment";
+import { DispenserPos } from "src/claiming-dropin/claiming/claimTypes";
+import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot";
+import { initClaimProvider, lookupDispenerPosByCampId } from "src/modules/claiming/claimSetup";
+import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
+import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
 
-export class QuestEmote {
+export class QuestEmote implements IClaimProvider{
 
     private static instanceRef: QuestEmote;
     particle: Entity;
@@ -31,6 +36,18 @@ export class QuestEmote {
     bridge_2: Entity
 
     bnpc1isInPlaza: boolean = false
+
+
+    //start claim code
+    hasReward:boolean 
+    dispenserPos:DispenserPos
+    claimUI:ClaimUI|undefined
+    claimCallbacks!:HandleClaimTokenCallbacks
+    claimTokenReady:boolean = false
+    claimInformedPending:boolean = false
+    claimTokenResult:ClaimTokenResult|undefined
+    showClaimPrompts:boolean = false
+    //end claim code
 
     private showHintTimeout: any
     private readonly showHintDelayInSecs: number = 60 * 1
@@ -108,7 +125,14 @@ export class QuestEmote {
         this.setupStartQuestClick()
         this.setUpTriggerHi()
         this.createParticleEntity()
+        this.setUpClaim()
     }
+
+    private setUpClaim(){
+        this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.EMOTE.refId )
+        initClaimProvider( this )
+    }
+
 
     private setUpNpc1() {
         this.npc1.addComponent(new QuestNpc(GenesisData.instance().quest1.npc1, {
@@ -384,6 +408,8 @@ export class QuestEmote {
             //******************************************************************************************************************** 
             //**                DISPENSER OF EMOTE GOES HERE.  THIS IS WHERE THE PLAYER GETS THE REWARD.                    **
             //******************************************************************************************************************** 
+            const showUIHere_NO = false //will be shown when claim is clicked
+            doClaim(this,showUIHere_NO)
         } else {
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
@@ -394,6 +420,7 @@ export class QuestEmote {
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()
+            showClaimPrompt(this)//show claim UI result here
         }
         getHUD().wgPopUp.leftButtonClic = () => {
             this.onCloseRewardUI()
