@@ -313,7 +313,7 @@ export class WidgetTextBox extends Widget {
     faceBorder.sourceHeight = 280
     faceBorder.width = 280 * 0.8
     faceBorder.height = 280 * 0.8
-    faceBorder.positionX = "-27%"
+    faceBorder.positionX = -285,//"-32%"
     faceBorder.positionY = "-13%"
 
     //SHOW Face img
@@ -324,7 +324,7 @@ export class WidgetTextBox extends Widget {
         sourceHeight: 280,
         width: 280 * 0.80 + 'px',
         height: 280 * 0.80 + 'px',
-        positionX: "-27%",
+        positionX: -285,//"-32%",
         positionY: "-13%",
       }
 
