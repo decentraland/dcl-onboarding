@@ -68,9 +68,9 @@ export class WearableEnum {
   static PLACEHOLDER_TODO_NEED_ACTUAL_WEARBLE_DATA_HERE = new WearableEnumInst({ name: "PLACEHOLDER_TODO_NEED_ACTUAL_WEARBLE_DATA_HERE", address: "0xa4a345afb8fa378cdabc68e83e1a578c810f0abb", itemId: "5", urn: 'urn:decentraland:matic:collections-v2:0xa4a345afb8fa378cdabc68e83e1a578c810f0abb:5' })
 
   //{"collectionAddress":"0x6804ac297f50a099c454a1d3cef2e5a97ddb93f2","collectionName":"Party Degens","itemName":"Woodstock 3.0","itemId":"0","rarity":"epic"}
-  static EMOTE = createWerableEnumInst({"collectionAddress":"0x304a2d14b22801dafee057629627d5c51ddbaa8f","collectionName":"Snowball Fight - Xmas 2022","itemName":"Reindeer Helmet","itemId":"1","rarity":"common"})
-  static VEST = createWerableEnumInst({"collectionAddress":"0x304a2d14b22801dafee057629627d5c51ddbaa8f","collectionName":"Snowball Fight - Xmas 2022","itemName":"Reindeer Helmet","itemId":"1","rarity":"common"})
-  static CAP = createWerableEnumInst({"collectionAddress":"0x304a2d14b22801dafee057629627d5c51ddbaa8f","collectionName":"Snowball Fight - Xmas 2022","itemName":"Reindeer Helmet","itemId":"1","rarity":"common"})
+  static EMOTE = createWerableEnumInst({"collectionAddress":"0x167d6b63511a7b5062d1f7b07722fccbbffb5105","collectionName":"Decentraland Tutorial Wearables","itemName":"Bezier Dance","itemId":"0","rarity":"common"})
+  static VEST = createWerableEnumInst({"collectionAddress":"0x167d6b63511a7b5062d1f7b07722fccbbffb5105","collectionName":"Decentraland Tutorial Wearables","itemName":"Vest - Mat Quest","itemId":"1","rarity":"common"})
+  static CAP = createWerableEnumInst({"collectionAddress":"0x167d6b63511a7b5062d1f7b07722fccbbffb5105","collectionName":"Decentraland Tutorial Wearables","itemName":"Tobor Cap - Kit Quest","itemId":"2","rarity":"common"})
 
 }
 
@@ -104,12 +104,10 @@ export const ClaimConfig = {
   campaign: {
     EMOTE: {
         refId: "emote",
-          campaign: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_ID : "PROVIDE PRODUCTION KEY HERE",
+          campaign: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_ID : "4f39311b-8bd6-4dc0-b481-d2d12350a1b7",
         campaignKeys: {
           key1: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_KEY
-            : "PROVIDE PRODUCTION KEY HERE",
-          key2: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_KEY
-            : "PROVIDE PRODUCTION KEY HERE",
+            : "eyJpZCI6IjJhNjY0NGY4LWIxNzEtNDZlNC05ZDJmLTIzZmYwNzJiNWU3ZSIsImNhbXBhaWduX2lkIjoiNGYzOTMxMWItOGJkNi00ZGMwLWI0ODEtZDJkMTIzNTBhMWI3In0=.WboJjCfelGNKUnq8Lm7bC5J0Zp9Nf54PjLcjd3ZkCVc=",
         },
         wearableUrnsToCheck: toStringURLArray([
           WearableEnum.EMOTE
@@ -117,10 +115,10 @@ export const ClaimConfig = {
       },
     VEST: {
         refId: "vest",
-        campaign: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_ID : "PROVIDE PRODUCTION KEY HERE",
+        campaign: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_ID : "4f39311b-8bd6-4dc0-b481-d2d12350a1b7",
         campaignKeys: {
           key1: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_KEY
-            : "PROVIDE PRODUCTION KEY HERE",
+            : "eyJpZCI6IjVmMjA4OGRhLTc4MmYtNDk0OS05YmQyLTcyM2ZiZTRmY2U1NiIsImNhbXBhaWduX2lkIjoiNGYzOTMxMWItOGJkNi00ZGMwLWI0ODEtZDJkMTIzNTBhMWI3In0=.8WlZ55X7hsVaRHK35niEoOxcrCtPNCy7-0HDZ12ikn4=",
         },
         wearableUrnsToCheck: toStringURLArray([
           WearableEnum.VEST
@@ -128,10 +126,10 @@ export const ClaimConfig = {
       },
     CAP: {
         refId: "cap",
-        campaign: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_ID : "PROVIDE PRODUCTION KEY HERE",
+        campaign: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_ID : "4f39311b-8bd6-4dc0-b481-d2d12350a1b7",
         campaignKeys: {
           key1: CONFIG_CLAIM_TESTING_ENABLED ? TEST_CAMPAIGN_KEY
-            : "PROVIDE PRODUCTION KEY HERE",
+            : "eyJpZCI6IjgwMGJkMmY2LWI3ODYtNDY1Ny1iMTQ1LWZkNTRmNjgyNzAyNCIsImNhbXBhaWduX2lkIjoiNGYzOTMxMWItOGJkNi00ZGMwLWI0ODEtZDJkMTIzNTBhMWI3In0=.wnO73VddYOJPcfVzTenGwID4-02zjonI0wdy7S4dUwY=",
         },
         wearableUrnsToCheck: toStringURLArray([
           WearableEnum.CAP
