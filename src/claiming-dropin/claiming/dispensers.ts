@@ -198,10 +198,14 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     claimUI.openRequiresWeb3(new ClaimTokenResult(),claimCallbacks)
                     claimUI.openNotOnMap(new ClaimTokenResult(),claimCallbacks)
                     claimUI.openOKPrompt("example error short",ClaimUiType.ERROR,undefined,claimCallbacks)
+                    claimUI.openOKPrompt("example error short with retry",ClaimUiType.ERROR,undefined,claimCallbacks,true)
+
                     claimUI.openOKPrompt("example error longerror longerror longerror longerror longerror longerror "+
                         "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror long",ClaimUiType.ERROR,undefined,claimCallbacks)
+                    claimUI.openOKPrompt("example error with retry longerror longerror longerror longerror longerror "+
+                        "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror with retry",ClaimUiType.ERROR,undefined,claimCallbacks,true)
                         //url just happens to match my pattern i need https://captcha.com/images/captcha/botdetect3-captcha-ancientmosaic.jpg
-                    claimUI.openCaptchaChallenge("https://captcha.com/images/", "botdetect3-captcha-ancientmosaic.jpg")
+                    claimUI.openCaptchaChallenge("local", "src/claiming-dropin/images/example-botdetect3-captcha-ancientmosaic.jpeg") 
                 },{hoverText: "test all claim UIs"})
             )
             /*

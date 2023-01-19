@@ -31,6 +31,7 @@ export type HandleClaimTokenCallbacks={
   //onOK?: (type:string,options:any) => void
   onOpenUI?: (type:ClaimUiType,claimResult?:ClaimTokenResult) => void
   onCloseUI?: (type:ClaimUiType,claimResult?:ClaimTokenResult) => void
+  onRetry?: (type:ClaimUiType,claimResult?:ClaimTokenResult) => void
 }/*
 export type HandleUICallbacks={
   onOK?: (type:string,options:any) => void
@@ -380,8 +381,9 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
       code = overrideCode
     }
     let uiMsg = ''
-    
+    let allowRetry = false    
     let tryAgainInMsg = ""
+    
     switch (code) {
       case ClaimCodes.BENEFICIARY_INVALID:
       case ClaimCodes.BENEFICIARY_NOT_CONNECTED:
@@ -399,6 +401,8 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
         tryAgainInMsg = "Temporarily of stock.\nNext batch will be available in \n"
         break
       default:
+        //SHOW RETRY!
+        allowRetry = true
         uiMsg = 'An unexpected error occurred: \n' + json.error
         break
     }
@@ -426,12 +430,13 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
     }
 
     if(uiMsg.length > 0){
-      returnVal = claimUI.openOKPrompt(uiMsg,ClaimUiType.ERROR,claimResult,callbacks)
+      returnVal = claimUI.openOKPrompt(uiMsg,ClaimUiType.ERROR,claimResult,callbacks,allowRetry)
     }
   }else if (_isOutOfStock(json)) {
     returnVal = claimUI.openOutOfStockPrompt(claimResult,callbacks)
   }else if (!json || !json.data[0]) {
     log(METHOD_NAME,'no rewards',overrideCode)
+    let retry = false
     switch (overrideCode) {
       case ClaimCodes.BENEFICIARY_WEB3_CONNECTED:
         returnVal = claimUI.openRequiresWeb3(claimResult,callbacks)
@@ -445,7 +450,8 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
           msg += '\n' + error.message
         }
         log(METHOD_NAME,'open error',msg,overrideCode)
-        returnVal = claimUI.openOKPrompt(msg,ClaimUiType.ERROR,claimResult,callbacks)
+        //SHOW RETRY
+        returnVal = claimUI.openOKPrompt(msg,ClaimUiType.ERROR,claimResult,callbacks,retry)
       
         break 
     }
@@ -485,7 +491,7 @@ const claimConfigDefaults:ClaimUIConfig = {
 
 export class ClaimUI {
 
-  lastUI?: ui.CustomPrompt|ui.OkPrompt
+  lastUI?: ui.CustomPrompt|ui.OkPrompt|ui.OptionPrompt
   claimUI?: ui.CustomPrompt//ui.CustomPrompt //see src/dcl-scene-ui-workaround/readme.md switch back to normal when fixed
   claimUIConfig:ClaimUIConfig = claimConfigDefaults
   claimConfig?:ClaimConfigCampaignType
@@ -624,34 +630,72 @@ export class ClaimUI {
     serverURL: string,
     captchaUUID: string
   ): Promise<string | undefined> {
+    const METHOD_NAME = "openCaptchaChallenge"
+    log(METHOD_NAME,"ENTRY",serverURL,captchaUUID)
+
     return new Promise((resolve) => {
-      const captchaUI = new ui.CustomPrompt(this.getCustomPromptStyle(), 600, 370)
+      const Y_ADJUST = 20
+      const captchaUI = new ui.CustomPrompt(this.getCustomPromptStyle(), 600, 370 + Y_ADJUST)
       captchaUI.addText(
         'Please complete this captcha',
         0,
-        160,
+        160 + Y_ADJUST,
         this.getCustomPromptFontColor(),
         24
       )
+      serverURL = ensureFormat(serverURL)
       captchaUI.addIcon(
-        `https://${serverURL}/captcha/${captchaUUID}`,
+        serverURL === 'local' ? captchaUUID : `https://${serverURL}/captcha/${captchaUUID}`,
         0,
-        40,
+        40+Y_ADJUST,
         500,
         150,
         { sourceHeight: 0, sourceWidth: 0 }
       )
-      let captchaCode = ''
-      captchaUI.addTextBox(0, -75, '', (e) => {
-        captchaCode = e
+      const errorText = captchaUI.addText(
+        'Error MSg',
+        0,
+        -100+Y_ADJUST,
+        Color4.Red(),
+        15
+      )
+      let captchaCodeAnswer = ''
+      const inputBox = captchaUI.addTextBox(0, -75 + Y_ADJUST, '', (e) => {
+        captchaCodeAnswer = e
       })
+      errorText.hide()
+
+      //checks input min len etc, not correctness
+      const validateChallengeValue=(val:string)=>{
+        let valid = true
+        const minLen = 2
+
+        if(val === undefined || val.length ===0 || val === inputBox.fillInBox.placeholder){
+          log(METHOD_NAME,"not valid, empty value:",val, "inputBox.fillInBox.placeholder",inputBox.fillInBox.placeholder)
+          errorText.text.value = "Please provide a value."
+          valid = false
+        }
+        if(val === undefined || val.length < minLen){
+          log(METHOD_NAME,"not valid, too short",val,"min",minLen)
+          errorText.text.value = "Value too short."
+          valid = false
+        }
+        return valid
+      }
       captchaUI.addButton(
         'Submit',
         100,
         -140,
         () => {
-          captchaUI.hide()
-          resolve(captchaCode)
+          const valid = validateChallengeValue(captchaCodeAnswer)
+          log(METHOD_NAME,"captchaCodeAnswer",captchaCodeAnswer,"valid")
+          if(valid){
+            errorText.hide()
+            captchaUI.hide()
+            resolve(captchaCodeAnswer)
+          }else{
+            errorText.show()
+          }
         },
         ui.ButtonStyles.ROUNDGOLD
       )
@@ -736,10 +780,10 @@ export class ClaimUI {
     switch(style){
       case ui.PromptStyles.DARK: 
       case ui.PromptStyles.DARKLARGE: 
-      log("getCustomPromptFontColor",style,"WHITE")
+        //log("getCustomPromptFontColor",style,"WHITE")
         return Color4.White()  
       default:
-        log("getCustomPromptFontColor",style,"BLACK")
+        //log("getCustomPromptFontColor",style,"BLACK")
         return Color4.Black()
     }
   }
@@ -749,17 +793,17 @@ export class ClaimUI {
     switch(style){
       case ui.PromptStyles.DARK: 
       case ui.PromptStyles.DARKLARGE: 
-        log("getOKPromptUseDarkTheme",style,"true")
+        //log("getOKPromptUseDarkTheme",style,"true")
         return true
       default:
-        log("getOKPromptUseDarkTheme",style,"false")
+        //log("getOKPromptUseDarkTheme",style,"false")
         return false
     }
   }
 
-  openOKPrompt(uiMsg:string,type:ClaimUiType,claimResult:ClaimTokenResult, callbacks?:HandleClaimTokenCallbacks): ui.OkPrompt | ui.CustomPrompt {
+  openOKPrompt(uiMsg:string,type:ClaimUiType,claimResult:ClaimTokenResult, callbacks?:HandleClaimTokenCallbacks,allowRetry?:boolean): ui.OkPrompt | ui.CustomPrompt | ui.OptionPrompt {
     PlayOpenSound()
-    let result: ui.OkPrompt | ui.CustomPrompt
+    let result: ui.OkPrompt | ui.CustomPrompt | ui.OptionPrompt
 
     if(uiMsg.length > ClaimMessageConfig.OK_PROMPT_BIGGER_THREASHOLD){
 
@@ -791,34 +835,86 @@ export class ClaimUI {
         uiText.text.vAlign = 'center' 
         uiText.text.hAlign = 'center' 
 
-        mmPrompt.addButton(
-          'OK',
-          0,
-          -100,
-          () => {
-            mmPrompt.hide()
-            //   representation.vanish()
-            PlayCloseSound()
-            if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(type,claimResult)
-          },
-          ui.ButtonStyles.E
-        )
+        if(allowRetry){
+          mmPrompt.addButton(
+            'OK',
+            -100,
+            -100,
+            () => {
+              mmPrompt.hide()
+              //   representation.vanish()
+              PlayCloseSound()
+              if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(type,claimResult)
+            },
+            ui.ButtonStyles.E
+          )
+          mmPrompt.addButton(
+            'Retry',
+            100,
+            -100,
+            () => {
+              mmPrompt.hide()
+              //   representation.vanish()
+              PlayCloseSound()
+              if(callbacks && callbacks.onRetry) callbacks.onRetry(type,claimResult)
+              //if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(type,claimResult)
+            },
+            ui.ButtonStyles.F
+          )
+        }else{
+          mmPrompt.addButton(
+            'OK',
+            0,
+            -100,
+            () => {
+              mmPrompt.hide()
+              //   representation.vanish()
+              PlayCloseSound()
+              if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(type,claimResult)
+            },
+            ui.ButtonStyles.E
+          )
+        }
       
     }else{
-        
-        let p = new ui.OkPrompt(
-        uiMsg,
-        () => {
-          p.close()
-          //   representation.vanish()
-          PlayCloseSound()
-          if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(type,claimResult)
-        },
-        'OK',
-        this.getOKPromptUseDarkTheme()
-      )
-      p.text.color = this.getCustomPromptFontColor()
-      this.applyCustomAtlas(p)
+        let p:ui.OkPrompt|ui.OptionPrompt
+        if(allowRetry){
+          p = new ui.OkPrompt(
+            uiMsg,
+            () => {
+              p.close()
+              //   representation.vanish()
+              PlayCloseSound()
+              if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(type,claimResult)
+            },
+            'OK',
+            this.getOKPromptUseDarkTheme()
+          )
+          p.text.color = this.getCustomPromptFontColor()
+          this.applyCustomAtlas(p)
+        }else{
+          p = new ui.OptionPrompt(
+            '',
+            uiMsg,
+            () => {//on accept
+              p.close()
+              //   representation.vanish()
+              PlayCloseSound()
+              if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(type,claimResult)
+            },
+            () => {//on reject
+              p.close()
+              //   representation.vanish()
+              PlayCloseSound()
+              if(callbacks && callbacks.onRetry) callbacks.onRetry(type,claimResult)
+            },
+            'Cancel',
+            'Retry',
+            this.getOKPromptUseDarkTheme()
+          )
+          p.text.color = this.getCustomPromptFontColor()
+          this.applyCustomAtlas(p)
+        }
       
       //p.background.width = 500
 

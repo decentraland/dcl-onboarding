@@ -1,3 +1,4 @@
+import { CONFIG } from "src/config"
 import { ClaimCodes, DispenserPos } from "./claimTypes"
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "./loot"
 
@@ -31,7 +32,7 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                         return;
                     }
                      
-                    log("doing " , h.name,claimUI)
+                    log(METHOD_NAME,"doing " , h.name,claimUI)
                     //show example of working directly with ClaimTokenRequest 
 
                     const hasWearable = claimUI.claimConfig?.wearableUrnsToCheck !== undefined ? await checkIfPlayerHasAnyWearableByUrn(
@@ -69,6 +70,21 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                         }
                         claimProvider.claimUI.claimInformedPending = true
 
+                        log(METHOD_NAME,"claimReq.isCaptchaEnabled()",claimReq.isCaptchaEnabled(),"CONFIG.CLAIM_TESTING_ENABLED",CONFIG.CLAIM_TESTING_ENABLED)
+
+                        
+                        if(claimReq.isCaptchaEnabled()){
+                          let server = claimReq.claimServer
+                          
+                          let captchaUUID=''
+                          if(CONFIG.CLAIM_TESTING_CAPTCHA_ENABLED){
+                            server = "local"
+                            captchaUUID = "src/claiming-dropin/images/example-botdetect3-captcha-ancientmosaic.jpeg"
+                          }else{
+                            captchaUUID = await claimReq.getCaptcha()
+                          }
+                          claimReq.challengeAnswer = await claimUI.openCaptchaChallenge(server, captchaUUID)
+                        }
                         const claimResult = await claimReq.claimToken()
 
                         log(METHOD_NAME,"claim result",claimResult.success)
@@ -86,6 +102,8 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                           }
                           if(claimProvider.showClaimPrompts){
                             showClaimPrompt(claimProvider)
+                          }else{
+                            log(METHOD_NAME,"not showing claim prompt yet")
                           }
                     }
 

@@ -7,7 +7,7 @@ import { campaignData, initCampaignData, initDispenserScheduler, startDispenserS
 import { customResolveSourceImageSize } from "src/claiming-dropin/claiming/utils"
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot"
 import { ClaimUiType, ItemData } from "src/claiming-dropin/claiming/claimTypes"
-import { IClaimProvider } from "src/claiming-dropin/claiming/defaultClaimProvider"
+import { doClaim, IClaimProvider } from "src/claiming-dropin/claiming/defaultClaimProvider"
 
  
 initConfig()
@@ -55,7 +55,18 @@ export const claimCallbacks:HandleClaimTokenCallbacks = {
                 }
             break;
         }*/
+    },
+
+    onRetry:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+        log("on retry",type,claimResult)
+
+       
     }
+    
+    /*
+    onRetry?:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+        doClaim()
+    }*/
 } 
 
 
@@ -63,13 +74,19 @@ export function initClaimProvider(claimProvider:IClaimProvider){
     log("initClaimProvider","ENTRY",claimProvider)
     
     claimProvider.claimUI = new ClaimUI(claimProvider.dispenserPos.claimUIConfig,claimProvider.dispenserPos.claimConfig)
+    claimCallbacks.onRetry=(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+        log("on retry",type,claimResult)
+        //reset values
+        
+        doClaim(claimProvider,true)
+    }
     claimProvider.claimCallbacks = claimCallbacks
 }
 
 export function lookupDispenerPosByCampId(id:string){
     for(const d of CONFIG.DISPENSER_POSITIONS){
         if(d.name == id){
-            return d
+            return d 
         }
     }
     log("lookupDispenerPosByCampId","RETURN","FAILED TO FIND",id)
