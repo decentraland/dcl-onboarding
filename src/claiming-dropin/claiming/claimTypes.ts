@@ -124,6 +124,7 @@ export type ClaimTokenRequestArgs = {
     campaign: string
     campaign_key: string
     claimConfig?: ClaimConfigCampaignType
+    challengeAnswer?:string //if has captcha or some challenge question already answered
 }
 
 

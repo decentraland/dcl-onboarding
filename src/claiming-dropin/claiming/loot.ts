@@ -69,6 +69,7 @@ export class ClaimTokenRequest{
   campaign_key: string
   claimResult:ClaimTokenResult
   claimConfig?: ClaimConfigCampaignType
+  challengeAnswer?:string //if has captcha or some challenge question
   
   constructor(args:ClaimTokenRequestArgs){
     this.claimServer = args.claimServer
@@ -76,6 +77,7 @@ export class ClaimTokenRequest{
     this.campaign_key = args.campaign_key
     this.claimResult = new ClaimTokenResult()
     this.claimConfig = args.claimConfig
+    this.challengeAnswer = args.challengeAnswer
   }
 
   onFetchError(err:any){
@@ -131,6 +133,21 @@ export class ClaimTokenRequest{
       )*/
   }
 
+  isCaptchaEnabled(){
+    return true
+  }
+
+  async getCaptcha(): Promise<string> {
+    const serverURL = ensureFormat(this.claimServer)
+
+    const captchaUUIDQuery = await signedFetch(`https://${serverURL}/captcha`, {
+      method: 'POST'
+    })
+    const json = JSON.parse(captchaUUIDQuery.text)
+    return json.data.uuid //"botdetect3-captcha-ancientmosaic.jpg" //
+  }
+
+
   async processResponse(response:any){
     log('Reward received resp: ', response)
 
@@ -181,7 +198,8 @@ export class ClaimTokenRequest{
     let body = JSON.stringify({
       campaign_key: this.campaign_key,
       catalyst: playerRealm ? playerRealm.domain : "",
-      beneficiary: userData ? userData.publicKey : ""
+      beneficiary: userData ? userData.publicKey : "",
+      captcha: this.challengeAnswer
     })
   
     try {
@@ -601,7 +619,54 @@ export class ClaimUI {
 
     return p
   }
-
+  /* UI asking for captcha solution */
+  async openCaptchaChallenge(
+    serverURL: string,
+    captchaUUID: string
+  ): Promise<string | undefined> {
+    return new Promise((resolve) => {
+      const captchaUI = new ui.CustomPrompt(this.getCustomPromptStyle(), 600, 370)
+      captchaUI.addText(
+        'Please complete this captcha',
+        0,
+        160,
+        this.getCustomPromptFontColor(),
+        24
+      )
+      captchaUI.addIcon(
+        `https://${serverURL}/captcha/${captchaUUID}`,
+        0,
+        40,
+        500,
+        150,
+        { sourceHeight: 0, sourceWidth: 0 }
+      )
+      let captchaCode = ''
+      captchaUI.addTextBox(0, -75, '', (e) => {
+        captchaCode = e
+      })
+      captchaUI.addButton(
+        'Submit',
+        100,
+        -140,
+        () => {
+          captchaUI.hide()
+          resolve(captchaCode)
+        },
+        ui.ButtonStyles.ROUNDGOLD
+      )
+      captchaUI.addButton(
+        'Cancel',
+        -100,
+        -140,
+        () => {
+          captchaUI.hide()
+          resolve(undefined)
+        },
+        ui.ButtonStyles.ROUNDBLACK
+      )
+    })
+  }
   openSuccessMsg(claimResult:ClaimTokenResult, callbacks?:HandleClaimTokenCallbacks){
     this.openClaimUI(claimResult,callbacks)
   }
@@ -766,7 +831,7 @@ export class ClaimUI {
   
   }
 
-  applyCustomAtlas(modal:ui.OkPrompt | ui.CustomPrompt){
+  applyCustomAtlas(modal:ui.OkPrompt | ui.CustomPrompt | ui.OptionPrompt){
     if(custUiAtlas !== undefined){
       modal.background.source
       
@@ -961,4 +1026,8 @@ export function PlayCloseSound() {
 }
 
 
+
+function ensureFormat(claimServer: string) {
+  return claimServer.replace("https://","").replace("http://","")//remove the protocol as we add it back
+}
 

@@ -200,6 +200,8 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     claimUI.openOKPrompt("example error short",ClaimUiType.ERROR,undefined,claimCallbacks)
                     claimUI.openOKPrompt("example error longerror longerror longerror longerror longerror longerror "+
                         "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror long",ClaimUiType.ERROR,undefined,claimCallbacks)
+                        //url just happens to match my pattern i need https://captcha.com/images/captcha/botdetect3-captcha-ancientmosaic.jpg
+                    claimUI.openCaptchaChallenge("https://captcha.com/images/", "botdetect3-captcha-ancientmosaic.jpg")
                 },{hoverText: "test all claim UIs"})
             )
             /*
@@ -302,6 +304,11 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                         }else{
                             const claimReq = new ClaimTokenRequest( h.claimData )
                     
+                            if(claimReq.isCaptchaEnabled()){
+                                const captchaUUID = await claimReq.getCaptcha() //fetches capcha image
+                                claimReq.challengeAnswer = await claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
+                                
+                            }
                             const claimResult = await claimReq.claimToken()
 
                             log("claim result",claimResult.success)
