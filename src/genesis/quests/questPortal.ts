@@ -13,7 +13,7 @@ import { sendTrak } from "../stats/segment";
 import { TriggerComponent, TriggerSphereShape } from "@dcl/ecs-scene-utils";
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot";
 import { DispenserPos } from "src/claiming-dropin/claiming/claimTypes";
-import { doClaim, doClaimSilent, IClaimProvider } from "src/claiming-dropin/claiming/defaultClaimProvider";
+import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
 import { CONFIG } from "src/config";
 import { initClaimProvider, lookupDispenerPosByCampId } from "src/modules/claiming/claimSetup";
 import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
@@ -191,16 +191,38 @@ export class QuestPortal implements IClaimProvider{
             //********************************************************************************************************************
             //**                DISPENSER OF WEREABLES GOES HERE.  THIS IS WHERE THE PLAYER GETS THE REWARD.                    **
             //******************************************************************************************************************** 
-            const showUIHere_NO = false //will be shown when claim is clicked
-            doClaim(this,showUIHere_NO)
-
+            if(!CONFIG.CLAIM_CAPTCHA_ENABLED){
+                const showUIHere_NO = false //will be shown when claim is clicked
+                doClaim(this,showUIHere_NO)
+            }else{
+                //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
+            }
         } else {
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
             getHUD().wgPopUp.setText(CHAPTER4)
             getHUD().wgPopUp.setText(DISCLAIMTEXT)
         }
+        //Chapter Accept
+        getHUD().wgPopUp.rightButtonClic = () => {
+            this.onCloseRewardUI()
+
+            if (usetWallet != null || usetWallet != undefined) {
+                if(CONFIG.CLAIM_CAPTCHA_ENABLED){
+                    const showUIHere_NO = false //will be shown when claim is clicked
+                    doClaim(this,showUIHere_NO)
+                }
+
+                showClaimPrompt(this)//show claim UI result here
+            }
+        }
     }
+
+    private onCloseRewardUI() {
+        getHUD().wgPopUp.rightButtonClic = () => { }
+        getHUD().wgPopUp.leftButtonClic = () => { }
+    }
+
     async displayEvents() {
         const event = await getEvents("https://events.decentraland.org/api/events/?limit=10")
         const places = await getEvents("https://places.decentraland.org/api/places/?limit=10")

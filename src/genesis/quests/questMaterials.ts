@@ -16,6 +16,7 @@ import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
 import { DispenserPos } from "src/claiming-dropin/claiming/claimTypes";
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot";
+import { CONFIG } from "src/config";
 
 //Quest collect matterials
 export class QuestMaterials implements IClaimProvider{
@@ -417,8 +418,12 @@ export class QuestMaterials implements IClaimProvider{
             //********************************************************************************************************************
             //**                DISPENSER OF WEREABLES GOES HERE.  THIS IS WHERE THE PLAYER GETS THE REWARD.                    **
             //******************************************************************************************************************** 
-            const showUIHere_NO = false //will be shown when claim is clicked
-            doClaim(this,showUIHere_NO)
+            if(!CONFIG.CLAIM_CAPTCHA_ENABLED){
+                const showUIHere_NO = false //will be shown when claim is clicked
+                doClaim(this,showUIHere_NO)
+            }else{
+                //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
+            }
         } else {
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
@@ -429,7 +434,15 @@ export class QuestMaterials implements IClaimProvider{
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()
-            showClaimPrompt(this)
+            
+            if (usetWallet != null || usetWallet != undefined) {
+                if(CONFIG.CLAIM_CAPTCHA_ENABLED){
+                    const showUIHere_NO = false //will be shown when claim is clicked
+                    doClaim(this,showUIHere_NO)
+                }
+
+                showClaimPrompt(this)//show claim UI result here
+            }
         }
         getHUD().wgPopUp.leftButtonClic = () => {
             this.onCloseRewardUI()

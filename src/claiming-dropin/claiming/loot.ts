@@ -135,7 +135,7 @@ export class ClaimTokenRequest{
   }
 
   isCaptchaEnabled(){
-    return true
+    return CONFIG.CLAIM_CAPTCHA_ENABLED
   }
 
   async getCaptcha(): Promise<string> {
@@ -353,14 +353,14 @@ function hasRefId(show: ShowResultType,claimConfig?:ClaimConfigCampaignType){
  * @param code - can ovveride what is in json
  * @param onCompleteCallback 
  */
-function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callbacks?:HandleClaimTokenCallbacks,claimConfig?:ClaimConfigCampaignType):ui.CustomPrompt|ui.OkPrompt {
+function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callbacks?:HandleClaimTokenCallbacks,claimConfig?:ClaimConfigCampaignType):ui.CustomPrompt|ui.OkPrompt|ui.OptionPrompt {
   const METHOD_NAME = "_handleClaimJson"
   const json=claimResult.json
   const overrideCode=claimResult.claimCode
   const error=claimResult.exception
   log(METHOD_NAME,"ENTRY",json,overrideCode,callbacks)
 
-  let returnVal:ui.OkPrompt|ui.CustomPrompt|undefined = undefined
+  let returnVal:ui.OkPrompt|ui.CustomPrompt|ui.OptionPrompt|undefined = undefined
   let p: ui.OkPrompt
  
 /*
