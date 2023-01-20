@@ -647,6 +647,7 @@ export class ClaimUI {
     log(METHOD_NAME,"ENTRY",serverURL,captchaResponse)
 
     const captchaData = captchaResponse.data
+    const hasCaptchaData = captchaData !== undefined
     
     return new Promise((resolve) => {
       const Y_ADJUST = 20
@@ -660,7 +661,7 @@ export class ClaimUI {
       )
       serverURL = ensureFormat(serverURL)
 
-      if((captchaData !== undefined && captchaData.image.indexOf("data")==0 )|| serverURL.indexOf("local")==0){
+      if((hasCaptchaData && captchaData.image.indexOf("data")==0 )|| serverURL.indexOf("local")==0){
         serverURL = captchaData.image
       }
       const imgScale = 1.4
@@ -672,8 +673,8 @@ export class ClaimUI {
         captchaData.height !== undefined ? captchaData.height :150,
         { sourceHeight: 0, sourceWidth: 0 }
       )
-      imgUI.image.width = captchaData.width !== undefined ? captchaData.width *imgScale : imgUI.image.width
-      imgUI.image.height = captchaData.height !== undefined ? captchaData.height* imgScale : imgUI.image.height
+      imgUI.image.width = hasCaptchaData && captchaData.width !== undefined ? captchaData.width *imgScale : imgUI.image.width
+      imgUI.image.height = hasCaptchaData && captchaData.height !== undefined ? captchaData.height* imgScale : imgUI.image.height
 
       const errorText = captchaUI.addText(
         'Error MSg',

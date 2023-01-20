@@ -105,7 +105,7 @@ export function initDispenserPositions(){
         CONFIG.DISPENSER_POSITIONS.push(
         {   
             name:camp.refId, //clickable object
-            model: 'boxshape' ,  //put model path when we have one
+            model: CONFIG.CLAIM_TESTING_ENABLED ? 'boxshape' : 'no-model' ,  //put model path when we have one
             claimConfig: camp,
             claimData:{claimServer: ClaimConfig.rewardsServer , campaign:camp.campaign,campaign_key:camp.campaignKeys.key1},
             dispenserUI:{
