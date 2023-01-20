@@ -5,7 +5,7 @@ import resources,  { setSection } from 'src/dcl-scene-ui-workaround/resources'
 import { custUiAtlas, dispenserInstRecord, dispenserRefIdInstRecord, dispenserSchedule, sharedClaimBgTexture } from 'src/claiming-dropin/claiming/claimResources'
 import { CampaignSchedule } from 'src/claiming-dropin/claiming/schedule/claimSchedule'
 import { CampaignDayType, ShowResultType } from 'src/claiming-dropin/claiming/schedule/types'
-import { ChainId, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
+import { CaptchaResponse, ChainId, ChallengeData, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
 import { getAndSetUserData, getRealmDataFromLocal, getUserDataFromLocal,setRealm } from 'src/claiming-dropin/claiming/userData'
 import { WearableEnum, WearableEnumInst } from './loot-config'
 import { closeDialogSound, openDialogSound } from '../booth/sounds'
@@ -26,13 +26,16 @@ export let ClaimMessageConfig={
 export type ClaimTokenOptions={
   
 }
+
 export type HandleClaimTokenCallbacks={
   onAcknowledge?: (type:ClaimUiType,claimResult:ClaimTokenResult) => void
   //onOK?: (type:string,options:any) => void
   onOpenUI?: (type:ClaimUiType,claimResult?:ClaimTokenResult) => void
   onCloseUI?: (type:ClaimUiType,claimResult?:ClaimTokenResult) => void
   onRetry?: (type:ClaimUiType,claimResult?:ClaimTokenResult) => void
-}/*
+}
+
+/*
 export type HandleUICallbacks={
   onOK?: (type:string,options:any) => void
   onOpenUI?: (type:string,options:any) => void
@@ -70,7 +73,7 @@ export class ClaimTokenRequest{
   campaign_key: string
   claimResult:ClaimTokenResult
   claimConfig?: ClaimConfigCampaignType
-  challengeAnswer?:string //if has captcha or some challenge question
+  challenge?: ChallengeData
   
   constructor(args:ClaimTokenRequestArgs){
     this.claimServer = args.claimServer
@@ -78,7 +81,7 @@ export class ClaimTokenRequest{
     this.campaign_key = args.campaign_key
     this.claimResult = new ClaimTokenResult()
     this.claimConfig = args.claimConfig
-    this.challengeAnswer = args.challengeAnswer
+    this.challenge = args.challenge
   }
 
   onFetchError(err:any){
@@ -138,14 +141,15 @@ export class ClaimTokenRequest{
     return CONFIG.CLAIM_CAPTCHA_ENABLED
   }
 
-  async getCaptcha(): Promise<string> {
+  
+  async getCaptcha(): Promise<CaptchaResponse> {
     const serverURL = ensureFormat(this.claimServer)
 
-    const captchaUUIDQuery = await signedFetch(`https://${serverURL}/captcha`, {
+    const captchaUUIDQuery = await signedFetch(`https://${serverURL}/api/captcha`, {
       method: 'POST'
     })
-    const json = JSON.parse(captchaUUIDQuery.text)
-    return json.data.uuid //"botdetect3-captcha-ancientmosaic.jpg" //
+    const json = JSON.parse(captchaUUIDQuery.text) as CaptchaResponse
+    return json //"botdetect3-captcha-ancientmosaic.jpg" //
   }
 
 
@@ -195,12 +199,13 @@ export class ClaimTokenRequest{
     const url = this.claimServer + '/api/campaigns/' + this.campaign + '/rewards'
     log(METHOD_NAME,'sending req to: ', url) 
   
-    
+    const hasCaptcha = this.challenge !== undefined
     let body = JSON.stringify({
       campaign_key: this.campaign_key,
       catalyst: playerRealm ? playerRealm.domain : "",
       beneficiary: userData ? userData.publicKey : "",
-      captcha: this.challengeAnswer
+      captcha_id: hasCaptcha ? this.challenge.challenge.data.id : undefined,
+      captcha_value: hasCaptcha ? this.challenge.answer : undefined,
     })
   
     try {
@@ -351,7 +356,7 @@ function hasRefId(show: ShowResultType,claimConfig?:ClaimConfigCampaignType){
  * 
  * @param json 
  * @param code - can ovveride what is in json
- * @param onCompleteCallback 
+ * @param onCompleteCallback  
  */
 function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callbacks?:HandleClaimTokenCallbacks,claimConfig?:ClaimConfigCampaignType):ui.CustomPrompt|ui.OkPrompt|ui.OptionPrompt {
   const METHOD_NAME = "_handleClaimJson"
@@ -399,6 +404,10 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
       case ClaimCodes.CAMPAIGN_KEY_FINISHED://'campaign_key_finished':  
         uiMsg = 'This campaign is over.'
         tryAgainInMsg = "Temporarily of stock.\nNext batch will be available in \n"
+        break
+      case ClaimCodes.CAPTCHA_INVALID:
+        uiMsg = 'We could not validate provided values.  Please try again.'
+        allowRetry = true
         break
       default:
         //SHOW RETRY!
@@ -484,7 +493,8 @@ function _handleClaimJson(claimResult:ClaimTokenResult,claimUI:ClaimUI, callback
 
 const claimConfigDefaults:ClaimUIConfig = {
   bgTexture: sharedClaimBgTexture,//'src/claiming-dropin/images/claim/GenericWearablePopUp.png',
-  claimServer: /*TESTING ? */'https://rewards.decentraland.io' /*:  'https://rewards.decentraland.org'*/ //default is non prod to avoid accidents
+  //claimServer: /*TESTING ? */'https://rewards.decentraland.io' /*:  'https://rewards.decentraland.org'*/ //default is non prod to avoid accidents
+  claimServer: /*TESTING ? */'https://rewards.decentraland.zone' /*:  'https://rewards.decentraland.org'*/ //default is non prod to avoid accidents
   ,resolveSourceImageSize:(data:ItemData)=>{return 512}
   ,customPromptStyle: ui.PromptStyles.LIGHTLARGE
 }
@@ -625,14 +635,19 @@ export class ClaimUI {
 
     return p
   }
-  /* UI asking for captcha solution */
+  /* UI asking for captcha solution 
+  must return ChallengeData because if UI refreshes the challenge
+  need to update it
+  */
   async openCaptchaChallenge(
     serverURL: string,
-    captchaUUID: string
-  ): Promise<string | undefined> {
+    captchaResponse: CaptchaResponse
+  ): Promise<ChallengeData> {
     const METHOD_NAME = "openCaptchaChallenge"
-    log(METHOD_NAME,"ENTRY",serverURL,captchaUUID)
+    log(METHOD_NAME,"ENTRY",serverURL,captchaResponse)
 
+    const captchaData = captchaResponse.data
+    
     return new Promise((resolve) => {
       const Y_ADJUST = 20
       const captchaUI = new ui.CustomPrompt(this.getCustomPromptStyle(), 600, 370 + Y_ADJUST)
@@ -644,14 +659,22 @@ export class ClaimUI {
         24
       )
       serverURL = ensureFormat(serverURL)
-      captchaUI.addIcon(
-        serverURL === 'local' ? captchaUUID : `https://${serverURL}/captcha/${captchaUUID}`,
+
+      if((captchaData !== undefined && captchaData.image.indexOf("data")==0 )|| serverURL.indexOf("local")==0){
+        serverURL = captchaData.image
+      }
+      const imgScale = 1.4
+      const imgUI = captchaUI.addIcon(
+        serverURL,
         0,
         40+Y_ADJUST,
-        500,
-        150,
+        captchaData.width !== undefined ? captchaData.width : 500,
+        captchaData.height !== undefined ? captchaData.height :150,
         { sourceHeight: 0, sourceWidth: 0 }
       )
+      imgUI.image.width = captchaData.width !== undefined ? captchaData.width *imgScale : imgUI.image.width
+      imgUI.image.height = captchaData.height !== undefined ? captchaData.height* imgScale : imgUI.image.height
+
       const errorText = captchaUI.addText(
         'Error MSg',
         0,
@@ -664,6 +687,15 @@ export class ClaimUI {
         captchaCodeAnswer = e
       })
       errorText.hide()
+
+      const helpText = captchaUI.addText(
+        'Type the letters in green',
+        0,
+        -100+Y_ADJUST,
+        this.getCustomPromptFontColor(),
+        15
+      )
+      //errorText.hide()
 
       //checks input min len etc, not correctness
       const validateChallengeValue=(val:string)=>{
@@ -691,10 +723,12 @@ export class ClaimUI {
           log(METHOD_NAME,"captchaCodeAnswer",captchaCodeAnswer,"valid")
           if(valid){
             errorText.hide()
+            helpText.show()
             captchaUI.hide()
-            resolve(captchaCodeAnswer)
+            resolve({challenge:captchaResponse,answer:captchaCodeAnswer})
           }else{
             errorText.show()
+            helpText.hide()
           }
         },
         ui.ButtonStyles.ROUNDGOLD
@@ -878,7 +912,7 @@ export class ClaimUI {
       
     }else{
         let p:ui.OkPrompt|ui.OptionPrompt
-        if(allowRetry){
+        if(!allowRetry){
           p = new ui.OkPrompt(
             uiMsg,
             () => {
@@ -897,6 +931,7 @@ export class ClaimUI {
             '',
             uiMsg,
             () => {//on accept
+              log("OptionPrompt closing")
               p.close()
               //   representation.vanish()
               PlayCloseSound()
@@ -904,6 +939,7 @@ export class ClaimUI {
             },
             () => {//on reject
               p.close()
+              log("OptionPrompt retrying",callbacks.onRetry)
               //   representation.vanish()
               PlayCloseSound()
               if(callbacks && callbacks.onRetry) callbacks.onRetry(type,claimResult)

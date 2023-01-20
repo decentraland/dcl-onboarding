@@ -94,19 +94,18 @@ export function lookupDispenerPosByCampId(id:string){
 }
 
 export function initDispenserPositions(){
-
     const camps:ClaimConfigInstType[] = [
         ClaimConfig.campaign.CAP,
         ClaimConfig.campaign.VEST,
         ClaimConfig.campaign.EMOTE
     ]
-
+    let x=0
     for(const camp of camps){
         //const camp = 
         CONFIG.DISPENSER_POSITIONS.push(
         {   
             name:camp.refId, //clickable object
-            model: 'no-model' ,  //put model path when we have one
+            model: 'boxshape' ,  //put model path when we have one
             claimConfig: camp,
             claimData:{claimServer: ClaimConfig.rewardsServer , campaign:camp.campaign,campaign_key:camp.campaignKeys.key1},
             dispenserUI:{
@@ -114,9 +113,10 @@ export function initDispenserPositions(){
                 ,hoverText:"Claim Wearable" }, 
             wearableUrnsToCheck: camp.wearableUrnsToCheck,
             claimUIConfig: {bgTexture:sharedClaimBgTexture,claimServer:ClaimConfig.rewardsServer,resolveSourceImageSize:customResolveSourceImageSize,customPromptStyle:ui.PromptStyles.LIGHTLARGE},
-            transform: {position: new Vector3(4,0,1) ,rotation:Quaternion.Euler(0,0,0) }
+            transform: {position:new Vector3( 225,69+x,125 ) ,rotation:Quaternion.Euler(0,0,0) }
         }
-        ) 
+        )
+        x++ 
     }
   
   

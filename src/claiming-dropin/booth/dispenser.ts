@@ -254,14 +254,14 @@ export class Dispenser extends Entity implements IDispenser {
         this.claimUI.openClaimInProgress() 
       }
       return
-    }
+    } 
 
     this.alreadyAttempted = true
     
     try {
       if(claimReq.isCaptchaEnabled()){
         const captchaUUID = await claimReq.getCaptcha()
-        claimReq.challengeAnswer = await this.claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
+        claimReq.challenge = await this.claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
       }
       const claimResult = await claimReq.claimToken()
     
