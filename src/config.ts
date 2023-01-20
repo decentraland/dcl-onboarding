@@ -67,9 +67,11 @@ export class Config{
 
   //START claiming/dispensers
   CLAIM_TESTING_ENABLED = DEBUG_CLAIMING_FLAGS_VAL[DEFAULT_ENV]
+  CLAIM_TESTING_CAPTCHA_ENABLED = DEBUG_CLAIMING_FLAGS_VAL[DEFAULT_ENV]
   CLAIM_DO_HAS_WEARABLE_CHECK = false
   CLAIM_DATE_TESTING_ENABLED = DEBUG_CLAIMING_FLAGS_VAL[DEFAULT_ENV]
   DISPENSER_POSITIONS:DispenserPos[] = [] 
+  CLAIM_CAPTCHA_ENABLED = true //worlds needs recaptcha since world catalyst not trusted by reward server
   //END claiming/dispensers
  
   init(){

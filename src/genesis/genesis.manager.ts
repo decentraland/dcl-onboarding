@@ -41,8 +41,8 @@ export class GenesisManager {
         initConfig()
         bootStrapClaimingDropins()
         initClaimConfig()
-        initSceneClaiming()
         initDispenserPositions()
+        initSceneClaiming()
         
     }
 

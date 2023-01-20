@@ -16,6 +16,23 @@ export type RewardData = {
     error?: string
 }
 
+
+export type CaptchaData={
+    id: string,
+    width: number,
+    height: number,
+    image: string
+}
+export type CaptchaResponse={
+    ok:boolean,
+    data: CaptchaData
+}
+
+export type ChallengeData={
+    challenge:CaptchaResponse
+    answer:string
+}
+
 export type ItemData = {
     id: string
     user: string
@@ -73,7 +90,8 @@ export enum ClaimCodes {
     BENEFICIARY_WEB3_CONNECTED = 'beneficiary_not_web3_connected',
     OUT_OF_STOCK = 'out_of_stock',
     ALREADY_HAVE_IT = 'already_have_it',
-    CLAIM_IN_PROGRESS = 'claim-in-progress'
+    CLAIM_IN_PROGRESS = 'claim-in-progress',
+    CAPTCHA_INVALID = 'capthcha_invalid'
 }
 
 export enum ClaimUiType {
@@ -124,6 +142,7 @@ export type ClaimTokenRequestArgs = {
     campaign: string
     campaign_key: string
     claimConfig?: ClaimConfigCampaignType
+    challenge?: ChallengeData
 }
 
 

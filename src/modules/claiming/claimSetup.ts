@@ -7,7 +7,7 @@ import { campaignData, initCampaignData, initDispenserScheduler, startDispenserS
 import { customResolveSourceImageSize } from "src/claiming-dropin/claiming/utils"
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot"
 import { ClaimUiType, ItemData } from "src/claiming-dropin/claiming/claimTypes"
-import { IClaimProvider } from "src/claiming-dropin/claiming/defaultClaimProvider"
+import { doClaim, IClaimProvider } from "src/claiming-dropin/claiming/defaultClaimProvider"
 
  
 initConfig()
@@ -55,7 +55,18 @@ export const claimCallbacks:HandleClaimTokenCallbacks = {
                 }
             break;
         }*/
+    },
+
+    onRetry:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+        log("on retry",type,claimResult)
+
+       
     }
+    
+    /*
+    onRetry?:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+        doClaim()
+    }*/
 } 
 
 
@@ -63,13 +74,19 @@ export function initClaimProvider(claimProvider:IClaimProvider){
     log("initClaimProvider","ENTRY",claimProvider)
     
     claimProvider.claimUI = new ClaimUI(claimProvider.dispenserPos.claimUIConfig,claimProvider.dispenserPos.claimConfig)
+    claimCallbacks.onRetry=(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+        log("on retry",type,claimResult)
+        //reset values
+        
+        doClaim(claimProvider,true)
+    }
     claimProvider.claimCallbacks = claimCallbacks
 }
 
 export function lookupDispenerPosByCampId(id:string){
     for(const d of CONFIG.DISPENSER_POSITIONS){
         if(d.name == id){
-            return d
+            return d 
         }
     }
     log("lookupDispenerPosByCampId","RETURN","FAILED TO FIND",id)
@@ -77,19 +94,18 @@ export function lookupDispenerPosByCampId(id:string){
 }
 
 export function initDispenserPositions(){
-
     const camps:ClaimConfigInstType[] = [
         ClaimConfig.campaign.CAP,
         ClaimConfig.campaign.VEST,
         ClaimConfig.campaign.EMOTE
     ]
-
+    let x=0
     for(const camp of camps){
         //const camp = 
         CONFIG.DISPENSER_POSITIONS.push(
         {   
             name:camp.refId, //clickable object
-            model: 'no-model' ,  //put model path when we have one
+            model: CONFIG.CLAIM_TESTING_ENABLED ? 'boxshape' : 'no-model' ,  //put model path when we have one
             claimConfig: camp,
             claimData:{claimServer: ClaimConfig.rewardsServer , campaign:camp.campaign,campaign_key:camp.campaignKeys.key1},
             dispenserUI:{
@@ -97,9 +113,10 @@ export function initDispenserPositions(){
                 ,hoverText:"Claim Wearable" }, 
             wearableUrnsToCheck: camp.wearableUrnsToCheck,
             claimUIConfig: {bgTexture:sharedClaimBgTexture,claimServer:ClaimConfig.rewardsServer,resolveSourceImageSize:customResolveSourceImageSize,customPromptStyle:ui.PromptStyles.LIGHTLARGE},
-            transform: {position: new Vector3(4,0,1) ,rotation:Quaternion.Euler(0,0,0) }
+            transform: {position:new Vector3( 225,69+x,125 ) ,rotation:Quaternion.Euler(0,0,0) }
         }
-        ) 
+        )
+        x++ 
     }
   
   

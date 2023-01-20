@@ -74,10 +74,14 @@ export class WearableEnum {
 
 }
 
-const TEST_CAMPAIGN_ID = '649c5e38-bef8-4bd6-b13f-bd6a2bdcc096'
-const TEST_CAMPAIGN_KEY = 'eyJpZCI6ImJjMmQ1NWRjLWY3Y2UtNDEyOS05ODMxLWE5Nzk4ZTlmMTRiMSIsImNhbXBhaWduX2lkIjoiNjQ5YzVlMzgtYmVmOC00YmQ2LWIxM2YtYmQ2YTJiZGNjMDk2In0=.ECydl7nxWNUAgPWNgskHcFsqRGArULfHRtMyfc1UXIY='
+//const TEST_CAMPAIGN_ID = '649c5e38-bef8-4bd6-b13f-bd6a2bdcc096'
+//const TEST_CAMPAIGN_KEY = 'eyJpZCI6ImJjMmQ1NWRjLWY3Y2UtNDEyOS05ODMxLWE5Nzk4ZTlmMTRiMSIsImNhbXBhaWduX2lkIjoiNjQ5YzVlMzgtYmVmOC00YmQ2LWIxM2YtYmQ2YTJiZGNjMDk2In0=.ECydl7nxWNUAgPWNgskHcFsqRGArULfHRtMyfc1UXIY='
 
-const PROVIDE_PRODUCTION_KEY_HERE = "PROVIDE_PRODUCTION_KEY_HERE"
+const TEST_CAMPAIGN_ID = '7a7c87db-801a-4427-bf2b-2fab3d518b58'
+const TEST_CAMPAIGN_KEY = 'eyJpZCI6Ijg4ZTdmYmVlLTQzYTctNGUwMy1hNWQzLTY4NmY3YjIzODkyYSIsImNhbXBhaWduX2lkIjoiN2E3Yzg3ZGItODAxYS00NDI3LWJmMmItMmZhYjNkNTE4YjU4In0=.z6mAsJ2YmjhQAbXwZ5hSMbiMvJ0iHIq2fwtWktmDeRM='
+
+
+const PROVIDE_PRODUCTION_KEY_HERE = "4f39311b-8bd6-4dc0-b481-d2d12350a1b7"
 /**
  * artnet
  * burton
@@ -100,7 +104,7 @@ export type ClaimConfigInstType = {
 
 export const ClaimConfig = {
   //rewardsServer: CONFIG_CLAIM_TESTING_ENABLED ? 'https://rewards.decentraland.io' : 'https://rewards.decentraland.org',
-  rewardsServer: CONFIG_CLAIM_TESTING_ENABLED ? 'https://rewards.decentraland.io' : 'https://rewards.decentraland.org',
+  rewardsServer: CONFIG_CLAIM_TESTING_ENABLED ? 'https://rewards.decentraland.zone' : 'https://rewards.decentraland.org',
   campaign: {
     EMOTE: {
         refId: "emote",
@@ -143,7 +147,7 @@ export function updateConfigToTesting(testing:boolean){
     return;
   }
   log("updateConfigToTesting in testing rewriting all")
-  ClaimConfig.rewardsServer = 'https://rewards.decentraland.io'
+  ClaimConfig.rewardsServer = 'https://rewards.decentraland.zone'
   for(const p in ClaimConfig.campaign){
     const obj = (ClaimConfig.campaign as any)[p]
 
