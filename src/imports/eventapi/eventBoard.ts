@@ -177,7 +177,7 @@ export class PortalEvents {
                     }
                 },
                 {
-                    hoverText: event.title ? event.title : "Teleport to event",
+                    hoverText: (event.title) ? event.title : (event.name) ? event.name : "Teleport to event",
                     distance: 20
                 }
             )

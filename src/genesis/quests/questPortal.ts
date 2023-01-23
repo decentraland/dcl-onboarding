@@ -153,7 +153,7 @@ export class QuestPortal implements IClaimProvider{
                 GenesisData.instance().robotEntity.getComponent(Animator).getClip("Robot_Idle").play()
                 //Show popup tobor cap reward
                 this.givereward()
-                this.portal.getComponent(StateMachine).playClip("Portal_Activate", false, 1.2, false, () => {
+                this.portal.getComponent(StateMachine).playClip("Portal_Activate", false, 1.1, false, () => {
                     AudioManager.instance().playOnce("tower_activated", { volume: 1, parent: this.portal })
                     //Restore portal ambience
                     if (AudioManager.instance().audio.portal_ambiental.audioSource.playing) {
