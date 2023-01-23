@@ -189,7 +189,7 @@ export class BubbleTalk {
             if (this.options?.disapearDistance && this.options?.disapearDistance < this.options?.maxDistance) {
                 this.options.maxDistance = this.options.disapearDistance
                 DebugAccess.instance().log("BubbleTalk: disapearDistance is smaller than maxDistance, setting maxDistance to disapearDistance", LogType.WARN)
-                console.warn("BubbleTalk: disapearDistance is smaller than maxDistance, setting maxDistance to disapearDistance")
+                //console.warn("BubbleTalk: disapearDistance is smaller than maxDistance, setting maxDistance to disapearDistance")
             }
 
             this.scaleSistemIndex = ScaleWithDistanceSystem.instance().addEntity(this.centerEntity, {

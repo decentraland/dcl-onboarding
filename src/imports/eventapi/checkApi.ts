@@ -16,7 +16,6 @@ export async function getEvents(url: string) {
     }
 
     if (!events[0]) { //! test if eventes is empty
-      console_log("enter here")
       events = []
       events.push(backupEvent0)
       events.push(backupEvent1)
@@ -103,7 +102,6 @@ export async function getGames() {
     }
 
     if (!events[0]) { //! test if eventes is empty
-      console_log("enter here")
       events = []
       events.push(backupEvent0)
       events.push(backupEvent1)
