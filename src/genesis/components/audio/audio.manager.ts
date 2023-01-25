@@ -20,6 +20,18 @@ export enum AudioNames {
     pop_up_close = "assets/audio/pop_up_close.mp3",
     waterfall = "assets/audio/waterfall_r.mp3",
 
+    ambient = "assets/audio/v3/",
+    waterfall2 = "assets/audio/v3/waterfall.mp3",
+    bigWaterfall = "assets/audio/v3/BigWaterFall.mp3",
+    floatingRoks = "assets/audio/v3/FloatingRoks.mp3",
+    windOnLeaf = "assets/audio/v3/WindOnLeaf.mp3",
+    pillar = "assets/audio/v3/Pillar.mp3",
+    notWorkingGenerators = "assets/audio/v3/NotWorkingGenerators.mp3",
+    workingGeneratos = "assets/audio/v3/WorkingGenerators.mp3",
+    portals = "assets/audio/v3/Portals.mp3",
+    lamp = "assets/audio/v3/Lamp.mp3",
+    robot = "assets/audio/v3/Robot.mp3",
+    npc_3_salute = "assets/audio/v3/Racoon.mp3",
 }
 //Add all audio files here too 
 export class AudioManager {
@@ -41,6 +53,20 @@ export class AudioManager {
         tobor_talk: new AudioEntity(new Entity(), AudioNames.tobor_talk, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         tower_activated: new AudioEntity(new Entity(), AudioNames.tower_activated, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         tower_charge: new AudioEntity(new Entity(), AudioNames.tower_charge, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
+
+
+        ambient: new AudioEntity(new Entity(), AudioNames.ambient, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        waterfall2: new AudioEntity(new Entity(), AudioNames.waterfall2, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        bigWaterFall: new AudioEntity(new Entity(), AudioNames.bigWaterfall, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        floatingRoks: new AudioEntity(new Entity(), AudioNames.floatingRoks, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        windOnLeafs: new AudioEntity(new Entity(), AudioNames.windOnLeaf, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
+        pillar: new AudioEntity(new Entity(), AudioNames.pillar, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        notWorkingGenerators: new AudioEntity(new Entity(), AudioNames.notWorkingGenerators, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        workingGenerators: new AudioEntity(new Entity(), AudioNames.workingGeneratos, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        portals: new AudioEntity(new Entity(), AudioNames.portals, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        lamp: new AudioEntity(new Entity(), AudioNames.lamp, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        npc_3_salute: new AudioEntity(new Entity(), AudioNames.npc_3_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
+        robot: new AudioEntity(new Entity(), AudioNames.robot, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
     };
 
     private static instanceRef: AudioManager;
