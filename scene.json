@@ -426,6 +426,6 @@
   "tags": [],
   "worldConfiguration" : {
     "fixedAdapter": "offline:offline",
-    "dclName": "dclonboarding.dcl.eth"
+    "name": "dclonboarding.dcl.eth"
   }
 }
