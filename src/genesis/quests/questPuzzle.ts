@@ -15,6 +15,7 @@ import { ClaimConfig } from 'src/claiming-dropin/claiming/loot-config'
 import { DispenserPos } from 'src/claiming-dropin/claiming/claimTypes'
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from 'src/claiming-dropin/claiming/loot'
 import { IClaimProvider } from 'src/claiming-dropin/claiming/defaultClaimProvider'
+import { activatePillarSound4, changeGeneratosSound } from '../components/audio/sounds'
 
 //Quest restore energy
 
@@ -205,7 +206,8 @@ export class QuestPuzzle /*implements IClaimProvider*/{
 
         //when finihs
         this.connect_game.completeEvent2PuzzleCallback = () => {
-
+            //BLA fixed generator
+            changeGeneratosSound()
             //Kit look player
             this.npc3.getComponent(Transform).lookAt(Camera.instance.worldPosition)
             //Stat
@@ -261,7 +263,8 @@ export class QuestPuzzle /*implements IClaimProvider*/{
                 AudioManager.instance().playTowerCharge(this.pilar4)
                 this.pilar4.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
                     AudioManager.instance().playTowerActivated(this.pilar4)
-                    AudioManager.instance().playTowerLoop(this.pilar4)
+                    activatePillarSound4(this.pilar4)
+                    
                     //BLA PILLAR4
                     this.pilar4.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false)
 

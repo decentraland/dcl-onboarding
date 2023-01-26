@@ -63,7 +63,7 @@ engine.addEntity(lamp6)
 
 //#region windOnLeafs
 
-const windOnLEafClip = new AudioClip("assets/audio/v3/WindOnLeafs.mp3")
+const windOnLEafClip = new AudioClip("asets/audio/v3/WindOnLeafs.mp3")
 
 const tree1 = new Entity()
 tree1.addComponent(new Transform({position: new Vector3(168.2958, 65.22231, 140.32)}))
@@ -113,20 +113,121 @@ engine.addEntity(tree7)
 
 //#endregion 
 
+//#region Rocks
+const floatingRoksClip = new AudioClip("assets/audio/v3/FloatingRoks.mp3")
+
+const rock = new Entity()
+rock.addComponent(new Transform({position: new Vector3(190, 65.59, 140)}))
+const rockSource = new AudioSource(floatingRoksClip)
+rock.addComponent(rockSource)
+rockSource.loop = true
+rockSource.volume = 0.05
+rockSource.pitch = 1
+rockSource.playOnce()
+engine.addEntity(rock)
+
+const rock2 = new Entity()
+rock2.addComponent(new Transform({position: new Vector3(160, 70, 175)}))
+const rockSource2 = new AudioSource(floatingRoksClip)
+rock2.addComponent(rockSource2)
+rockSource2.loop = true
+rockSource2.volume = 0.05
+rockSource2.pitch = 1
+rockSource2.playOnce()
+engine.addEntity(rock2)
+//#endregion 
 
 
+//#region Pillars
+const pillarClip = new AudioClip("assets/audio/v3/Pillar.mp3")
+
+export function activateSoundPillar1(pillar:Entity){
+    const pillarPos = pillar.getComponent(Transform).position
+    
+    const pillar1 = new Entity()
+    pillar1.addComponent(new Transform({position: pillarPos}))
+    const pillarSource = new AudioSource(pillarClip)
+    pillar1.addComponent(pillarSource)
+    pillarSource.loop = true
+    pillarSource.volume = 0.05
+    pillarSource.playOnce()
+    engine.addEntity(pillar1)
+}
+
+export function activateSoundPillar2(pillarEntity:Entity){
+    const pillarPos = pillarEntity.getComponent(Transform).position
+    
+    const pillar = new Entity()
+    pillar.addComponent(new Transform({position: pillarPos}))
+    const pillarSource = new AudioSource(pillarClip)
+    pillar.addComponent(pillarSource)
+    pillarSource.loop = true
+    pillarSource.volume = 0.05
+    pillarSource.playOnce()
+    engine.addEntity(pillar)
+}
+
+export function activateSoundPillar3(pillarEntity:Entity){
+    const pillarPos = pillarEntity.getComponent(Transform).position
+    
+    const pillar = new Entity()
+    pillar.addComponent(new Transform({position: pillarPos}))
+    const pillarSource = new AudioSource(pillarClip)
+    pillar.addComponent(pillarSource)
+    pillarSource.loop = true
+    pillarSource.volume = 0.05
+    pillarSource.playOnce()
+    engine.addEntity(pillar)
+}
+
+export function activatePillarSound4(pillarEntity:Entity){
+    const pillarPos = pillarEntity.getComponent(Transform).position
+    
+    const pillar = new Entity()
+    pillar.addComponent(new Transform({position: pillarPos}))
+    const pillarSource = new AudioSource(pillarClip)
+    pillar.addComponent(pillarSource)
+    pillarSource.loop = true
+    pillarSource.volume = 0.05
+    pillarSource.playOnce()
+    engine.addEntity(pillar)
+}
+//#endregion 
+
+const generatorsClip = new AudioClip("assets/audio/v3/NotWorkingGenerators.mp3")
+
+const generators = new Entity()
+generators.addComponent(new Transform({position: new Vector3(101, 79, 140)}))
+const generatorSource = new AudioSource(generatorsClip)
+generators.addComponent(generatorSource)
+generatorSource.loop = true
+generatorSource.volume = 0.3
+generatorSource.playOnce()
+engine.addEntity(generators)
+
+export function changeGeneratosSound(){
+    engine.removeEntity(generators)
+
+    const generatorsClip = new AudioClip("assets/audio/v3/FixedGenerators.mp3")
+
+    const fixedGenerators = new Entity()
+    fixedGenerators.addComponent(new Transform({position: new Vector3(101, 79, 140)}))
+    const generatorSource = new AudioSource(generatorsClip)
+    fixedGenerators.addComponent(generatorSource)
+    generatorSource.loop = true
+    generatorSource.volume = 0.1
+    generatorSource.playOnce()
+    engine.addEntity(fixedGenerators)
+}
 /*  
 
 ambient = "assets/audio/v3/",
-    waterfall2 = "assets/audio/v3/waterfall.mp3",
-    bigWaterfall = "assets/audio/v3/BigWaterFall.mp3",
-    floatingRoks = "assets/audio/v3/FloatingRoks.mp3",
-    windOnLeaf = "assets/audio/v3/WindOnLeaf.mp3",
-    pillar = "assets/audio/v3/Pillar.mp3",
-    notWorkingGenerators = "assets/audio/v3/NotWorkingGenerators.mp3",
-    workingGeneratos = "assets/audio/v3/WorkingGenerators.mp3",
+    
+
+    betterone function that active it
     portals = "assets/audio/v3/Portals.mp3",
-    lamp = "assets/audio/v3/Lamp.mp3",
+
+    where?
     robot = "assets/audio/v3/Robot.mp3",
     npc_3_salute = "assets/audio/v3/Racoon.mp3",
 
