@@ -157,8 +157,10 @@ export class QuestPortal implements IClaimProvider{
                     AudioManager.instance().playOnce("tower_activated", { volume: 1, parent: this.portal })
                     //Restore portal ambience
                     if (AudioManager.instance().audio.portal_ambiental.audioSource.playing) {
-                        AudioManager.instance().playPortalAmbience(true)
-                    }
+                        //AudioManager.instance().playPortalAmbience(true)
+                        //BLA PORTALS
+                        AudioManager.instance().playOnce("portals", { volume: 1, parent: this.portal })
+                    }  
 
                 })
                 this.displayEvents()

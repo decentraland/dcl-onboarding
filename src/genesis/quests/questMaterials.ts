@@ -469,6 +469,8 @@ export class QuestMaterials implements IClaimProvider{
         AudioManager.instance().playTowerCharge(this.pilarQmat)
         this.pilarQmat.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
             AudioManager.instance().playTowerActivated(this.pilarQmat)
+            AudioManager.instance().playTowerLoop(this.pilarQmat)
+            //BLA PILLAR3
             this.pilarQmat.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false)
 
             //Cable on

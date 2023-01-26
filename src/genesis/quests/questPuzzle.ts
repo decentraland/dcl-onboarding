@@ -261,6 +261,8 @@ export class QuestPuzzle /*implements IClaimProvider*/{
                 AudioManager.instance().playTowerCharge(this.pilar4)
                 this.pilar4.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
                     AudioManager.instance().playTowerActivated(this.pilar4)
+                    AudioManager.instance().playTowerLoop(this.pilar4)
+                    //BLA PILLAR4
                     this.pilar4.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false)
 
                     this.activeCables(true)

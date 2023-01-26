@@ -129,6 +129,10 @@ export class AudioManager {
         this.audio.tower_activated.playOnce({ volume: 0.8, pitch: 1, parent: towerEntity });
     }
 
+    playTowerLoop(towerEntity: Entity){
+        this.audio.pillar.playOnce({ volume: 0.1, pitch: 0.6, parent: towerEntity });
+    }
+
     playPopupOpen() {
         this.audio.pop_1.playOnceGlobal({ volume: 0.5, pitch: 1 });
     }

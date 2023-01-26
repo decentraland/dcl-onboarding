@@ -471,6 +471,8 @@ export class SpawnIsland {
         this.pilar_1.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
 
             AudioManager.instance().playTowerActivated(this.pilar_1)
+            AudioManager.instance().playTowerLoop(this.pilar_1)
+            //BLA PILLAR1
             this.pilar_1.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false, () => {
                 this.activeCables(true)
                 this.ativateBridge()
