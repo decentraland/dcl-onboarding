@@ -14,7 +14,7 @@ export enum AudioNames {
     Bridge_sound = "assets/audio/Bridge_sound_ok.mp3",
     button_interact = "assets/audio/Button_Interact.mp3",
     chatbox = "assets/audio/chatbox.mp3",
-    island_ambiental = "assets/audio/Mainland_Ambient.mp3",
+    island_ambiental = "asets/audio/Mainland_Ambient.mp3",
     pop_1 = "assets/audio/pop_1.mp3",
     pop_2 = "assets/audio/pop_2.mp3",
     pop_up_close = "assets/audio/pop_up_close.mp3",
