@@ -112,7 +112,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
                 triggerHi.getComponent(utils.TriggerComponent).onCameraEnter = null
                 triggerHi.getComponent(utils.TriggerComponent).onCameraExit = null
 
-                AudioManager.instance().playOnce("npc_2_salute", { volume: 1, pitch: 0.8, parent: this.npc3 })
+                AudioManager.instance().playOnce("npc_3_salute", { volume: 1, pitch: 1, parent: this.npc3 })
                 this.npc3.getComponent(QuestNpc).hiAnim(() => {
                     this.npc3.getComponent(QuestNpc).idleAnim()
                 })
@@ -147,7 +147,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
 
             //Animation
             this.npc3.getComponent(QuestNpc).talkAnim()
-            AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, pitch: 0.8, parent: this.npc3 })
+            AudioManager.instance().playOnce("npc_3_salute", { volume: 0.7, pitch: 1, parent: this.npc3 })
 
             //2D UI
             getHUD().setWidgetDialogIndex(getHUD().wgTalkNPC3, 4)
@@ -253,7 +253,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
 
             //2D UI
             getHUD().wgTalkNPC3.showToText(5)
-            AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, pitch: 0.8, parent: this.npc3 })
+            AudioManager.instance().playOnce("npc_3_salute", { volume: 0.7, pitch: 1, parent: this.npc3 })
 
             getHUD().wgTalkNPC3.callback = () => {
                 getHUD().wgTalkNPC3.callback = () => { }
@@ -339,7 +339,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
             this.npc3.getComponent(QuestNpc).bubbleTalk.setActive(false)
 
             getHUD().wgTalkNPC3.showToText(6)
-            AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, pitch: 0.8, parent: this.npc3 })
+            AudioManager.instance().playOnce("npc_3_salute", { volume: 0.7, pitch: 1, parent: this.npc3 })
 
             //Play talk animation
             this.npc3.getComponent(QuestNpc).talkAnim()

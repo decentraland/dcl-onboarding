@@ -46,6 +46,7 @@ export class AudioManager {
         island_ambiental: new AudioEntity(new Entity(), AudioNames.island_ambiental, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         npc_1_salute: new AudioEntity(new Entity(), AudioNames.npc_1_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         npc_2_salute: new AudioEntity(new Entity(), AudioNames.npc_2_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
+        npc_3_salute: new AudioEntity(new Entity(), AudioNames.npc_3_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         pickup_box: new AudioEntity(new Entity(), AudioNames.pickup_box, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         portal_ambiental: new AudioEntity(new Entity(), AudioNames.portal_ambiental, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         puzzle_all_connect: new AudioEntity(new Entity(), AudioNames.puzzle_all_connect, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
@@ -65,7 +66,7 @@ export class AudioManager {
         workingGenerators: new AudioEntity(new Entity(), AudioNames.workingGeneratos, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         portals: new AudioEntity(new Entity(), AudioNames.portals, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         lamp: new AudioEntity(new Entity(), AudioNames.lamp, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
-        npc_3_salute: new AudioEntity(new Entity(), AudioNames.npc_3_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
+        
         robot: new AudioEntity(new Entity(), AudioNames.robot, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
     };
 

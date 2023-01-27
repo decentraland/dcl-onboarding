@@ -1,5 +1,7 @@
 //#region lamp
 
+import { AudioManager } from "./audio.manager"
+
 const lampClip = new AudioClip("assets/audio/v3/Lamp.mp3")
 
 const lamp1 = new Entity()
@@ -137,7 +139,6 @@ rockSource2.playOnce()
 engine.addEntity(rock2)
 //#endregion 
 
-
 //#region Pillars
 const pillarClip = new AudioClip("assets/audio/v3/Pillar.mp3")
 
@@ -194,6 +195,7 @@ export function activatePillarSound4(pillarEntity:Entity){
 }
 //#endregion 
 
+//#region Generators
 const generatorsClip = new AudioClip("assets/audio/v3/NotWorkingGenerators.mp3")
 
 const generators = new Entity()
@@ -215,20 +217,37 @@ export function changeGeneratosSound(){
     const generatorSource = new AudioSource(generatorsClip)
     fixedGenerators.addComponent(generatorSource)
     generatorSource.loop = true
-    generatorSource.volume = 0.1
+    generatorSource.volume = 0.05
     generatorSource.playOnce()
     engine.addEntity(fixedGenerators)
 }
-/*  
+//#endregion
 
-ambient = "assets/audio/v3/",
+//#region Portals
+const portalClip = new AudioClip("assets/audio/v3/Pillar.mp3")
+
+export function activateInitialSoundPortal(){
     
+    const portals = new Entity()
+    portals.addComponent(new Transform({position: new Vector3(100, 95, 95)}))
+    AudioManager.instance().playOnce("tower_charge", { volume: 1, pitch: 0.3, parent: portals })
+    const portalSource = new AudioSource(portalClip)
+    portals.addComponent(portalSource)
+    portalSource.loop = false
+    portalSource.volume = 0.5
+    portalSource.playOnce()
+    engine.addEntity(portals)
+}
 
-    betterone function that active it
-    portals = "assets/audio/v3/Portals.mp3",
+const portalLoopClip = new AudioClip("assets/audio/v3/Portals.mp3")
 
-    where?
-    robot = "assets/audio/v3/Robot.mp3",
-    npc_3_salute = "assets/audio/v3/Racoon.mp3",
-
-    */
+export function activateLoopSoundPortal(){
+    const portals = new Entity()
+    portals.addComponent(new Transform({position: new Vector3(100, 95, 95)}))
+    const portalSource = new AudioSource(portalLoopClip)
+    portals.addComponent(portalSource)
+    portalSource.loop = true
+    portalSource.volume = 0.5
+    portalSource.playOnce()
+    engine.addEntity(portals)
+}
