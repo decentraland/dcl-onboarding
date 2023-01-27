@@ -5,6 +5,10 @@
   "scripts": {
     "start": "dcl start",
     "build": "build-ecs",
+    "build:ci": "dcl build",
+    "deploy:prod": "dcl deploy",
+    "deploy:testing": "dcl deploy --target peer-testing.decentraland.org",
+    "deploy:world": "dcl deploy --target-content https://worlds-content-server.decentraland.org",
     "watch": "build-ecs --watch",
     "deploy:now": "dcl export && now export",
     "ecs:install": "npm install --save-dev decentraland-ecs@latest",
