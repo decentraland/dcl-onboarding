@@ -2,7 +2,7 @@
 
 import { AudioManager } from "./audio.manager"
 
-const lampClip = new AudioClip("assets/audio/v3/Lamp.mp3")
+const lampClip = new AudioClip("assets/audio/v3/Lamp.wav")
 
 const lamp1 = new Entity()
 lamp1.addComponent(new Transform({position: new Vector3(124.85, 75.29, 123.76)}))
@@ -65,15 +65,15 @@ engine.addEntity(lamp6)
 
 //#region windOnLeafs
 
-const windOnLEafClip = new AudioClip("asets/audio/v3/WindOnLeafs.mp3")
+const windOnLEafClip = new AudioClip("assets/audio/v3/WindOnLeafs.mp3")
 
 const tree1 = new Entity()
 tree1.addComponent(new Transform({position: new Vector3(168.2958, 65.22231, 140.32)}))
 const treeSource = new AudioSource(windOnLEafClip)
 tree1.addComponent(treeSource)
 treeSource.loop = true
-treeSource.volume = 0.2
-treeSource.pitch = 1
+treeSource.volume = 0.03
+treeSource.pitch = 0.9
 treeSource.playOnce()
 engine.addEntity(tree1)
 
@@ -82,7 +82,8 @@ tree6.addComponent(new Transform({position: new Vector3(195.69, 65.59, 131.08)})
 const treeSource6 = new AudioSource(windOnLEafClip)
 tree6.addComponent(treeSource6)
 treeSource6.loop = true
-treeSource6.volume = 0.02
+treeSource6.volume = 0.03
+treeSource.pitch = 0.9
 treeSource6.playOnce()
 engine.addEntity(tree6)
 
@@ -91,7 +92,8 @@ tree4.addComponent(new Transform({position: new Vector3(142, 75.59, 152.08)}))
 const treeSource4 = new AudioSource(windOnLEafClip)
 tree4.addComponent(treeSource4)
 treeSource4.loop = true
-treeSource4.volume = 1
+treeSource4.volume = 0.03
+treeSource.pitch = 0.9
 treeSource4.playOnce()
 engine.addEntity(tree4)
 
@@ -100,7 +102,8 @@ tree5.addComponent(new Transform({position: new Vector3(86, 85.59, 152.08)}))
 const treeSource5 = new AudioSource(windOnLEafClip)
 tree5.addComponent(treeSource5)
 treeSource5.loop = true
-treeSource5.volume = 1
+treeSource5.volume = 0.03
+treeSource.pitch = 0.9
 treeSource5.playOnce()
 engine.addEntity(tree5)
 
@@ -109,7 +112,8 @@ tree7.addComponent(new Transform({position: new Vector3(130, 80, 115)}))
 const treeSource7 = new AudioSource(windOnLEafClip)
 tree7.addComponent(treeSource7)
 treeSource7.loop = true
-treeSource7.volume = 1
+treeSource7.volume = 0.03
+treeSource.pitch = 0.9
 treeSource7.playOnce()
 engine.addEntity(tree7)
 
@@ -210,14 +214,14 @@ engine.addEntity(generators)
 export function changeGeneratosSound(){
     engine.removeEntity(generators)
 
-    const generatorsClip = new AudioClip("assets/audio/v3/FixedGenerators.mp3")
+    const generatorsClip = new AudioClip("assets/audio/v3/FixedGenerators.wav")
 
     const fixedGenerators = new Entity()
     fixedGenerators.addComponent(new Transform({position: new Vector3(101, 79, 140)}))
     const generatorSource = new AudioSource(generatorsClip)
     fixedGenerators.addComponent(generatorSource)
     generatorSource.loop = true
-    generatorSource.volume = 0.05
+    generatorSource.volume = 0.01
     generatorSource.playOnce()
     engine.addEntity(fixedGenerators)
 }
@@ -251,3 +255,4 @@ export function activateLoopSoundPortal(){
     portalSource.playOnce()
     engine.addEntity(portals)
 }
+//#endregion

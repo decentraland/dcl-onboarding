@@ -14,7 +14,7 @@ export enum AudioNames {
     Bridge_sound = "assets/audio/Bridge_sound_ok.mp3",
     button_interact = "assets/audio/Button_Interact.mp3",
     chatbox = "assets/audio/chatbox.mp3",
-    island_ambiental = "asets/audio/Mainland_Ambient.mp3",
+    island_ambiental = "assets/audio/v3/Ambient.mp3",
     pop_1 = "assets/audio/pop_1.mp3",
     pop_2 = "assets/audio/pop_2.mp3",
     pop_up_close = "assets/audio/pop_up_close.mp3",
@@ -43,10 +43,10 @@ export class AudioManager {
         Bridge_sound: new AudioEntity(new Entity(), AudioNames.Bridge_sound, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         pop_1: new AudioEntity(new Entity(), AudioNames.pop_1, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         chatbox: new AudioEntity(new Entity(), AudioNames.chatbox, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
-        island_ambiental: new AudioEntity(new Entity(), AudioNames.island_ambiental, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        island_ambiental: new AudioEntity(new Entity(), AudioNames.island_ambiental, { volume: 1, pitch: 1, loop: true, autoPlay: false }),
         npc_1_salute: new AudioEntity(new Entity(), AudioNames.npc_1_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         npc_2_salute: new AudioEntity(new Entity(), AudioNames.npc_2_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
-        npc_3_salute: new AudioEntity(new Entity(), AudioNames.npc_3_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
+        npc_3_salute: new AudioEntity(new Entity(), AudioNames.npc_3_salute, { volume: 0.4, pitch: 1, loop: false, autoPlay: false }),
         pickup_box: new AudioEntity(new Entity(), AudioNames.pickup_box, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         portal_ambiental: new AudioEntity(new Entity(), AudioNames.portal_ambiental, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         puzzle_all_connect: new AudioEntity(new Entity(), AudioNames.puzzle_all_connect, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
@@ -54,8 +54,7 @@ export class AudioManager {
         tobor_talk: new AudioEntity(new Entity(), AudioNames.tobor_talk, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         tower_activated: new AudioEntity(new Entity(), AudioNames.tower_activated, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         tower_charge: new AudioEntity(new Entity(), AudioNames.tower_charge, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
-
-
+ 
         ambient: new AudioEntity(new Entity(), AudioNames.ambient, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         waterfall2: new AudioEntity(new Entity(), AudioNames.waterfall2, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         bigWaterFall: new AudioEntity(new Entity(), AudioNames.bigWaterfall, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
