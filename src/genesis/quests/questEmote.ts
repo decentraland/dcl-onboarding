@@ -48,6 +48,7 @@ export class QuestEmote implements IClaimProvider{
     claimInformedPending:boolean = false
     claimTokenResult:ClaimTokenResult|undefined
     showClaimPrompts:boolean = false
+    isCollected: boolean = false;
     //end claim code
 
     private showHintTimeout: any
@@ -436,6 +437,7 @@ export class QuestEmote implements IClaimProvider{
             }
         }
         getHUD().wgPopUp.leftButtonClic = () => {
+            //needs change to not set as collected when just closed
             this.onCloseRewardUI()
         }
 
@@ -477,12 +479,35 @@ export class QuestEmote implements IClaimProvider{
         })
     }
 
-    private dialogQuestFinished() {
+    public dialogQuestFinished() {
 
         this.npc1.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.ZONE_1_EMOTE_4)
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(true)
 
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
+            //You missed you reward Dialog - part
+            if(!this.isCollected){
+                this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
+                
+                getHUD().wgQuestMultiple.showTick(0);
+
+                this.npc1.getComponent(QuestNpc).talkAnim();
+                
+                getHUD().wgTalkNPC1.showToText(10)
+
+                AudioManager.instance().playOnce("npc_1_salute", {volume: .5, parent: this.npc1});
+
+                getHUD().wgTalkNPC1.callback = () => {
+                    getHUD().wgTalkNPC1.callback = () => {};
+
+                    this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
+
+                    this.giveReward();
+                }
+
+                return;
+            }
+            //Go to Next Island, Dialog is over - part
 
             //reomove onpointerdown
             this.npc1.removeComponent(OnPointerDown)
@@ -509,6 +534,7 @@ export class QuestEmote implements IClaimProvider{
                 //Recursive Call
                 this.dialogQuestFinished()
             }
+
         }, {
             hoverText: "Talk"
         }))

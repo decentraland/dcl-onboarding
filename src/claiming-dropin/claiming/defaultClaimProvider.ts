@@ -1,6 +1,7 @@
 import { CONFIG } from "src/config"
-import { CaptchaResponse, ClaimCodes, DispenserPos } from "./claimTypes"
+import { CaptchaResponse, ClaimCodes, DispenserPos, ChallengeDataStatus } from "./claimTypes"
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "./loot"
+import { npcHelper } from "src/NpcHelper"
 
 export interface IClaimProvider {
     claimUI:ClaimUI|undefined
@@ -11,6 +12,8 @@ export interface IClaimProvider {
     hasReward:boolean 
     dispenserPos:DispenserPos
     showClaimPrompts:boolean
+
+    isCollected: boolean;
 }
 export async function doClaimSilent(claimProvider:IClaimProvider){
   doClaim(claimProvider,false)
@@ -65,7 +68,9 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                 
                         //if(!this.claimUI.claimInformedPending){
                         if(claimProvider.showClaimPrompts){
-                          claimProvider.claimUI.openClaimInProgress()
+                          let progressView = claimProvider.claimUI.openClaimInProgress()
+                          progressView.close();
+                          
                           //claimProvider.claimUI.claimInformedPending = true
                         }
                         claimProvider.claimUI.claimInformedPending = true
@@ -85,7 +90,11 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                           }else{
                             captchaUUID = await claimReq.getCaptcha()
                           }
+                          log("//. 90")
                           claimReq.challenge = await claimUI.openCaptchaChallenge(server, captchaUUID)
+                          if(claimReq.challenge.status == ChallengeDataStatus.Canceled){
+                            return;
+                          }
                         }
                         const claimResult = await claimReq.claimToken()
 
@@ -136,6 +145,7 @@ export function showClaimPrompt(claimProvider:IClaimProvider){
 
             //pointerEnt.removeComponent(OnPointerDown)
             claimProvider.hasReward = true
+            npcHelper.collectNpcReward();
             //claimProvider.updateUIHasItemAlready()
           }
           //this.claimUI.openClaimInProgress()

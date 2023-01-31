@@ -5,7 +5,7 @@ import resources,  { setSection } from 'src/dcl-scene-ui-workaround/resources'
 import { custUiAtlas, dispenserInstRecord, dispenserRefIdInstRecord, dispenserSchedule, sharedClaimBgTexture } from 'src/claiming-dropin/claiming/claimResources'
 import { CampaignSchedule } from 'src/claiming-dropin/claiming/schedule/claimSchedule'
 import { CampaignDayType, ShowResultType } from 'src/claiming-dropin/claiming/schedule/types'
-import { CaptchaResponse, ChainId, ChallengeData, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
+import { CaptchaResponse, ChainId, ChallengeData, ChallengeDataStatus, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
 import { getAndSetUserData, getRealmDataFromLocal, getUserDataFromLocal,setRealm } from 'src/claiming-dropin/claiming/userData'
 import { WearableEnum, WearableEnumInst } from './loot-config'
 import { closeDialogSound, openDialogSound } from '../booth/sounds'
@@ -639,10 +639,14 @@ export class ClaimUI {
   must return ChallengeData because if UI refreshes the challenge
   need to update it
   */
+
+ captchaOpen : boolean = false;
+
   async openCaptchaChallenge(
     serverURL: string,
     captchaResponse: CaptchaResponse
   ): Promise<ChallengeData> {
+    this.captchaOpen = true;
     const METHOD_NAME = "openCaptchaChallenge"
     log(METHOD_NAME,"ENTRY",serverURL,captchaResponse)
 
@@ -652,6 +656,10 @@ export class ClaimUI {
     return new Promise((resolve) => {
       const Y_ADJUST = 20
       const captchaUI = new ui.CustomPrompt(this.getCustomPromptStyle(), 600, 370 + Y_ADJUST)
+      captchaUI.closeIcon.onClick.callback = ( () =>{
+        this.captchaOpen = false;
+        captchaUI.hide();
+      });
       captchaUI.addText(
         'Please complete this captcha',
         0,
@@ -679,21 +687,22 @@ export class ClaimUI {
       const errorText = captchaUI.addText(
         'Error MSg',
         0,
-        -100+Y_ADJUST,
+        -20+Y_ADJUST,
         Color4.Red(),
         15
       )
       let captchaCodeAnswer = ''
-      const inputBox = captchaUI.addTextBox(0, -75 + Y_ADJUST, '', (e) => {
+      const inputBox = captchaUI.addTextBox(0, -100 + Y_ADJUST, '', (e) => {
         captchaCodeAnswer = e
       })
       errorText.hide()
 
       const helpText = captchaUI.addText(
-        'Type the letters in green',
+        'Type the letters in green*',
         0,
-        -100+Y_ADJUST,
-        this.getCustomPromptFontColor(),
+        -45 + Y_ADJUST,
+        //Color4.Red(),
+        new Color4(0.34901960784313724, 0.8274509803921568, 0.5450980392156862, 1),//green
         15
       )
       //errorText.hide()
@@ -726,10 +735,11 @@ export class ClaimUI {
             errorText.hide()
             helpText.show()
             captchaUI.hide()
-            resolve({challenge:captchaResponse,answer:captchaCodeAnswer})
+            this.captchaOpen = false;
+            resolve({challenge:captchaResponse,answer:captchaCodeAnswer,status: ChallengeDataStatus.AnswerProvided})
           }else{
             errorText.show()
-            helpText.hide()
+            //helpText.hide()
           }
         },
         ui.ButtonStyles.ROUNDGOLD
@@ -739,8 +749,9 @@ export class ClaimUI {
         -100,
         -140,
         () => {
+          this.captchaOpen = false;
           captchaUI.hide()
-          resolve(undefined)
+          resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled})
         },
         ui.ButtonStyles.ROUNDBLACK
       )
