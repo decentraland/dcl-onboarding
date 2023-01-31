@@ -274,20 +274,41 @@ export function activateLoopSoundPortal(){
 //#endregion
 
 let cubeDebuggerEnable = true
-const soundsTransform = [lamp1Transform, lamp2Transform, lamp3Transform, lamp4Transform, lamp5Transform, lamp6Transform, tree1Transform, tree2Transform, tree3Transform, tree4Transform, tree5Transform, rock1Transform, rock2Transform, generatorsTransform, portalsTransform]
+const soundEntityes = [rock,rock2,tree1,tree2,tree3,tree4,tree5] //FINISH POPULATING
 cubeSpawner()
 
 function cubeSpawner(){
     if(cubeDebuggerEnable){
-        for (let i = 0; i < soundsTransform.length; i++) {
+        for(const e of soundEntityes){
             //create an entity 
             //add a cube
             //put in the position of the transform 
             // add to engine 
             
             const a = new Entity()
-            a.addComponent(soundsTransform[i]) 
+            a.setParent(e) 
             a.addComponent(new BoxShape())
+
+            let hoverText = "has no audio"
+            if( e.hasComponent(AudioSource) ){
+                const audioSource = e.getComponent(AudioSource)
+                hoverText = audioSource.audioClip.url + "\nplaying:"+audioSource.playing
+            }
+            a.addComponent(new OnPointerDown(()=>{
+                if( e.hasComponent(AudioSource) ){
+                    const audioSource = e.getComponent(AudioSource)
+                    const pointerDown = a.getComponent(OnPointerDown)
+                    if(audioSource.playing){
+                        audioSource.playing = false
+                    }else{
+                        audioSource.playing = true
+                    }
+                    pointerDown.hoverText =  audioSource.audioClip.url + "\nplaying:"+audioSource.playing
+                }
+            },{
+                hoverText: hoverText
+            }))
+
             engine.addEntity(a)
         }
     }
