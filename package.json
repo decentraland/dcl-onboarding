@@ -22,10 +22,5 @@
     "@dcl/ui-scene-utils",
     "eth-connect",
     "@dcl/ecs-scene-utils"
-  ],
-  "bundleDependencies": [
-    "@dcl/ui-scene-utils",
-    "eth-connect",
-    "@dcl/ecs-scene-utils"
   ]
 }

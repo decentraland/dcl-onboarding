@@ -46,6 +46,7 @@ export class QuestPortal implements IClaimProvider{
     claimInformedPending:boolean = false
     claimTokenResult:ClaimTokenResult|undefined
     showClaimPrompts:boolean = false
+    isCollected:boolean = false
     //end claim code
 
     private constructor() { }
