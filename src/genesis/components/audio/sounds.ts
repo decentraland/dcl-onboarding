@@ -274,17 +274,12 @@ export function activateLoopSoundPortal(){
 //#endregion
 
 let cubeDebuggerEnable = true
-const soundEntityes = [rock,rock2,tree1,tree2,tree3,tree4,tree5] //FINISH POPULATING
+const soundEntityes = [rock,rock2,tree1,tree2,tree3,tree4,tree5,lamp1, lamp2, lamp3, lamp4, lamp5, lamp6, generators]
 cubeSpawner()
 
 function cubeSpawner(){
     if(cubeDebuggerEnable){
-        for(const e of soundEntityes){
-            //create an entity 
-            //add a cube
-            //put in the position of the transform 
-            // add to engine 
-            
+        for(const e of soundEntityes){ 
             const a = new Entity()
             a.setParent(e) 
             a.addComponent(new BoxShape())
