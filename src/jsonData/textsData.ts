@@ -392,13 +392,23 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
         bEndDialog: true,
         bIsComfirmText: false,
-      },      { 
+      },
+      { 
         text: { //10
           en: text2D.SECOND_ISLAND_7,
         },
         fontSize: 18,
         vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Idle.png",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
+        bEndDialog: false
+      },
+      { 
+        text: { //11
+          en: text2D.SECOND_ISLAND_8,
+        },
+        fontSize: 18,
+        vAlign: "0%",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
         bEndDialog: true
       },
     ]
@@ -505,7 +515,7 @@ export const textDialogs: Dialog[] = [
         },
         fontSize: 18,
         vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Happy.png",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Talking.png",
         bEndDialog: true
       },
       // {
