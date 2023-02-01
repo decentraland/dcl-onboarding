@@ -16,7 +16,8 @@ export const SECOND_ISLAND_3 = "Well done! You really know how to party."
 export const SECOND_ISLAND_4 = "Your next task is to talk to my friend Mat. He’s across the bridge on the next island."
 export const SECOND_ISLAND_5 = "But first, let me give you this NFT emote!"
 export const SECOND_ISLAND_6 = "You can find Mat on the next island."
-export const SECOND_ISLAND_7 = "Here you forgot your NFT emote."
+export const SECOND_ISLAND_7 = "You can find Mat on the next island."
+export const SECOND_ISLAND_8 = "And by the way you forgot your NFT emote."
 
 
 // Dialogs  Mat island
@@ -32,6 +33,8 @@ export const THIRD_ISLAND_6 = "Thanks for collecting the materials and meshes, n
 export const THIRD_ISLAND_7 = "Your next task is to talk to Kit, find him on the last island."
 export const THIRD_ISLAND_8 = "Before you go, take this wearable as thanks for your help."
 export const THIRD_ISLAND_9 = "Kit should be in the next island."
+export const THIRD_ISLAND_10 = "Kit should be in the next island."
+export const THIRD_ISLAND_11 = "Oh! You forgot your wearable."
 
 // Dialogs  Kit island
 export const FOURTH_ISLAND_0 = "Hi I’m Kit. You’re just about ready to visit the main part of Decentraland: Genesis City!"

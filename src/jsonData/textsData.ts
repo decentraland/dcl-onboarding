@@ -490,6 +490,24 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Happy.png",
         bEndDialog: true,
       },
+      { 
+        text: { //10
+          en: text2D.THIRD_ISLAND_10,
+        },
+        fontSize: 18,
+        vAlign: "0%",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Happy.png",
+        bEndDialog: false
+      },
+      { 
+        text: { //11
+          en: text2D.THIRD_ISLAND_11
+        },
+        fontSize: 18,
+        vAlign: "0%",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Happy.png",
+        bEndDialog: true
+      },
       // {
       //   text: { //Id 10
       //     en: text2D.EVENT2_10_NPC2,
