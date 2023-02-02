@@ -16,7 +16,8 @@ export const SECOND_ISLAND_3 = "Well done! You really know how to party."
 export const SECOND_ISLAND_4 = "Your next task is to talk to my friend Mat. He’s across the bridge on the next island."
 export const SECOND_ISLAND_5 = "But first, let me give you this NFT emote!"
 export const SECOND_ISLAND_6 = "You can find Mat on the next island."
-
+export const SECOND_ISLAND_7 = "You can find Mat on the next island."
+export const SECOND_ISLAND_8 = "And by the way you forgot your NFT emote."
 
 // Dialogs  Mat island
 export const THIRD_ISLAND_0 = "Hey, I'm Mat. I have a business in the metaverse selling NFT wearables."
@@ -31,6 +32,8 @@ export const THIRD_ISLAND_6 = "Thanks for collecting the materials and meshes, n
 export const THIRD_ISLAND_7 = "Your next task is to talk to Kit, find him on the last island."
 export const THIRD_ISLAND_8 = "Before you go, take this wearable as thanks for your help."
 export const THIRD_ISLAND_9 = "Kit should be in the next island."
+export const THIRD_ISLAND_10 = "Kit should be in the next island."
+export const THIRD_ISLAND_11 = "Oh! You forgot your wearable."
 
 // Dialogs  Kit island
 export const FOURTH_ISLAND_0 = "Hi I’m Kit. You’re just about ready to visit the main part of Decentraland: Genesis City!"
@@ -48,7 +51,8 @@ export const FOURTH_ISLAND_6 = "Tobor wants to talk to you, he’s next to the p
 export const PORTAL_ISLAND_0 = "Awesome, the portals are online!"
 export const PORTAL_ISLAND_1 = "From here on out it's up to you... <b>what do you want to do in Decentraland?</b>"
 export const PORTAL_ISLAND_2 = "Don't like these choices? Press <b>tab</b> to open the menu and choose from loads of different experiences."
-
+export const PORTAL_ISLAND_3 = "Well, what are you waiting for, choose your next experience!"
+export const PORTAL_ISLAND_4 = "Before you go, don't forget your reward for activating the portals"
 
 
 
