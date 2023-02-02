@@ -406,6 +406,11 @@ export class QuestMaterials implements IClaimProvider{
         }
     }
 
+    private resetClaim(){
+        //clear previous reward attempt if exists
+        this.claimTokenResult = undefined
+    }
+
     private giveReward() {
 
 
@@ -432,6 +437,9 @@ export class QuestMaterials implements IClaimProvider{
             getHUD().wgPopUp.setText(CHAPTER3)
             getHUD().wgPopUp.setText(DISCLAIMTEXT)
         }
+
+        //clear previous reward attempt if exists
+        this.resetClaim()
 
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {

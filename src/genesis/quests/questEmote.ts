@@ -397,6 +397,11 @@ export class QuestEmote implements IClaimProvider{
         else this.cable_on.getComponent(GLTFShape).visible = bActive
     }
 
+    private resetClaim(){
+        //clear previous reward attempt if exists
+        this.claimTokenResult = undefined
+    }
+    
     private giveReward() {
         //Pilar Anim
 
@@ -424,6 +429,9 @@ export class QuestEmote implements IClaimProvider{
             getHUD().wgPopUp.setText(DISCLAIMTEXT)
         }
 
+        //clear previous reward attempt if exists
+        this.resetClaim()
+        
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()

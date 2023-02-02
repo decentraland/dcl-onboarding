@@ -187,6 +187,12 @@ export class QuestPortal implements IClaimProvider{
         }, { hoverText: "Talk" }
         ))
     }
+
+    private resetClaim(){
+        //clear previous reward attempt if exists
+        this.claimTokenResult = undefined
+    }
+
     givereward() {
 
         let usetWallet = UserData.instance().getWallet()
@@ -212,6 +218,10 @@ export class QuestPortal implements IClaimProvider{
             getHUD().wgPopUp.setText(CHAPTER4)
             getHUD().wgPopUp.setText(DISCLAIMTEXT)
         }
+
+        //clear previous reward attempt if exists
+        this.resetClaim()
+
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()
