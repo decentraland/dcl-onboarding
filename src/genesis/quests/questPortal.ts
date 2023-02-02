@@ -326,7 +326,7 @@ export class QuestPortal implements IClaimProvider{
 
     private tellPlayerToGoThroughPortal(){
         let robotNpc = GenesisData.instance().robotEntity;
-        getHUD().wgTalkRobot.showToText(4);
+        getHUD().wgTalkRobot.showToText(3);
 
         AudioManager.instance().playOnce("tobor_talk", 
             { volume: 0.6, parent: GenesisData.instance().robotEntity });
