@@ -47,7 +47,6 @@ export class QuestPortal implements IClaimProvider{
     claimInformedPending:boolean = false
     claimTokenResult:ClaimTokenResult|undefined
     showClaimPrompts:boolean = false
-    isCollected:boolean = false;
     //end claim code
 
     private constructor() { }
@@ -298,7 +297,7 @@ export class QuestPortal implements IClaimProvider{
             //this.tellPlayerToFindMat();
             robotNpc.removeComponent(OnPointerDown);
 
-            if(!this.isCollected)
+            if(!this.hasReward)
                 this.remindPlayerOfReward();
             else
                 this.tellPlayerToGoThroughPortal();

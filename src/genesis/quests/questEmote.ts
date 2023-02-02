@@ -49,7 +49,6 @@ export class QuestEmote implements IClaimProvider{
     claimInformedPending:boolean = false
     claimTokenResult:ClaimTokenResult|undefined
     showClaimPrompts:boolean = false
-    isCollected: boolean = false;
     //end claim code
 
     private showHintTimeout: any
@@ -497,7 +496,7 @@ export class QuestEmote implements IClaimProvider{
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
 
             //this.tellPlayerToFindMat();
-            if(!this.isCollected)
+            if(!this.hasReward)
                 this.remindPlayerOfReward();
             else
                 this.tellPlayerToFindMat();

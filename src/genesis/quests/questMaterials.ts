@@ -48,7 +48,6 @@ export class QuestMaterials implements IClaimProvider{
     claimInformedPending:boolean = false
     claimTokenResult:ClaimTokenResult|undefined
     showClaimPrompts:boolean = false
-    isCollected:boolean = false;
     //end claim code
 
 
@@ -511,7 +510,7 @@ export class QuestMaterials implements IClaimProvider{
             if (getHUD().wgTalkNPC1.visible || getHUD().wgTalkNPC3.visible) return
             this.npc2.removeComponent(OnPointerDown)
 
-            if(!this.isCollected)
+            if(!this.hasReward)
                 this.playerForgotRewardDialog()
             else
                 this.dialogEndQuest()

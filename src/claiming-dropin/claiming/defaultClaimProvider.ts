@@ -1,7 +1,6 @@
 import { CONFIG } from "src/config"
 import { CaptchaResponse, ChallengeDataStatus, ClaimCodes, DispenserPos } from "./claimTypes"
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "./loot"
-import { npcHelper } from "src/npcHelper";
 
 export interface IClaimProvider {
     claimUI:ClaimUI|undefined
@@ -12,7 +11,6 @@ export interface IClaimProvider {
     hasReward:boolean 
     dispenserPos:DispenserPos
     showClaimPrompts:boolean
-    isCollected:boolean;
 }
 export async function doClaimSilent(claimProvider:IClaimProvider){
   doClaim(claimProvider,false)
@@ -20,7 +18,6 @@ export async function doClaimSilent(claimProvider:IClaimProvider){
 export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:boolean){
   const METHOD_NAME ="doClaim"
   log(METHOD_NAME,"ENTRY",claimProvider,"showClaimPrompts",showClaimPrompts)
-  npcHelper.targetNpc = claimProvider;
 	const h = claimProvider.dispenserPos
   
   //flag if we want UI popping up
@@ -138,7 +135,6 @@ export function showClaimPrompt(claimProvider:IClaimProvider){
         if(claimProvider.claimUI !== undefined && claimProvider.claimTokenResult !== undefined){
           if (claimSuccess){
             //if(this.glasses.alive) engine.removeEntity(this.glasses);
-            npcHelper.collectNpcReward();
 
             //pointerEnt.removeComponent(OnPointerDown)
             claimProvider.hasReward = true
