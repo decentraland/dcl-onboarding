@@ -5,7 +5,7 @@ import { AudioManager } from "./audio.manager"
 const lampClip = new AudioClip("assets/audio/v3/Lamp.wav")
 
 const lamp1 = new Entity()
-const lamp1Transform = new Transform({position: new Vector3(124.85, 75.29, 123.76)})
+const lamp1Transform = new Transform({position: new Vector3(124.85, 82, 123.76)})
 lamp1.addComponent(lamp1Transform)
 const surce = new AudioSource(lampClip)
 lamp1.addComponent(surce)
@@ -16,7 +16,7 @@ engine.addEntity(lamp1)
 
 
 const lamp2 = new Entity()
-const lamp2Transform = new Transform({position: new Vector3(136.87, 70.57, 149.46)})
+const lamp2Transform = new Transform({position: new Vector3(136.87, 77, 149.46)})
 lamp2.addComponent(lamp2Transform)
 const surce2 = new AudioSource(lampClip)
 lamp2.addComponent(surce2)
@@ -27,7 +27,7 @@ engine.addEntity(lamp2)
 
 
 const lamp3 = new Entity()
-const lamp3Transform = new Transform({position: new Vector3(159.85, 67.76, 161.82)})
+const lamp3Transform = new Transform({position: new Vector3(159.85, 74, 161.82)})
 lamp3.addComponent(lamp3Transform)
 const surce3 = new AudioSource(lampClip)
 lamp3.addComponent(surce3)
@@ -38,7 +38,7 @@ engine.addEntity(lamp3)
 
 
 const lamp4 = new Entity()
-const lamp4Transform = new Transform({position: new Vector3(164.19, 66.77, 137.21)})
+const lamp4Transform = new Transform({position: new Vector3(164.19, 73, 137.21)})
 lamp4.addComponent(lamp4Transform)
 const surce4 = new AudioSource(lampClip)
 lamp4.addComponent(surce4)
@@ -48,7 +48,7 @@ surce4.playOnce()
 engine.addEntity(lamp4)
 
 const lamp5 = new Entity()
-const lamp5Transform = new Transform({position: new Vector3(158.51, 64.78, 108.98)})
+const lamp5Transform = new Transform({position: new Vector3(158.51, 71, 108.98)})
 lamp5.addComponent(lamp5Transform)
 const surce5 = new AudioSource(lampClip)
 lamp5.addComponent(surce5)
@@ -59,7 +59,7 @@ engine.addEntity(lamp5)
 
 
 const lamp6 = new Entity()
-const lamp6Transform = new Transform({position: new Vector3(158.51, 64.78, 108.98)})
+const lamp6Transform = new Transform({position: new Vector3(158.51, 71, 108.98)})
 lamp6.addComponent(lamp6Transform)
 const surce6 = new AudioSource(lampClip)
 lamp6.addComponent(surce6)
@@ -273,7 +273,7 @@ export function activateLoopSoundPortal(){
 }
 //#endregion
 
-let cubeDebuggerEnable = true
+let cubeDebuggerEnable = false
 const soundEntityes = [rock,rock2,tree1,tree2,tree3,tree4,tree5,lamp1, lamp2, lamp3, lamp4, lamp5, lamp6, generators]
 cubeSpawner()
 
