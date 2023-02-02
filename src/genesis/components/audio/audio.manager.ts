@@ -4,6 +4,7 @@ import { AudioEntity, AudioSourceOptions, PlayAudioOptions } from "./audioEntity
 export enum AudioNames {
     npc_1_salute = "assets/audio/v2/npc_1_salute.mp3",
     npc_2_salute = "assets/audio/v2/npc_2_salute.mp3",
+    npc_3_salute = "assets/audio/v3/Racoon.mp3",
     pickup_box = "assets/audio/v2/pickup_box.mp3",
     portal_ambiental = "assets/audio/v2/portal_ambiental.mp3",
     puzzle_all_connect = "assets/audio/v2/puzzle_all_connect.mp3",
@@ -14,12 +15,11 @@ export enum AudioNames {
     Bridge_sound = "assets/audio/Bridge_sound_ok.mp3",
     button_interact = "assets/audio/Button_Interact.mp3",
     chatbox = "assets/audio/chatbox.mp3",
-    island_ambiental = "assets/audio/Mainland_Ambient.mp3",
+    island_ambiental = "assets/audio/v3/Ambient.mp3",
     pop_1 = "assets/audio/pop_1.mp3",
     pop_2 = "assets/audio/pop_2.mp3",
     pop_up_close = "assets/audio/pop_up_close.mp3",
     waterfall = "assets/audio/waterfall_r.mp3",
-
 }
 //Add all audio files here too 
 export class AudioManager {
@@ -31,9 +31,10 @@ export class AudioManager {
         Bridge_sound: new AudioEntity(new Entity(), AudioNames.Bridge_sound, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         pop_1: new AudioEntity(new Entity(), AudioNames.pop_1, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         chatbox: new AudioEntity(new Entity(), AudioNames.chatbox, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
-        island_ambiental: new AudioEntity(new Entity(), AudioNames.island_ambiental, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
+        island_ambiental: new AudioEntity(new Entity(), AudioNames.island_ambiental, { volume: 1, pitch: 1, loop: true, autoPlay: false }),
         npc_1_salute: new AudioEntity(new Entity(), AudioNames.npc_1_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         npc_2_salute: new AudioEntity(new Entity(), AudioNames.npc_2_salute, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
+        npc_3_salute: new AudioEntity(new Entity(), AudioNames.npc_3_salute, { volume: 0.4, pitch: 1, loop: false, autoPlay: false }),
         pickup_box: new AudioEntity(new Entity(), AudioNames.pickup_box, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         portal_ambiental: new AudioEntity(new Entity(), AudioNames.portal_ambiental, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         puzzle_all_connect: new AudioEntity(new Entity(), AudioNames.puzzle_all_connect, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),

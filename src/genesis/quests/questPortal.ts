@@ -17,6 +17,7 @@ import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/cla
 import { CONFIG } from "src/config";
 import { initClaimProvider, lookupDispenerPosByCampId } from "src/modules/claiming/claimSetup";
 import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
+import { activateInitialSoundPortal, activateLoopSoundPortal } from "../components/audio/sounds";
 
 export class QuestPortal implements IClaimProvider{
 
@@ -155,11 +156,15 @@ export class QuestPortal implements IClaimProvider{
                 //Show popup tobor cap reward
                 this.givereward()
                 this.portal.getComponent(StateMachine).playClip("Portal_Activate", false, 1.1, false, () => {
-                    AudioManager.instance().playOnce("tower_activated", { volume: 1, parent: this.portal })
+                    //AudioManager.instance().playOnce("tower_activated", { volume: 1, parent: this.portal })
+                    
                     //Restore portal ambience
                     if (AudioManager.instance().audio.portal_ambiental.audioSource.playing) {
-                        AudioManager.instance().playPortalAmbience(true)
-                    }
+                        //AudioManager.instance().playPortalAmbience(true)
+                        //BLA PORTALS
+                        //AudioManager.instance().playOnce("portals", { volume: 1, parent: this.portal })
+                        activateLoopSoundPortal()
+                    }  
 
                 })
                 this.displayEvents()
@@ -167,7 +172,8 @@ export class QuestPortal implements IClaimProvider{
                 if (AudioManager.instance().audio.portal_ambiental.audioSource.playing) {
                     AudioManager.instance().audio.portal_ambiental.setVolumeSmooth(0, 2000)
                 }
-                AudioManager.instance().playOnce("tower_charge", { volume: 1, pitch: 0.3, parent: this.portal })
+                activateInitialSoundPortal()
+                //AudioManager.instance().playOnce("tower_charge", { volume: 1, pitch: 0.3, parent: this.portal })
                 GenesisData.instance().robotEntity.getComponent(RobotNPC).bubbleTalk.setTextWithDelay(bubbleText.CHOOSE_PORTAL)
 
                 GenesisData.instance().robotEntity.getComponent(RobotNPC).bubbleTalk.setActive(true)

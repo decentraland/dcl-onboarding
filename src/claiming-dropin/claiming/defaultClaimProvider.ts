@@ -1,5 +1,5 @@
 import { CONFIG } from "src/config"
-import { CaptchaResponse, ClaimCodes, DispenserPos } from "./claimTypes"
+import { CaptchaResponse, ChallengeDataStatus, ClaimCodes, DispenserPos } from "./claimTypes"
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "./loot"
 import { npcHelper } from "src/npcHelper";
 
@@ -68,7 +68,8 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                 
                         //if(!this.claimUI.claimInformedPending){
                         if(claimProvider.showClaimPrompts){
-                          claimProvider.claimUI.openClaimInProgress()
+                          let inprogressWindow = claimProvider.claimUI.openClaimInProgress()
+                          inprogressWindow.hide();
                           //claimProvider.claimUI.claimInformedPending = true
                         }
                         claimProvider.claimUI.claimInformedPending = true
@@ -89,6 +90,7 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                             captchaUUID = await claimReq.getCaptcha()
                           }
                           claimReq.challenge = await claimUI.openCaptchaChallenge(server, captchaUUID)
+                          if(claimReq.challenge.status === ChallengeDataStatus.Canceled) return;
                         }
                         const claimResult = await claimReq.claimToken()
 

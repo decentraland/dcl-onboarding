@@ -15,6 +15,7 @@ import { ClaimConfig } from 'src/claiming-dropin/claiming/loot-config'
 import { DispenserPos } from 'src/claiming-dropin/claiming/claimTypes'
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from 'src/claiming-dropin/claiming/loot'
 import { IClaimProvider } from 'src/claiming-dropin/claiming/defaultClaimProvider'
+import { activatePillarSound4, changeGeneratosSound } from '../components/audio/sounds'
 
 //Quest restore energy
 
@@ -111,7 +112,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
                 triggerHi.getComponent(utils.TriggerComponent).onCameraEnter = null
                 triggerHi.getComponent(utils.TriggerComponent).onCameraExit = null
 
-                AudioManager.instance().playOnce("npc_2_salute", { volume: 1, pitch: 0.8, parent: this.npc3 })
+                AudioManager.instance().playOnce("npc_3_salute", { volume: 1, pitch: 1, parent: this.npc3 })
                 this.npc3.getComponent(QuestNpc).hiAnim(() => {
                     this.npc3.getComponent(QuestNpc).idleAnim()
                 })
@@ -146,7 +147,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
 
             //Animation
             this.npc3.getComponent(QuestNpc).talkAnim()
-            AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, pitch: 0.8, parent: this.npc3 })
+            AudioManager.instance().playOnce("npc_3_salute", { volume: 0.7, pitch: 1, parent: this.npc3 })
 
             //2D UI
             getHUD().setWidgetDialogIndex(getHUD().wgTalkNPC3, 4)
@@ -205,7 +206,8 @@ export class QuestPuzzle /*implements IClaimProvider*/{
 
         //when finihs
         this.connect_game.completeEvent2PuzzleCallback = () => {
-
+            //BLA fixed generator
+            changeGeneratosSound()
             //Kit look player
             this.npc3.getComponent(Transform).lookAt(Camera.instance.worldPosition)
             //Stat
@@ -251,7 +253,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
 
             //2D UI
             getHUD().wgTalkNPC3.showToText(5)
-            AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, pitch: 0.8, parent: this.npc3 })
+            AudioManager.instance().playOnce("npc_3_salute", { volume: 0.7, pitch: 1, parent: this.npc3 })
 
             getHUD().wgTalkNPC3.callback = () => {
                 getHUD().wgTalkNPC3.callback = () => { }
@@ -261,6 +263,9 @@ export class QuestPuzzle /*implements IClaimProvider*/{
                 AudioManager.instance().playTowerCharge(this.pilar4)
                 this.pilar4.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
                     AudioManager.instance().playTowerActivated(this.pilar4)
+                    activatePillarSound4(this.pilar4)
+                    
+                    //BLA PILLAR4
                     this.pilar4.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false)
 
                     this.activeCables(true)
@@ -334,7 +339,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
             this.npc3.getComponent(QuestNpc).bubbleTalk.setActive(false)
 
             getHUD().wgTalkNPC3.showToText(6)
-            AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, pitch: 0.8, parent: this.npc3 })
+            AudioManager.instance().playOnce("npc_3_salute", { volume: 0.7, pitch: 1, parent: this.npc3 })
 
             //Play talk animation
             this.npc3.getComponent(QuestNpc).talkAnim()

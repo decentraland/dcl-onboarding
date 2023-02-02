@@ -17,6 +17,7 @@ import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/cla
 import { DispenserPos } from "src/claiming-dropin/claiming/claimTypes";
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot";
 import { CONFIG } from "src/config";
+import { activateSoundPillar3 } from "../components/audio/sounds";
 
 //Quest collect matterials
 export class QuestMaterials implements IClaimProvider{
@@ -470,6 +471,8 @@ export class QuestMaterials implements IClaimProvider{
         AudioManager.instance().playTowerCharge(this.pilarQmat)
         this.pilarQmat.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
             AudioManager.instance().playTowerActivated(this.pilarQmat)
+            activateSoundPillar3(this.pilarQmat)
+            //BLA PILLAR3
             this.pilarQmat.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false)
 
             //Cable on
