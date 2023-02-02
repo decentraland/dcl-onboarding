@@ -5,7 +5,7 @@ import { dispenserInstRecord, dispenserRefIdInstRecord, TRANSPARENT_MATERIAL } f
 import { Dispenser } from "../booth/dispenser"
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "../claiming/loot"
 import { ClaimConfig,  WearableEnum, WearableEnumInst } from "../claiming/loot-config"
-import { ChainId, ChallengeDataStatus, ClaimCodes, ClaimDataInst, ClaimState, ClaimUiType, DispenserPos, ItemData } from "./claimTypes"
+import { ChainId, ClaimCodes, ClaimDataInst, ClaimState, ClaimUiType, DispenserPos, ItemData } from "./claimTypes"
 import { CampaignSchedule } from "./schedule/claimSchedule"
 import { CONFIG } from "src/config"
 import { testForPortableXP, testForWearable } from "./utils"
@@ -205,7 +205,6 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     claimUI.openOKPrompt("example error with retry longerror longerror longerror longerror longerror "+
                         "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror with retry",ClaimUiType.ERROR,undefined,claimCallbacks,true)
                         //url just happens to match my pattern i need https://captcha.com/images/captcha/botdetect3-captcha-ancientmosaic.jpg
-                        log("//. 208")
                     claimUI.openCaptchaChallenge("http://hello", 
                         //"src/claiming-dropin/images/example-botdetect3-captcha-ancientmosaic.jpeg"
                         {   ok:true,
@@ -318,16 +317,8 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     const claimReq = new ClaimTokenRequest( h.claimData )
             
                     if(claimReq.isCaptchaEnabled()){
-                        if(claimUI.captchaOpen){
-                            log("Instance already open")
-                            return;
-                        }
                         const captchaUUID = await claimReq.getCaptcha() //fetches capcha image
-                        log("//. 322")
                         claimReq.challenge = await claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
-                        if(claimReq.challenge.status == ChallengeDataStatus.Canceled){
-                            return;
-                          }
                         
                     }
                     const claimResult = await claimReq.claimToken()

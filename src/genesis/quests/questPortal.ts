@@ -46,7 +46,6 @@ export class QuestPortal implements IClaimProvider{
     claimInformedPending:boolean = false
     claimTokenResult:ClaimTokenResult|undefined
     showClaimPrompts:boolean = false
-    isCollected:boolean = false
     //end claim code
 
     private constructor() { }
@@ -173,8 +172,6 @@ export class QuestPortal implements IClaimProvider{
                 GenesisData.instance().robotEntity.getComponent(RobotNPC).bubbleTalk.setActive(true)
                 //Reset cb
                 getHUD().wgTalkRobot.callback = () => { }
-
-                this.setupFinalDialog();
             }
 
 
@@ -272,55 +269,7 @@ export class QuestPortal implements IClaimProvider{
 
     }
 
-    private setupFinalDialog(){
-        let robotNpc = GenesisData.instance().robotEntity;
-        robotNpc.getComponent(RobotNPC).bubbleTalk.setTextWithDelay(bubbleText.CHOOSE_PORTAL)
-        robotNpc.getComponent(RobotNPC).bubbleTalk.setActive(true)
-        GenesisData.instance().robotEntity.getComponent(Animator).getClip("Robot_Idle").play()
 
-        robotNpc.addComponentOrReplace(new OnPointerDown(() => {
-            //this.tellPlayerToFindMat();
-            robotNpc.removeComponent(OnPointerDown);
 
-            if(!this.isCollected)
-                this.remindPlayerOfReward();
-            else
-                this.tellPlayerToGoThroughPortal();
-
-        },
-        {
-            hoverText: "Talk"
-        }))
-    }
-
-    private remindPlayerOfReward(){
-        let robotNpc = GenesisData.instance().robotEntity;
-        getHUD().wgTalkRobot.showToText(4);
-
-        AudioManager.instance().playOnce("tobor_talk", 
-            { volume: 0.6, parent: GenesisData.instance().robotEntity });
-
-        robotNpc.getComponent(Animator).getClip("Talk").play();
-        robotNpc.getComponent(RobotNPC).bubbleTalk.setActive(false);
-        getHUD().wgTalkRobot.callback = () => {
-            this.setupFinalDialog();
-            this.givereward();
-        }
-    }
-    
-    private tellPlayerToGoThroughPortal(){
-        let robotNpc = GenesisData.instance().robotEntity;
-        getHUD().wgTalkRobot.showToText(4);
-
-        AudioManager.instance().playOnce("tobor_talk", 
-            { volume: 0.6, parent: GenesisData.instance().robotEntity });
-
-        robotNpc.getComponent(Animator).getClip("Talk").play();
-        robotNpc.getComponent(RobotNPC).bubbleTalk.setActive(false);
-        getHUD().wgTalkRobot.callback = () => {
-
-            this.setupFinalDialog();
-        }
-    }
 }
 
