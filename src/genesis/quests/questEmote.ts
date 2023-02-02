@@ -396,6 +396,11 @@ export class QuestEmote implements IClaimProvider{
         else this.cable_on.getComponent(GLTFShape).visible = bActive
     }
 
+    private resetClaim(){
+        //clear previous reward attempt if exists
+        this.claimTokenResult = undefined
+    }
+    
     private giveReward() {
         //Pilar Anim
 
@@ -423,6 +428,9 @@ export class QuestEmote implements IClaimProvider{
             getHUD().wgPopUp.setText(DISCLAIMTEXT)
         }
 
+        //clear previous reward attempt if exists
+        this.resetClaim()
+        
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()
@@ -487,34 +495,67 @@ export class QuestEmote implements IClaimProvider{
 
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
 
-            //reomove onpointerdown
-            this.npc1.removeComponent(OnPointerDown)
+            //this.tellPlayerToFindMat();
+            if(!this.hasReward)
+                this.remindPlayerOfReward();
+            else
+                this.tellPlayerToFindMat();
 
-            //Dialog end quest
-            getHUD().wgPopUp.show(false)
-
-            //Bubble Talk
-            this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
-            getHUD().wgTalkNPC1.showToText(6)
-            AudioManager.instance().playOnce("npc_1_salute", { volume: 0.5, parent: this.npc1 })
-
-            //Play talk animation
-            this.npc1.getComponent(QuestNpc).talkAnim()
-
-            getHUD().wgTalkNPC1.callback = () => {
-
-                //Reset Callback
-                getHUD().wgTalkNPC1.callback = () => { }
-
-                //Animation back to idle
-                this.npc1.getComponent(QuestNpc).idleAnimFromTalk()
-
-                //Recursive Call
-                this.dialogQuestFinished()
-            }
-        }, {
+        },
+        {
             hoverText: "Talk"
         }))
+    }
+
+    private remindPlayerOfReward(){
+        this.npc1.removeComponent(OnPointerDown)
+
+        this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
+
+        getHUD().wgQuestMultiple.showTick(0);
+
+        this.npc1.getComponent(QuestNpc).talkAnim();
+
+        getHUD().wgTalkNPC1.showToText(10)
+
+        AudioManager.instance().playOnce("npc_1_salute", {volume: .5, parent: this.npc1});
+
+        getHUD().wgTalkNPC1.callback = () => {
+            getHUD().wgTalkNPC1.callback = () => {};
+            //Recursive Call
+            this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
+            this.giveReward();
+            this.dialogQuestFinished()
+        }
+    }
+
+    private tellPlayerToFindMat(){ //Go to Next Island Dialog
+
+        //reomove onpointerdown
+        this.npc1.removeComponent(OnPointerDown)
+
+        //Dialog end quest
+        getHUD().wgPopUp.show(false)
+
+        //Bubble Talk
+        this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
+        getHUD().wgTalkNPC1.showToText(6)
+        AudioManager.instance().playOnce("npc_1_salute", { volume: 0.5, parent: this.npc1 })
+
+        //Play talk animation
+        this.npc1.getComponent(QuestNpc).talkAnim()
+
+        getHUD().wgTalkNPC1.callback = () => {
+
+            //Reset Callback
+            getHUD().wgTalkNPC1.callback = () => { }
+
+            //Animation back to idle
+            this.npc1.getComponent(QuestNpc).idleAnimFromTalk()
+
+            //Recursive Call
+            this.dialogQuestFinished()
+        }
     }
 
     cleanUpClick() {

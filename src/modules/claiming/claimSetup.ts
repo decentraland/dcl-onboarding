@@ -23,64 +23,70 @@ function extendCampaignData(){
 
 }
  
-export const claimCallbacks:HandleClaimTokenCallbacks = {
-    onOpenUI:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
-        log("on open",type,claimResult)
-    },
+
+export function createClaimCallback(){
+    const claimCallbacks:HandleClaimTokenCallbacks = {
+        onOpenUI:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+            log("on open",type,claimResult)
+        },
+        
+        onAcknowledge:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+            log("on ack",type,claimResult)
+            if(claimResult && claimResult.success){
+                const data: ItemData = claimResult.json.data[0]
     
-    onAcknowledge:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
-        log("on ack",type,claimResult)
-        if(claimResult && claimResult.success){
-            const data: ItemData = claimResult.json.data[0]
-
-            /*if(
-                testForPortableXP(data)
-                || (CONFIG.CLAIM_TESTING_ENABLED && testForWearable(data,WearableEnum.PANTS_ADDRESS))
-                ){
-                openTutorialPrompt()
-            }*/
-        }
-    },
-    onCloseUI:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
-        log("on close",type,claimResult)
-
-        const hasClaimConfig = claimResult && claimResult.requestArgs && claimResult.requestArgs.claimConfig
-        /*switch(type){
-            case ClaimUiType.YOU_ALREADY_HAVE_IT:
-                if(
-                    hasClaimConfig 
-                    && ( claimResult?.requestArgs?.claimConfig?.refId == ClaimConfig.campaign.dcl_artweek_px.refId )
+                /*if(
+                    testForPortableXP(data)
+                    || (CONFIG.CLAIM_TESTING_ENABLED && testForWearable(data,WearableEnum.PANTS_ADDRESS))
                     ){
                     openTutorialPrompt()
-                }
-            break;
-        }*/
-    },
-
-    onRetry:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
-        log("on retry",type,claimResult)
-
-       
-    }
+                }*/
+            }
+        },
+        onCloseUI:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+            log("on close",type,claimResult)
     
-    /*
-    onRetry?:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
-        doClaim()
-    }*/
-} 
+            const hasClaimConfig = claimResult && claimResult.requestArgs && claimResult.requestArgs.claimConfig
+            /*switch(type){
+                case ClaimUiType.YOU_ALREADY_HAVE_IT:
+                    if(
+                        hasClaimConfig 
+                        && ( claimResult?.requestArgs?.claimConfig?.refId == ClaimConfig.campaign.dcl_artweek_px.refId )
+                        ){
+                        openTutorialPrompt()
+                    }
+                break;
+            }*/
+        },
+    
+        onRetry:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+            log("on retry",type,claimResult)
+    
+           
+        }
+        
+        /*
+        onRetry?:(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+            doClaim()
+        }*/
+    } 
+    return claimCallbacks
+}
 
 
 export function initClaimProvider(claimProvider:IClaimProvider){
     log("initClaimProvider","ENTRY",claimProvider)
     
+    if(claimProvider.claimCallbacks === undefined) claimProvider.claimCallbacks = createClaimCallback()
     claimProvider.claimUI = new ClaimUI(claimProvider.dispenserPos.claimUIConfig,claimProvider.dispenserPos.claimConfig)
-    claimCallbacks.onRetry=(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
+    claimProvider.claimCallbacks.onRetry=(type:ClaimUiType,claimResult?:ClaimTokenResult)=>{
         log("on retry",type,claimResult)
         //reset values
-        
+        claimProvider.claimTokenResult = undefined
+
         doClaim(claimProvider,true)
     }
-    claimProvider.claimCallbacks = claimCallbacks
+    //claimProvider.claimCallbacks = claimCallbacks
 }
 
 export function lookupDispenerPosByCampId(id:string){

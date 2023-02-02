@@ -405,6 +405,11 @@ export class QuestMaterials implements IClaimProvider{
         }
     }
 
+    private resetClaim(){
+        //clear previous reward attempt if exists
+        this.claimTokenResult = undefined
+    }
+
     private giveReward() {
 
 
@@ -431,6 +436,9 @@ export class QuestMaterials implements IClaimProvider{
             getHUD().wgPopUp.setText(CHAPTER3)
             getHUD().wgPopUp.setText(DISCLAIMTEXT)
         }
+
+        //clear previous reward attempt if exists
+        this.resetClaim()
 
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
@@ -502,13 +510,32 @@ export class QuestMaterials implements IClaimProvider{
             if (getHUD().wgTalkNPC1.visible || getHUD().wgTalkNPC3.visible) return
             this.npc2.removeComponent(OnPointerDown)
 
-            this.dialogEndQuest()
+            if(!this.hasReward)
+                this.playerForgotRewardDialog()
+            else
+                this.dialogEndQuest()
 
         }, {
             hoverText: "Talk",
         }))
     }
 
+    private playerForgotRewardDialog() {
+        //Anim
+        this.npc2.getComponent(QuestNpc).talkAnim()
+
+        //Dialog if all quest completed
+        getHUD().wgTalkNPC2.showToText(10)
+        AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, parent: this.npc2 })
+
+        this.bubbleTalk.setActive(false)
+
+        getHUD().wgTalkNPC2.callback = () => {
+            this.npc2.getComponent(QuestNpc).idleAnimFromTalk()
+            this.afterEndQuestClick()
+            this.giveReward()
+        }
+    }
 
     private dialogEndQuest() {
         //Anim
