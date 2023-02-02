@@ -15,6 +15,7 @@ import { initClaimProvider, lookupDispenerPosByCampId } from "src/modules/claimi
 import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
 import { CONFIG } from "src/config";
+import { activateSoundPillar2 } from "../components/audio/sounds";
 
 export class QuestEmote implements IClaimProvider{
 
@@ -456,6 +457,8 @@ export class QuestEmote implements IClaimProvider{
         AudioManager.instance().playTowerCharge(this.pilar_2)
         this.pilar_2.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
             AudioManager.instance().playTowerActivated(this.pilar_2)
+            activateSoundPillar2(this.pilar_2)
+            //BLA PILLAR2
             this.pilar_2.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false, () => {
                 //Cable Turn ON
                 this.activeCables(true)
