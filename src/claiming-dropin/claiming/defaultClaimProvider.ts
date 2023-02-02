@@ -19,6 +19,7 @@ export async function doClaimSilent(claimProvider:IClaimProvider){
   doClaim(claimProvider,false)
 }
 export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:boolean){
+  npcHelper.targetNpc = claimProvider;
   const METHOD_NAME ="doClaim"
   log(METHOD_NAME,"ENTRY",claimProvider,"showClaimPrompts",showClaimPrompts)
 	const h = claimProvider.dispenserPos
