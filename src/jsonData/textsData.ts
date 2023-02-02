@@ -682,6 +682,24 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Idle.png",
         bEndDialog: true,
       },
+      {
+        text: {
+          en: text2D.PORTAL_ISLAND_3,
+        },
+        fontSize: 18,
+        vAlign: "0%",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Happy.png",
+        bEndDialog: true,
+      },
+      {
+        text: {
+          en: text2D.PORTAL_ISLAND_4,
+        },
+        fontSize: 18,
+        vAlign: "0%",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Happy.png",
+        bEndDialog: true,
+      },
     ]
   },
   // {
