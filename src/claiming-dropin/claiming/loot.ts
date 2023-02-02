@@ -5,7 +5,7 @@ import resources,  { setSection } from 'src/dcl-scene-ui-workaround/resources'
 import { custUiAtlas, dispenserInstRecord, dispenserRefIdInstRecord, dispenserSchedule, sharedClaimBgTexture } from 'src/claiming-dropin/claiming/claimResources'
 import { CampaignSchedule } from 'src/claiming-dropin/claiming/schedule/claimSchedule'
 import { CampaignDayType, ShowResultType } from 'src/claiming-dropin/claiming/schedule/types'
-import { CaptchaResponse, ChainId, ChallengeData, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
+import { CaptchaResponse, ChainId, ChallengeData, ChallengeDataStatus, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
 import { getAndSetUserData, getRealmDataFromLocal, getUserDataFromLocal,setRealm } from 'src/claiming-dropin/claiming/userData'
 import { WearableEnum, WearableEnumInst } from './loot-config'
 import { closeDialogSound, openDialogSound } from '../booth/sounds'
@@ -726,7 +726,7 @@ export class ClaimUI {
             errorText.hide()
             helpText.show()
             captchaUI.hide()
-            resolve({challenge:captchaResponse,answer:captchaCodeAnswer})
+            resolve({challenge:captchaResponse,answer:captchaCodeAnswer, status: ChallengeDataStatus.AnswerProvided})
           }else{
             errorText.show()
             helpText.hide()
@@ -740,7 +740,7 @@ export class ClaimUI {
         -140,
         () => {
           captchaUI.hide()
-          resolve(undefined)
+          resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled});
         },
         ui.ButtonStyles.ROUNDBLACK
       )
