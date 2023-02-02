@@ -679,21 +679,22 @@ export class ClaimUI {
       const errorText = captchaUI.addText(
         'Error MSg',
         0,
-        -100+Y_ADJUST,
+        -20 + Y_ADJUST,
         Color4.Red(),
         15
       )
       let captchaCodeAnswer = ''
-      const inputBox = captchaUI.addTextBox(0, -75 + Y_ADJUST, '', (e) => {
+      const inputBox = captchaUI.addTextBox(0, -100 + Y_ADJUST, '', (e) => {
         captchaCodeAnswer = e
       })
       errorText.hide()
 
       const helpText = captchaUI.addText(
-        'Type the letters in green',
+        'Enter the BIG letters in green*',
         0,
-        -100+Y_ADJUST,
-        this.getCustomPromptFontColor(),
+        -45+Y_ADJUST,
+        //Color4.Red(),
+        new Color4(0.34901960784313724, 0.8274509803921568, 0.5450980392156862, 1),//
         15
       )
       //errorText.hide()
@@ -729,7 +730,7 @@ export class ClaimUI {
             resolve({challenge:captchaResponse,answer:captchaCodeAnswer, status: ChallengeDataStatus.AnswerProvided})
           }else{
             errorText.show()
-            helpText.hide()
+            //helpText.hide()
           }
         },
         ui.ButtonStyles.ROUNDGOLD
