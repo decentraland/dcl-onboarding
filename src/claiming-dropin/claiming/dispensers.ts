@@ -5,7 +5,7 @@ import { dispenserInstRecord, dispenserRefIdInstRecord, TRANSPARENT_MATERIAL } f
 import { Dispenser } from "../booth/dispenser"
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "../claiming/loot"
 import { ClaimConfig,  WearableEnum, WearableEnumInst } from "../claiming/loot-config"
-import { ChainId, ClaimCodes, ClaimDataInst, ClaimState, ClaimUiType, DispenserPos, ItemData } from "./claimTypes"
+import { ChainId, ChallengeDataStatus, ClaimCodes, ClaimDataInst, ClaimState, ClaimUiType, DispenserPos, ItemData } from "./claimTypes"
 import { CampaignSchedule } from "./schedule/claimSchedule"
 import { CONFIG } from "src/config"
 import { testForPortableXP, testForWearable } from "./utils"
@@ -319,7 +319,7 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     if(claimReq.isCaptchaEnabled()){
                         const captchaUUID = await claimReq.getCaptcha() //fetches capcha image
                         claimReq.challenge = await claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
-                        
+                        if(claimReq.challenge.status == ChallengeDataStatus.Canceled) return;
                     }
                     const claimResult = await claimReq.claimToken()
 

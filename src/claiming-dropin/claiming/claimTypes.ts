@@ -28,9 +28,16 @@ export type CaptchaResponse={
     data: CaptchaData
 }
 
+export enum ChallengeDataStatus{
+    None = "None",
+    Canceled = "Canceled",
+    AnswerProvided = "AnswerProvided",
+}
+
 export type ChallengeData={
-    challenge:CaptchaResponse
-    answer:string
+    challenge:CaptchaResponse;
+    answer:string;
+    status:ChallengeDataStatus;
 }
 
 export type ItemData = {

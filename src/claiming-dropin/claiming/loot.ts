@@ -5,7 +5,7 @@ import resources,  { setSection } from 'src/dcl-scene-ui-workaround/resources'
 import { custUiAtlas, dispenserInstRecord, dispenserRefIdInstRecord, dispenserSchedule, sharedClaimBgTexture } from 'src/claiming-dropin/claiming/claimResources'
 import { CampaignSchedule } from 'src/claiming-dropin/claiming/schedule/claimSchedule'
 import { CampaignDayType, ShowResultType } from 'src/claiming-dropin/claiming/schedule/types'
-import { CaptchaResponse, ChainId, ChallengeData, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
+import { CaptchaResponse, ChainId, ChallengeData, ChallengeDataStatus, ClaimCodes, ClaimConfigCampaignType, ClaimState, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, ItemData, RewardData } from './claimTypes'
 import { getAndSetUserData, getRealmDataFromLocal, getUserDataFromLocal,setRealm } from 'src/claiming-dropin/claiming/userData'
 import { WearableEnum, WearableEnumInst } from './loot-config'
 import { closeDialogSound, openDialogSound } from '../booth/sounds'
@@ -679,21 +679,22 @@ export class ClaimUI {
       const errorText = captchaUI.addText(
         'Error MSg',
         0,
-        -100+Y_ADJUST,
+        -20 + Y_ADJUST,
         Color4.Red(),
         15
       )
       let captchaCodeAnswer = ''
-      const inputBox = captchaUI.addTextBox(0, -75 + Y_ADJUST, '', (e) => {
+      const inputBox = captchaUI.addTextBox(0, -100 + Y_ADJUST, '', (e) => {
         captchaCodeAnswer = e
       })
       errorText.hide()
 
       const helpText = captchaUI.addText(
-        'Type the letters in green',
+        'Enter the BIG letters in green*',
         0,
-        -100+Y_ADJUST,
-        this.getCustomPromptFontColor(),
+        -45+Y_ADJUST,
+        //Color4.Red(),
+        new Color4(0.34901960784313724, 0.8274509803921568, 0.5450980392156862, 1),//
         15
       )
       //errorText.hide()
@@ -726,10 +727,10 @@ export class ClaimUI {
             errorText.hide()
             helpText.show()
             captchaUI.hide()
-            resolve({challenge:captchaResponse,answer:captchaCodeAnswer})
+            resolve({challenge:captchaResponse,answer:captchaCodeAnswer, status: ChallengeDataStatus.AnswerProvided})
           }else{
             errorText.show()
-            helpText.hide()
+            //helpText.hide()
           }
         },
         ui.ButtonStyles.ROUNDGOLD
@@ -740,7 +741,7 @@ export class ClaimUI {
         -140,
         () => {
           captchaUI.hide()
-          resolve(undefined)
+          resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled});
         },
         ui.ButtonStyles.ROUNDBLACK
       )
