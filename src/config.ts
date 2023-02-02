@@ -5,7 +5,7 @@ import { DispenserPos } from "./claiming-dropin/claiming/claimTypes"
 const ParcelCountX:number = 12
 const ParcelCountZ:number = 8
 
-const DEFAULT_ENV = "prd" //set to local to use local values
+const DEFAULT_ENV = "local" //set to local to use local values
 
 
 const FORCE_PREVIEW_VAL: Record<string, boolean> = {

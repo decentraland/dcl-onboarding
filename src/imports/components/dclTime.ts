@@ -1,6 +1,7 @@
-import { getDecentralandTime } from "@decentraland/EnvironmentAPI"
+import { getDecentralandTime } from '@decentraland/EnvironmentAPI';
 import * as utils from '@dcl/ecs-scene-utils'
 import { delay } from "./delay";
+//import { getDecentralandTimeX } from 'src/DebugTool';
 
 
 @Component('dclTime')
