@@ -347,8 +347,8 @@ export const textDialogs: Dialog[] = [
         vAlign: "0%",
         portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Happy.png",
       },
-      { 
-        text: { //5
+      { //5
+        text: {
           en: text2D.SECOND_ISLAND_5,
         },
         fontSize: 18,
@@ -356,8 +356,8 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Happy.png",
         bEndDialog: true
       },
-      { 
-        text: { //6
+      { //6
+        text: {
           en: text2D.SECOND_ISLAND_6,
         },
         fontSize: 18,
@@ -365,8 +365,8 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
         bEndDialog: true
       },
-      { 
-        text: { //7
+      { //7
+        text: {
           en: text2D.SECOND_ISLAND_0,
         },
         fontSize: 18,
@@ -374,8 +374,8 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Idle.png",
         bEndDialog: true
       },
-      { 
-        text: { //8
+      { //8
+        text: {
           en: text2D.SECOND_ISLAND_0,
         },
         fontSize: 18,
@@ -383,8 +383,8 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
         bEndDialog: true
       },
-      { 
-        text: { //9
+      { //9
+        text: {
           en: text2D.SECOND_ISLAND_0,
         },
         fontSize: 18,
@@ -392,25 +392,7 @@ export const textDialogs: Dialog[] = [
         portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
         bEndDialog: true,
         bIsComfirmText: false,
-      },
-      { 
-        text: { //10
-          en: text2D.SECOND_ISLAND_7,
-        },
-        fontSize: 18,
-        vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
-        bEndDialog: false
-      },
-      { 
-        text: { //11
-          en: text2D.SECOND_ISLAND_8,
-        },
-        fontSize: 18,
-        vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Fox_Talking.png",
-        bEndDialog: true
-      },
+      }
     ]
   },
   {
@@ -499,24 +481,6 @@ export const textDialogs: Dialog[] = [
         vAlign: "0%",
         portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Happy.png",
         bEndDialog: true,
-      },
-      { 
-        text: { //10
-          en: text2D.THIRD_ISLAND_10,
-        },
-        fontSize: 18,
-        vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Happy.png",
-        bEndDialog: false
-      },
-      { 
-        text: { //11
-          en: text2D.THIRD_ISLAND_11
-        },
-        fontSize: 18,
-        vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Racoon1_Talking.png",
-        bEndDialog: true
       },
       // {
       //   text: { //Id 10
@@ -680,24 +644,6 @@ export const textDialogs: Dialog[] = [
         fontSize: 18,
         vAlign: "0%",
         portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Idle.png",
-        bEndDialog: true,
-      },
-      {
-        text: {
-          en: text2D.PORTAL_ISLAND_3,
-        },
-        fontSize: 18,
-        vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Happy.png",
-        bEndDialog: true,
-      },
-      {
-        text: {
-          en: text2D.PORTAL_ISLAND_4,
-        },
-        fontSize: 18,
-        vAlign: "0%",
-        portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Happy.png",
         bEndDialog: true,
       },
     ]

@@ -47,7 +47,6 @@ export class QuestMaterials implements IClaimProvider{
     claimInformedPending:boolean = false
     claimTokenResult:ClaimTokenResult|undefined
     showClaimPrompts:boolean = false
-    isCollected:boolean = false
     //end claim code
 
 
@@ -500,32 +499,13 @@ export class QuestMaterials implements IClaimProvider{
             if (getHUD().wgTalkNPC1.visible || getHUD().wgTalkNPC3.visible) return
             this.npc2.removeComponent(OnPointerDown)
 
-            if(!this.isCollected)
-                this.playerForgotRewardDialog()
-            else
-                this.dialogEndQuest()
+            this.dialogEndQuest()
 
         }, {
             hoverText: "Talk",
         }))
     }
 
-    private playerForgotRewardDialog() {
-        //Anim
-        this.npc2.getComponent(QuestNpc).talkAnim()
-
-        //Dialog if all quest completed
-        getHUD().wgTalkNPC2.showToText(10)
-        AudioManager.instance().playOnce("npc_2_salute", { volume: 0.7, parent: this.npc2 })
-
-        this.bubbleTalk.setActive(false)
-
-        getHUD().wgTalkNPC2.callback = () => {
-            this.npc2.getComponent(QuestNpc).idleAnimFromTalk()
-            this.afterEndQuestClick()
-            this.giveReward()
-        }
-    }
 
     private dialogEndQuest() {
         //Anim

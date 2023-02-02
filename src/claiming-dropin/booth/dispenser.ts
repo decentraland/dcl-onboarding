@@ -1,5 +1,5 @@
 import * as utils from '@dcl/ecs-scene-utils'
-import { ChallengeDataStatus, ClaimCodes, ClaimConfigCampaignType, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, DispenserClickableModel, DispenserUI, IDispenser } from 'src/claiming-dropin/claiming/claimTypes'
+import { ClaimCodes, ClaimConfigCampaignType, ClaimTokenRequestArgs, ClaimUIConfig, ClaimUiType, DispenserClickableModel, DispenserUI, IDispenser } from 'src/claiming-dropin/claiming/claimTypes'
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from 'src/claiming-dropin/claiming/loot'
 import { TRANSPARENT_MATERIAL } from '../claiming/claimResources'
 import { PlayCloseSound } from './sounds'
@@ -261,11 +261,7 @@ export class Dispenser extends Entity implements IDispenser {
     try {
       if(claimReq.isCaptchaEnabled()){
         const captchaUUID = await claimReq.getCaptcha()
-        log("//. 264")
         claimReq.challenge = await this.claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
-        if(claimReq.challenge.status == ChallengeDataStatus.Canceled){
-          return;
-        }
       }
       const claimResult = await claimReq.claimToken()
     
