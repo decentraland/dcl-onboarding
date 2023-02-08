@@ -1,6 +1,7 @@
 import { CONFIG } from "src/config"
 import { CaptchaResponse, ChallengeDataStatus, ClaimCodes, DispenserPos } from "./claimTypes"
 import { checkIfPlayerHasAnyWearableByUrn, ClaimTokenRequest, ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "./loot"
+import { OkPrompt } from "@dcl/ui-scene-utils"
 
 export interface IClaimProvider {
     claimUI:ClaimUI|undefined
@@ -65,8 +66,8 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                 
                         //if(!this.claimUI.claimInformedPending){
                         if(claimProvider.showClaimPrompts){
-                          let inprogressWindow = claimProvider.claimUI.openClaimInProgress()
-                          inprogressWindow.hide();
+                          let inprogressWindow = claimProvider.claimUI.openClaimInProgress("defaultCalimProvider.doClaim")
+                          //inprogressWindow.hide();
                           //claimProvider.claimUI.claimInformedPending = true
                         }
                         claimProvider.claimUI.claimInformedPending = true
@@ -87,7 +88,10 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                             captchaUUID = await claimReq.getCaptcha()
                           }
                           claimReq.challenge = await claimUI.openCaptchaChallenge(server, captchaUUID)
-                          if(claimReq.challenge.status === ChallengeDataStatus.Canceled) return;
+                          if(claimReq.challenge.status === ChallengeDataStatus.Canceled) {
+                            claimUI.closeClaimInProgress();
+                            return;
+                          }
                         }
                         const claimResult = await claimReq.claimToken()
 
@@ -101,14 +105,14 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                         claimProvider.claimTokenResult = claimResult
 
                         
-                          if(claimProvider.claimUI.claimInformedPending){
-                            claimProvider.claimUI.claimInformedPending = false
-                          }
-                          if(claimProvider.showClaimPrompts){
-                            showClaimPrompt(claimProvider)
-                          }else{
-                            log(METHOD_NAME,"not showing claim prompt yet")
-                          }
+                        if(claimProvider.claimUI.claimInformedPending){
+                          claimProvider.claimUI.claimInformedPending = false
+                        }
+                        if(claimProvider.showClaimPrompts){
+                          showClaimPrompt(claimProvider)
+                        }else{
+                          log(METHOD_NAME,"not showing claim prompt yet")
+                        }
                     }
 
 }
@@ -161,7 +165,7 @@ export function showClaimPrompt(claimProvider:IClaimProvider){
     }else if(claimProvider.claimUI !== undefined){
       log(METHOD_NAME,"still loading....")
       //still loading
-      claimProvider.claimUI.openClaimInProgress()
+      claimProvider.claimUI.openClaimInProgress("defaultCalimProvider.ShowClaimPrompt")
       claimProvider.claimUI.claimInformedPending = true
       //host.addCompon
     }else{

@@ -510,7 +510,7 @@ export class ClaimUI {
   campaignSchedule?:CampaignSchedule
 
   claimInformedPending:boolean = false //to know if we showed claimInProgressUI already
-  claimInProgressUI?:ui.OkPrompt
+  claimInProgressUI?:ui.OkPrompt = null;
 
   UI_SCALE_MULT = 0.7
 
@@ -542,43 +542,46 @@ export class ClaimUI {
     this.lastUI = p
     return p
   }
-  openClaimInProgress(claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
+  openClaimInProgress(caller : string,claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
     const callbacks = _callbacks !== undefined ? _callbacks : this.callbacks
     let p:ui.OkPrompt
 
-    //show not working, so making new instance each time :(
-    //for now make new one each time :(
-    if(true){//this.claimInProgressUI === undefined ){
-      p = new ui.OkPrompt(
-        'Claim in progress',
-        () => {
-          p.close()
-          log("close",callbacks)
-          if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(ClaimUiType.CLAIM_IN_PROGRESS,claimResult)
-        },
-        'OK',
-        this.getOKPromptUseDarkTheme()
-      )
-      this.applyCustomAtlas(p)
+    log("//. Claim In Progress( ",caller," ).....")
 
-      this.claimInProgressUI = p
-    }/*else{
-      p = this.claimInProgressUI  
-      log("showClaimPrompt openClaimInProgress.show",p.background.visible,this.claimInProgressUI.text.value)
-      this.claimInProgressUI.text.value+="x"
-      this.claimInProgressUI.show()
-      log("showClaimPrompt openClaimInProgress.show.post",p.background.visible,this.claimInProgressUI.text.value)
-    }*/
+    if(this.claimInProgressUI !== null && this.claimInProgressUI !== undefined){
+      log("//. Update Open UI")
+      this.claimInProgressUI.button.onClick.callback = () => {
+        if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(ClaimUiType.CLAIM_IN_PROGRESS,claimResult);
+        this.closeClaimInProgress();
+      };
+      this.claimInProgressUI.text.value = "(Updated:) Claim in progress " + caller;
+      this.lastUI = p
+      return;
+    }
+
+    log("//. Generate New UI")
+
+    p = new ui.OkPrompt(
+      'Claim in progress ' + caller,
+      () => {
+        log("close",callbacks)
+        if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(ClaimUiType.CLAIM_IN_PROGRESS,claimResult);
+        this.closeClaimInProgress();
+      },
+      'OK',
+      this.getOKPromptUseDarkTheme()
+    )
+    this.applyCustomAtlas(p)
+
+    this.claimInProgressUI = p
 
     this.lastUI = p
-
-
-    return p
   }
   closeClaimInProgress(claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
-    log("showClaimPrompt closeClaimInProgress")
-    if(this.claimInProgressUI !== undefined ){
-      this.claimInProgressUI.close()
+    if(this.claimInProgressUI !== undefined && this.claimInProgressUI !== null ){
+      log("//. Close Claim in Progress")
+      this.claimInProgressUI.hide()
+      this.claimInProgressUI = null;
     }
   }
   openYouHaveAlready(claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
@@ -652,6 +655,12 @@ export class ClaimUI {
     return new Promise((resolve) => {
       const Y_ADJUST = 20
       const captchaUI = new ui.CustomPrompt(this.getCustomPromptStyle(), 600, 370 + Y_ADJUST)
+
+      captchaUI.closeIcon.onClick.callback = () => {
+        captchaUI.hide();
+        resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled});
+      };
+
       captchaUI.addText(
         'Please complete this captcha',
         0,
@@ -1081,6 +1090,8 @@ export class ClaimUI {
     )
 
     wearalbeThumbnail.image.opacity = 1.1
+
+    this.closeClaimInProgress();
 
     let okButton = claimUI.addButton(
       'OK',

@@ -346,6 +346,8 @@ export class QuestEmote implements IClaimProvider{
     private completeQuestDialog() {
 
         this.npc1.getComponent(QuestNpc).celebrateAnim(() => {
+            this.npc1.removeComponent(OnPointerDown)
+
             this.npc1.getComponent(QuestNpc).idleAnim()
             this.spawnparticles(false)
             this.removeParticleEntity()
@@ -525,7 +527,6 @@ export class QuestEmote implements IClaimProvider{
             //Recursive Call
             this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
             this.giveReward();
-            this.dialogQuestFinished()
         }
     }
 
