@@ -87,12 +87,13 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                           }else{
                             captchaUUID = await claimReq.getCaptcha()
                           }
-                          claimReq.challenge = await claimUI.openCaptchaChallenge(server, captchaUUID)
+                          claimReq.challenge = await claimUI.openCaptchaChallenge(server, captchaUUID, claimProvider)
                           if(claimReq.challenge.status === ChallengeDataStatus.Canceled) {
                             claimUI.closeClaimInProgress();
                             return;
                           }
                         }
+
                         const claimResult = await claimReq.claimToken()
 
                         log(METHOD_NAME,"claim result",claimResult.success)
