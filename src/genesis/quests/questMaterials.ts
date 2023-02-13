@@ -18,9 +18,10 @@ import { DispenserPos } from "src/claiming-dropin/claiming/claimTypes";
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claiming-dropin/claiming/loot";
 import { CONFIG } from "src/config";
 import { activateSoundPillar3 } from "../components/audio/sounds";
+import { QuestPuzzle } from "./questPuzzle";
 
 //Quest collect matterials
-export class QuestMaterials implements IClaimProvider{
+export class QuestMaterials implements IClaimProvider {
 
     private static instanceRef: QuestMaterials;
     npc2Anim: Entity;
@@ -38,16 +39,16 @@ export class QuestMaterials implements IClaimProvider{
     cable_on: Entity;
     blocker: Entity;
 
-    
+
     //start claim code
-    hasReward:boolean 
-    dispenserPos:DispenserPos
-    claimUI:ClaimUI|undefined
-    claimCallbacks!:HandleClaimTokenCallbacks
-    claimTokenReady:boolean = false
-    claimInformedPending:boolean = false
-    claimTokenResult:ClaimTokenResult|undefined
-    showClaimPrompts:boolean = false
+    hasReward: boolean
+    dispenserPos: DispenserPos
+    claimUI: ClaimUI | undefined
+    claimCallbacks!: HandleClaimTokenCallbacks
+    claimTokenReady: boolean = false
+    claimInformedPending: boolean = false
+    claimTokenResult: ClaimTokenResult | undefined
+    showClaimPrompts: boolean = false
     //end claim code
 
 
@@ -99,9 +100,9 @@ export class QuestMaterials implements IClaimProvider{
         this.setUpClaim()
     }
 
-    private setUpClaim(){
-        this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.VEST.refId )
-        initClaimProvider( this )
+    private setUpClaim() {
+        this.dispenserPos = lookupDispenerPosByCampId(ClaimConfig.campaign.VEST.refId)
+        initClaimProvider(this)
     }
 
     private spawnBlockToNextIsalnd() {
@@ -402,10 +403,17 @@ export class QuestMaterials implements IClaimProvider{
 
             this.giveReward()
 
+            //Remove barrier
+            GameData.instance().getEntity("z2_barrier").getComponent(GLTFShape).visible = false
+            GameData.instance().getEntity("z2_barrier").getComponent(GLTFShape).withCollisions = false
+            GameData.instance().getEntity("z2_barrier").getComponent(Transform).position = new Vector3(0, -100, 0)
+
+            //Create puzzle
+            QuestPuzzle.instance().puzzleQuest()
         }
     }
 
-    private resetClaim(){
+    private resetClaim() {
         //clear previous reward attempt if exists
         this.claimTokenResult = undefined
     }
@@ -414,7 +422,7 @@ export class QuestMaterials implements IClaimProvider{
 
 
         let usetWallet = UserData.instance().getWallet()
- 
+
         //Give Reward Emote 
         AudioManager.instance().playPopupOpen()
         if (usetWallet != null || usetWallet != undefined) {
@@ -424,10 +432,10 @@ export class QuestMaterials implements IClaimProvider{
             //********************************************************************************************************************
             //**                DISPENSER OF WEREABLES GOES HERE.  THIS IS WHERE THE PLAYER GETS THE REWARD.                    **
             //******************************************************************************************************************** 
-            if(!CONFIG.CLAIM_CAPTCHA_ENABLED){
+            if (!CONFIG.CLAIM_CAPTCHA_ENABLED) {
                 const showUIHere_NO = false //will be shown when claim is clicked
-                doClaim(this,showUIHere_NO)
-            }else{
+                doClaim(this, showUIHere_NO)
+            } else {
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
             }
         } else {
@@ -443,11 +451,11 @@ export class QuestMaterials implements IClaimProvider{
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()
-            
+
             if (usetWallet != null || usetWallet != undefined) {
-                if(CONFIG.CLAIM_CAPTCHA_ENABLED){
+                if (CONFIG.CLAIM_CAPTCHA_ENABLED) {
                     const showUIHere_NO = false //will be shown when claim is clicked
-                    doClaim(this,showUIHere_NO)
+                    doClaim(this, showUIHere_NO)
                 }
 
                 showClaimPrompt(this)//show claim UI result here
@@ -510,7 +518,7 @@ export class QuestMaterials implements IClaimProvider{
             if (getHUD().wgTalkNPC1.visible || getHUD().wgTalkNPC3.visible) return
             this.npc2.removeComponent(OnPointerDown)
 
-            if(!this.hasReward)
+            if (!this.hasReward)
                 this.playerForgotRewardDialog()
             else
                 this.dialogEndQuest()

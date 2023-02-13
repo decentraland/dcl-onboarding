@@ -106,7 +106,7 @@ export class SpawnIsland {
         getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
 
         //Focus pointer in game
-        onPointerLockedStateChange.add(({ locked }) => {         
+        onPointerLockedStateChange.add(({ locked }) => {
 
             this.onFocusScreen(locked)
         })
@@ -127,10 +127,10 @@ export class SpawnIsland {
     private onFocusScreen(locked = true) {
         GenesisData.instance().bCameraLocked = locked
         if (locked) {
-            if(this.bLoadedFocus) return;         
+            if (this.bLoadedFocus) return;
             this.bLoadedFocus = true
 
-        
+
             if (!getHUD().wgKeyBoard.bHideInProcess) getHUD().wgKeyBoard.hideAnim();
 
             getHUD().wgPopUpControls.showLookAroundImage(true)
@@ -443,6 +443,7 @@ export class SpawnIsland {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
         this.activatePilar()
+        this.ativateBridge()
         getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
         getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
 
@@ -476,7 +477,6 @@ export class SpawnIsland {
 
             this.pilar_1.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false, () => {
                 this.activeCables(true)
-                this.ativateBridge()
             })
 
         })
@@ -486,7 +486,7 @@ export class SpawnIsland {
 
         AudioManager.instance().playBridge(this.bridge_1)
 
-        this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 2, false, () => {
+        this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
             this.bridge_1.getComponent(StateMachine).playClip("Bridge On", false, 1, false, () => {
 
