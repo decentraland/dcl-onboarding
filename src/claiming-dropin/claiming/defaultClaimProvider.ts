@@ -66,7 +66,7 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                 
                         //if(!this.claimUI.claimInformedPending){
                         if(claimProvider.showClaimPrompts){
-                          let inprogressWindow = claimProvider.claimUI.openClaimInProgress("defaultCalimProvider.doClaim")
+                          let inprogressWindow = claimProvider.claimUI.openClaimInProgress()
                           //inprogressWindow.hide();
                           //claimProvider.claimUI.claimInformedPending = true
                         }
@@ -166,7 +166,7 @@ export function showClaimPrompt(claimProvider:IClaimProvider){
     }else if(claimProvider.claimUI !== undefined){
       log(METHOD_NAME,"still loading....")
       //still loading
-      claimProvider.claimUI.openClaimInProgress("defaultCalimProvider.ShowClaimPrompt")
+      claimProvider.claimUI.openClaimInProgress()
       claimProvider.claimUI.claimInformedPending = true
       //host.addCompon
     }else{
