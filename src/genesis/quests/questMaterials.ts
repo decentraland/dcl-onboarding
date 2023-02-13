@@ -406,7 +406,8 @@ export class QuestMaterials implements IClaimProvider {
             //Remove barrier
             GameData.instance().getEntity("z2_barrier").getComponent(GLTFShape).visible = false
             GameData.instance().getEntity("z2_barrier").getComponent(GLTFShape).withCollisions = false
-            GameData.instance().getEntity("z2_barrier").getComponent(Transform).position = new Vector3(0, -100, 0)
+            GameData.instance().getEntity("z2_barrier").getComponent(Transform).position = new Vector3(0, 0, 0)
+            GameData.instance().getEntity("z2_barrier").getComponent(Transform).scale = new Vector3(0,0,0) 
 
             //Create puzzle
             QuestPuzzle.instance().puzzleQuest()
