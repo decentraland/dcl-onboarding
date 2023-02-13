@@ -269,7 +269,7 @@ var s0_tube_01_01 = new Entity("tube_01")
 s0_tube_01_01.setParent(s0_Puzlemachines_01)
 s0_tube_01_01.addComponent(new GLTFShape("unity_assets/s0_tube_01_01.glb"))
 s0_tube_01_01.getComponent(GLTFShape).withCollisions = false
-s0_tube_01_01.addComponent(new Transform({ position: new Vector3(103.161, 78.83, 142.066), rotation: new Quaternion(0, 0.7105439, 0, 0.7036529), scale: new Vector3(1, 1, 1) }))
+s0_tube_01_01.addComponent(new Transform({ position: new Vector3(98.704, 78.82, 140.141), rotation: new Quaternion(0, 0.9999142, 0, -0.01309833), scale: new Vector3(1, 1, 1) }))
 GameData.instance().setEntity("puzzle_build_1", s0_tube_01_01)
 GameData.instance().addEntityArray("puzzle_build_1", s0_tube_01_01)
 
@@ -293,7 +293,7 @@ var s0_tube_02_01 = new Entity("tube_02")
 s0_tube_02_01.setParent(s0_Puzlemachines_01)
 s0_tube_02_01.addComponent(new GLTFShape("unity_assets/s0_tube_02_01.glb"))
 s0_tube_02_01.getComponent(GLTFShape).withCollisions = false
-s0_tube_02_01.addComponent(new Transform({ position: new Vector3(101.414, 78.608, 142.37), rotation: new Quaternion(-0.6129553, 0, 0.7901176, 0), scale: new Vector3(1, 1, 1) }))
+s0_tube_02_01.addComponent(new Transform({ position: new Vector3(99.083, 78.621, 141.887), rotation: new Quaternion(0.1435271, -3.28938E-08, 0.9896464, 1.792325E-08), scale: new Vector3(1, 1, 1) }))
 GameData.instance().setEntity("puzzle_build_2", s0_tube_02_01)
 GameData.instance().addEntityArray("puzzle_build_2", s0_tube_02_01)
 
@@ -317,7 +317,7 @@ var s0_tube_03_01 = new Entity("tube_03")
 s0_tube_03_01.setParent(s0_Puzlemachines_01)
 s0_tube_03_01.addComponent(new GLTFShape("unity_assets/s0_tube_03_01.glb"))
 s0_tube_03_01.getComponent(GLTFShape).withCollisions = false
-s0_tube_03_01.addComponent(new Transform({ position: new Vector3(99.752, 78.527, 143.037), rotation: new Quaternion(0, 0.8802042, 0, 0.4745952), scale: new Vector3(1, 1, 1) }))
+s0_tube_03_01.addComponent(new Transform({ position: new Vector3(99.79, 78.523, 143.532), rotation: new Quaternion(0, 0.9585093, 0, -0.2850611), scale: new Vector3(1, 1, 1) }))
 GameData.instance().setEntity("puzzle_build_3", s0_tube_03_01)
 GameData.instance().addEntityArray("puzzle_build_3", s0_tube_03_01)
 
@@ -415,7 +415,7 @@ var s0_En_Npc3_01 = new Entity("En_Npc3")
 engine.addEntity(s0_En_Npc3_01)
 s0_En_Npc3_01.addComponent(new CylinderShape())
 s0_En_Npc3_01.getComponent(CylinderShape).withCollisions = false
-s0_En_Npc3_01.addComponent(new Transform({ position: new Vector3(111.4, 77.703, 137.46), rotation: new Quaternion(0, 0.1980565, 0, 0.9801906), scale: new Vector3(0.5411959, 0.9242249, 0.5888466) }))
+s0_En_Npc3_01.addComponent(new Transform({ position: new Vector3(111.05, 77.703, 138.8), rotation: new Quaternion(0, 0.1980565, 0, 0.9801906), scale: new Vector3(0.5411959, 0.9242249, 0.5888466) }))
 s0_En_Npc3_01.addComponent(Com_TotalTrans_Mat)
 
 var s0_NPC_Raccoon02_Art_01 = new Entity("NPC_Raccoon02_Art")
@@ -1890,6 +1890,14 @@ s0_Det_Butterfly_chunk02_Art_01.addComponent(new GLTFShape("unity_assets/s0_Det_
 s0_Det_Butterfly_chunk02_Art_01.getComponent(GLTFShape).withCollisions = false
 s0_Det_Butterfly_chunk02_Art_01.addComponent(new Transform({ position: new Vector3(199.6038, 63.97, 126.9784), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
+var s0_Fence_Art_01 = new Entity("Fence_Art")
+s0_Fence_Art_01.setParent(s0_Z3_COG_01)
+s0_Fence_Art_01.addComponent(new GLTFShape("unity_assets/s0_Fence_Art_01.glb"))
+s0_Fence_Art_01.getComponent(GLTFShape).withCollisions = false
+s0_Fence_Art_01.addComponent(new Transform({ position: new Vector3(149.38, 71.407, 157.04), rotation: new Quaternion(0, 0.7635284, 0, -0.6457744), scale: new Vector3(1, 1, 1) }))
+GameData.instance().setEntity("z2_barrier", s0_Fence_Art_01)
+GameData.instance().addEntityArray("z2_barrier", s0_Fence_Art_01)
+
 var s0_COG_Landscape_Planes_01 = new Entity("COG_Landscape_Planes")
 engine.addEntity(s0_COG_Landscape_Planes_01)
 s0_COG_Landscape_Planes_01.addComponent(new Transform({ position: new Vector3(160.4, 9.799999, 151), rotation: new Quaternion(0, 0, 0, 1), scale: new Vector3(1, 1, 1) }))
@@ -2212,24 +2220,6 @@ s0_Cable_cap_Art_25__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Ar
 s0_Cable_cap_Art_25__01.getComponent(GLTFShape).withCollisions = false
 s0_Cable_cap_Art_25__01.addComponent(new Transform({ position: new Vector3(103.636, 76.836, 154.577), rotation: new Quaternion(0.6934031, 0.7201743, -0.01676165, -0.01613862), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_26__01 = new Entity("Cable_cap_Art (26)")
-s0_Cable_cap_Art_26__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_26__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_26__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_26__01.addComponent(new Transform({ position: new Vector3(105.755, 77.024, 139.376), rotation: new Quaternion(0.5093214, 0.5289857, -0.4889848, -0.4708077), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
-
-var s0_Cable_cap_Art_27__01 = new Entity("Cable_cap_Art (27)")
-s0_Cable_cap_Art_27__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_27__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_27__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_27__01.addComponent(new Transform({ position: new Vector3(105.34, 77.009, 139.384), rotation: new Quaternion(0.4341088, 0.450869, -0.5618265, -0.5409417), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
-
-var s0_Cable_cap_Art_28__01 = new Entity("Cable_cap_Art (28)")
-s0_Cable_cap_Art_28__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_28__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_28__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_28__01.addComponent(new Transform({ position: new Vector3(104.974, 76.994, 139.522), rotation: new Quaternion(0.3671618, 0.3813375, -0.6111575, -0.5884389), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
-
 var s0_Cable_cap_Art_29__01 = new Entity("Cable_cap_Art (29)")
 s0_Cable_cap_Art_29__01.setParent(s0_COG_Cable_cap_01)
 s0_Cable_cap_Art_29__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
@@ -2252,19 +2242,19 @@ var s0_Cable_cap_Art_33__01 = new Entity("Cable_cap_Art (33)")
 s0_Cable_cap_Art_33__01.setParent(s0_COG_Cable_cap_01)
 s0_Cable_cap_Art_33__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
 s0_Cable_cap_Art_33__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_33__01.addComponent(new Transform({ position: new Vector3(100.926, 77.131, 140.622), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
+s0_Cable_cap_Art_33__01.addComponent(new Transform({ position: new Vector3(98.229, 77.131, 144.562), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
 
 var s0_Cable_cap_Art_34__01 = new Entity("Cable_cap_Art (34)")
 s0_Cable_cap_Art_34__01.setParent(s0_COG_Cable_cap_01)
 s0_Cable_cap_Art_34__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
 s0_Cable_cap_Art_34__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_34__01.addComponent(new Transform({ position: new Vector3(103.157, 77.131, 140.191), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
+s0_Cable_cap_Art_34__01.addComponent(new Transform({ position: new Vector3(96.878, 77.131, 140.121), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
 
 var s0_Cable_cap_Art_35__01 = new Entity("Cable_cap_Art (35)")
 s0_Cable_cap_Art_35__01.setParent(s0_COG_Cable_cap_01)
 s0_Cable_cap_Art_35__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
 s0_Cable_cap_Art_35__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_35__01.addComponent(new Transform({ position: new Vector3(98.696, 77.131, 141.399), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
+s0_Cable_cap_Art_35__01.addComponent(new Transform({ position: new Vector3(97.467, 77.131, 142.393), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
 
 var s0_Leaf_Anim_02_Art_2__01 = new Entity("Leaf_Anim_02_Art (2)")
 engine.addEntity(s0_Leaf_Anim_02_Art_2__01)
@@ -2629,7 +2619,7 @@ lengthArrays0_Det_Firefly_art_21__01.push(15)
 s0_Det_Firefly_art_21__01.addComponent(new StateMachine(s0_Det_Firefly_art_21__01, clipArrays0_Det_Firefly_art_21__01, lengthArrays0_Det_Firefly_art_21__01))
 s0_Det_Firefly_art_21__01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 0.9996225, 0, -0.02747571), scale: new Vector3(0.1060739, 0.1060739, 0.1060739) }))
 s0_Det_Firefly_art_21__01.getComponent(StateMachine).playClip("TakeFirefly", false, 1, true)
-s0_Fireflys_01.addComponent(new dclTime).atDayNight(()=>{ s0_Fireflys_01.getComponent(Transform).position = new Vector3(89.9, -21.5, 137.5)}, ()=>{})
+s0_Fireflys_01.addComponent(new dclTime).atDayNight(() => { s0_Fireflys_01.getComponent(Transform).position = new Vector3(89.9, -21.5, 137.5) }, () => { })
 
 //BLA LAMPS
 var s0_Z3_Str_Lamp_Art_1__01 = new Entity("Z3_Str_Lamp_Art (1)")
