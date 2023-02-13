@@ -505,15 +505,48 @@ class CaptchaChallengeWindow extends Entity{
   submitButton : ui.CustomPromptButton;
   reloadButton : ui.CustomPromptButton;
   noCaptchaLabel : ui.CustomPromptText;
+  expirationTimerLabel : ui.CustomPromptText;
   captchaImage : ui.CustomPromptIcon;
+
+  timerEntity : Entity;
+
+  delay : number;
+  countdownMark : number;
+  countdownStep : number;
+
+  constructor(){
+    super();
+    this.timerEntity = new Entity();
+    engine.addEntity(this.timerEntity);
+  }
 
   startTimer() {
     log("//. Start Timer")
+
+    this.delay = 120000;
+    this.countdownMark = 15000;
+    this.countdownStep = 1000;
+    //let counter = this.countdownMark + this.countdownStep;
+    let counter = this.countdownMark;
+
     engine.addEntity(this);
-    this.addComponentOrReplace(new utils.Delay(5000, () => {
-      log("//. Timer Reached");
+    this.addComponentOrReplace(new utils.Delay(this.delay, () => {
       this.expireCaptcha();
-  }))
+    }))
+ 
+    this.timerEntity.addComponentOrReplace(new utils.Delay(this.delay - this.countdownMark, () => {
+      this.expirationTimerLabel.show();
+      this.expirationTimerLabel.text.value = "This Captcha will Expire in " + (this.countdownMark/1000).toString() + " seconds";
+      this.timerEntity.addComponentOrReplace(new utils.Interval(this.countdownStep, () => {
+        counter -= this.countdownStep;
+        this.expirationTimerLabel.text.value = "This Captcha will Expire in " + (counter/1000).toString() + " seconds";
+        if(counter <= 0){
+          this.timerEntity.removeComponent(utils.Interval);
+          this.expirationTimerLabel.hide();
+          return;
+        }
+      }))
+    }))
   }
 
   stopTimer(){
@@ -708,6 +741,9 @@ export class ClaimUI {
       let captchaFailedToLoadLabel = captchaUI.addText("Sorry, Captcha Image Expired!", 0, 70 + Y_ADJUST, Color4.Red(), 20);
       captchaFailedToLoadLabel.hide();
 
+      let expirationTimerLabel = captchaUI.addText("Captcha Expires in X seconds", 0, 120 + Y_ADJUST, Color4.Red(), 20);
+      expirationTimerLabel.hide();
+
       let reloadButton = captchaUI.addButton("Get a new one", 0, Y_ADJUST, () => {
           captchaUI.hide()
           this.captchaWindow.stopTimer();
@@ -822,6 +858,7 @@ export class ClaimUI {
       this.captchaWindow.reloadButton = reloadButton;
       this.captchaWindow.noCaptchaLabel = captchaFailedToLoadLabel;
       this.captchaWindow.captchaImage = captchaImage;
+      this.captchaWindow.expirationTimerLabel = expirationTimerLabel;
 
       this.captchaWindow.startTimer();
     })
