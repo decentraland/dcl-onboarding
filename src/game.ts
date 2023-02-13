@@ -2621,6 +2621,7 @@ s0_Det_Firefly_art_21__01.addComponent(new Transform({ position: new Vector3(0, 
 s0_Det_Firefly_art_21__01.getComponent(StateMachine).playClip("TakeFirefly", false, 1, true)
 s0_Fireflys_01.addComponent(new dclTime).atDayNight(() => { s0_Fireflys_01.getComponent(Transform).position = new Vector3(89.9, -21.5, 137.5) }, () => { })
 
+//BLA LAMPS
 var s0_Z3_Str_Lamp_Art_1__01 = new Entity("Z3_Str_Lamp_Art (1)")
 engine.addEntity(s0_Z3_Str_Lamp_Art_1__01)
 s0_Z3_Str_Lamp_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
