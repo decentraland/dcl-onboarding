@@ -17,7 +17,7 @@ import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/cla
 import { CONFIG } from "src/config";
 import { activateSoundPillar2 } from "../components/audio/sounds";
 
-export class QuestEmote implements IClaimProvider{
+export class QuestEmote implements IClaimProvider {
 
     private static instanceRef: QuestEmote;
     particle: Entity;
@@ -41,14 +41,14 @@ export class QuestEmote implements IClaimProvider{
 
 
     //start claim code
-    hasReward:boolean 
-    dispenserPos:DispenserPos
-    claimUI:ClaimUI|undefined
-    claimCallbacks!:HandleClaimTokenCallbacks
-    claimTokenReady:boolean = false
-    claimInformedPending:boolean = false
-    claimTokenResult:ClaimTokenResult|undefined
-    showClaimPrompts:boolean = false
+    hasReward: boolean
+    dispenserPos: DispenserPos
+    claimUI: ClaimUI | undefined
+    claimCallbacks!: HandleClaimTokenCallbacks
+    claimTokenReady: boolean = false
+    claimInformedPending: boolean = false
+    claimTokenResult: ClaimTokenResult | undefined
+    showClaimPrompts: boolean = false
     //end claim code
 
     private showHintTimeout: any
@@ -130,9 +130,9 @@ export class QuestEmote implements IClaimProvider{
         this.setUpClaim()
     }
 
-    private setUpClaim(){
-        this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.EMOTE.refId )
-        initClaimProvider( this )
+    private setUpClaim() {
+        this.dispenserPos = lookupDispenerPosByCampId(ClaimConfig.campaign.EMOTE.refId)
+        initClaimProvider(this)
     }
 
 
@@ -396,11 +396,11 @@ export class QuestEmote implements IClaimProvider{
         else this.cable_on.getComponent(GLTFShape).visible = bActive
     }
 
-    private resetClaim(){
+    private resetClaim() {
         //clear previous reward attempt if exists
         this.claimTokenResult = undefined
     }
-    
+
     private giveReward() {
         //Pilar Anim
 
@@ -415,10 +415,10 @@ export class QuestEmote implements IClaimProvider{
             //******************************************************************************************************************** 
             //**                DISPENSER OF EMOTE GOES HERE.  THIS IS WHERE THE PLAYER GETS THE REWARD.                    **
             //******************************************************************************************************************** 
-            if(!CONFIG.CLAIM_CAPTCHA_ENABLED){
+            if (!CONFIG.CLAIM_CAPTCHA_ENABLED) {
                 const showUIHere_NO = false //will be shown when claim is clicked
-                doClaim(this,showUIHere_NO)
-            }else{
+                doClaim(this, showUIHere_NO)
+            } else {
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
             }
         } else {
@@ -430,15 +430,15 @@ export class QuestEmote implements IClaimProvider{
 
         //clear previous reward attempt if exists
         this.resetClaim()
-        
+
         //Chapter Accept
         getHUD().wgPopUp.rightButtonClic = () => {
             this.onCloseRewardUI()
 
             if (usetWallet != null || usetWallet != undefined) {
-                if(CONFIG.CLAIM_CAPTCHA_ENABLED){
+                if (CONFIG.CLAIM_CAPTCHA_ENABLED) {
                     const showUIHere_NO = false //will be shown when claim is clicked
-                    doClaim(this,showUIHere_NO)
+                    doClaim(this, showUIHere_NO)
                 }
 
                 showClaimPrompt(this)//show claim UI result here
@@ -452,7 +452,10 @@ export class QuestEmote implements IClaimProvider{
     private onCloseRewardUI() {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
+        //Pilar Turn ON
         this.activatePilar()
+        //Bridge Turn ON
+        this.activateBridge()
 
         this.dialogQuestFinished()
         StateManager.instance().startState("IslandQuest2State")
@@ -470,8 +473,6 @@ export class QuestEmote implements IClaimProvider{
             this.pilar_2.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false, () => {
                 //Cable Turn ON
                 this.activeCables(true)
-                //Bridge Turn ON
-                this.activateBridge()
             })
         })
 
@@ -479,7 +480,7 @@ export class QuestEmote implements IClaimProvider{
     activateBridge() {
         AudioManager.instance().playBridge(this.bridge_2)
 
-        this.bridge_2.getComponent(StateMachine).playClip("Bridge Animation", false, 2, false, () => {
+        this.bridge_2.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
             this.bridge_2.getComponent(StateMachine).playClip("Bridge On", false, 1, false, () => {
 
@@ -496,18 +497,18 @@ export class QuestEmote implements IClaimProvider{
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
 
             //this.tellPlayerToFindMat();
-            if(!this.hasReward)
+            if (!this.hasReward)
                 this.remindPlayerOfReward();
             else
                 this.tellPlayerToFindMat();
 
         },
-        {
-            hoverText: "Talk"
-        }))
+            {
+                hoverText: "Talk"
+            }))
     }
 
-    private remindPlayerOfReward(){
+    private remindPlayerOfReward() {
         this.npc1.removeComponent(OnPointerDown)
 
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
@@ -518,10 +519,10 @@ export class QuestEmote implements IClaimProvider{
 
         getHUD().wgTalkNPC1.showToText(10)
 
-        AudioManager.instance().playOnce("npc_1_salute", {volume: .5, parent: this.npc1});
+        AudioManager.instance().playOnce("npc_1_salute", { volume: .5, parent: this.npc1 });
 
         getHUD().wgTalkNPC1.callback = () => {
-            getHUD().wgTalkNPC1.callback = () => {};
+            getHUD().wgTalkNPC1.callback = () => { };
             //Recursive Call
             this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
             this.giveReward();
@@ -529,7 +530,7 @@ export class QuestEmote implements IClaimProvider{
         }
     }
 
-    private tellPlayerToFindMat(){ //Go to Next Island Dialog
+    private tellPlayerToFindMat() { //Go to Next Island Dialog
 
         //reomove onpointerdown
         this.npc1.removeComponent(OnPointerDown)

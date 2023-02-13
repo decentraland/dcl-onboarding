@@ -19,7 +19,7 @@ import { activatePillarSound4, changeGeneratosSound } from '../components/audio/
 
 //Quest restore energy
 
-export class QuestPuzzle /*implements IClaimProvider*/{
+export class QuestPuzzle /*implements IClaimProvider*/ {
 
     private static instanceRef: QuestPuzzle;
     particle: Entity
@@ -73,7 +73,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
         this.setUpClaim()
     }
 
-    private setUpClaim(){
+    private setUpClaim() {
         /*this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.CAP.refId )
         initClaimProvider( this )*/
     }
@@ -170,12 +170,11 @@ export class QuestPuzzle /*implements IClaimProvider*/{
     private accetpQuest() {
 
         this.addParticleEntity()
+        //Activate Pieces
+        this.connect_game.activatePieces()
 
         //2D UI
         getHUD().wgTalkNPC3.setSkipMode(SkipMode.ClickAndOnlyEndAuto)
-
-        //Create puzzle
-        this.puzzleQuest()
 
         //Init bubble hint
         this.npc3.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.ZONE_2_PUZZLE_0)
@@ -186,7 +185,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
     }
 
 
-    private puzzleQuest() {
+    puzzleQuest() {
         if (this.connect_game.bStarted) return
 
         //Create puzzle game
@@ -264,7 +263,7 @@ export class QuestPuzzle /*implements IClaimProvider*/{
                 this.pilar4.getComponent(StateMachine).playClip("Pillar_Anim", false, 3, false, () => {
                     AudioManager.instance().playTowerActivated(this.pilar4)
                     activatePillarSound4(this.pilar4)
-                    
+
                     //BLA PILLAR4
                     this.pilar4.getComponent(StateMachine).playClip("Pillar_ON", false, 0.5, false)
 

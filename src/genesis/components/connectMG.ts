@@ -31,6 +31,7 @@ export class ConnectMiniGame {
     puzzle_cable_3_on: Entity[] = []
 
     bStarted: boolean = false
+    piecesActivated: boolean = false
 
     constructor() {
 
@@ -98,11 +99,20 @@ export class ConnectMiniGame {
         this.boardControl()
     }
 
+    activatePieces() {
+        if (this.piecesActivated) return
+        this.piecesActivated = true
+        for (let i = 0; i < this.pieces.length; i++) {
+            this.pieces[i].pieceTargeter.showArrow(true)
+        }
+    }
+
     boardControl() {
         for (let i = 0; i < this.pieces.length; i++) {
             let piece = this.pieces[i].getEntity()
             if (this.pieces[i].correctState != this.pieces[i].currentState) {
                 piece.addComponent(new OnPointerDown(e => {
+                    if (this.piecesActivated == false) return
                     this.pieces[i].nextState()
                     this.checkBoard()
 
@@ -186,8 +196,8 @@ class Piece {
         engine.addEntity(this.piece_box)
         this.pieceTargeter = new ObjectiveTarget({ position: this.piece_box.getComponent(Transform).position })
         this.pieceTargeter.setArrowHeight(0.8)
-        this.pieceTargeter.showArrow(true)
         this.setState(_startState)
+        this.pieceTargeter.showArrow(false)
     }
 
 
