@@ -741,9 +741,19 @@ export class ClaimUI {
           captchaUI.hide()
           this.captchaWindow.stopTimer();
           resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled});
-          //claimProvider.claimCallbacks.onRetry(claim)
-          claimProvider.claimTokenResult = undefined
-          doClaim(claimProvider, true);
+
+          const claimUI = claimProvider.claimUI
+          //help with message, know if out of stock or wait till next day
+          //claimUI.campaignSchedule = dispenserSchedule
+          log(METHOD_NAME,'get item clicked')
+          if(claimUI && claimUI.lastUI && claimUI.lastUI.background.visible){
+            //workaround, i think its the "in progress" modal, if this is visible
+            //and since this is in a promise there is a delay closing it
+            //the main method debounces and prevents opening again, so force closing it
+            claimUI.lastUI.hide()
+          }
+
+          claimProvider.claimCallbacks.onRetry(ClaimUiType.CAPTCHA_TIMEOUT)
       }, ui.ButtonStyles.ROUNDGOLD);
 
       reloadButton.hide();

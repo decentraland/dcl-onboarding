@@ -104,6 +104,7 @@ export enum ClaimCodes {
 export enum ClaimUiType {
     CLAIM_RESULT = 'claim-result',
     ERROR = 'error',
+    CAPTCHA_TIMEOUT = 'captcha-timeout',
     ERROR_NOT_ON_MAP = 'not-on-map',
     OUT_OF_STOCK = 'out_of_stock',
     NOTHING_TO_CLAIM = 'nothing-to-claim',
