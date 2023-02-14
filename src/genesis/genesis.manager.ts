@@ -63,7 +63,7 @@ export class GenesisManager {
 class IslandStartState implements State {
     readonly name: GameState = GameState.ISLAND_START;
     //Put on true if you want to start with orbs active for camera control tutorial
-    readonly startWithOrbs = true;
+    readonly startWithOrbs = false;
     stateStarted = false;
     init() {
         SpawnIsland.instance().loadTagData();
