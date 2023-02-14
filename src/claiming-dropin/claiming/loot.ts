@@ -521,8 +521,6 @@ class CaptchaChallengeWindow extends Entity{
   }
 
   startTimer() {
-    log("//. Start Timer")
-
     this.delay = 120000;
     this.countdownMark = 15000;
     this.countdownStep = 1000;
@@ -550,7 +548,6 @@ class CaptchaChallengeWindow extends Entity{
   }
 
   stopTimer(){
-    log("//. Stop Timer")
     this.removeComponent(utils.Delay);
     engine.removeEntity(this);
   }
@@ -610,27 +607,24 @@ export class ClaimUI {
     this.lastUI = p
     return p
   }
-  openClaimInProgress(caller : string,claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
+  openClaimInProgress(claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
     const callbacks = _callbacks !== undefined ? _callbacks : this.callbacks
     let p:ui.OkPrompt
 
-    log("//. Claim In Progress( ",caller," ).....")
 
     if(this.claimInProgressUI !== null && this.claimInProgressUI !== undefined){
-      log("//. Update Open UI")
       this.claimInProgressUI.button.onClick.callback = () => {
         if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(ClaimUiType.CLAIM_IN_PROGRESS,claimResult);
         this.closeClaimInProgress();
       };
-      this.claimInProgressUI.text.value = "(Updated:) Claim in progress " + caller;
+      this.claimInProgressUI.text.value = "Claim in progress";
       this.lastUI = p
       return;
     }
 
-    log("//. Generate New UI")
 
     p = new ui.OkPrompt(
-      'Claim in progress ' + caller,
+      'Claim in progress',
       () => {
         log("close",callbacks)
         if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(ClaimUiType.CLAIM_IN_PROGRESS,claimResult);
@@ -647,7 +641,6 @@ export class ClaimUI {
   }
   closeClaimInProgress(claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
     if(this.claimInProgressUI !== undefined && this.claimInProgressUI !== null ){
-      log("//. Close Claim in Progress")
       this.claimInProgressUI.hide()
       this.claimInProgressUI = null;
     }

@@ -251,7 +251,7 @@ export class Dispenser extends Entity implements IDispenser {
         claimResult.requestArgs = this.claimData
         //FIXME, need a in progress message??
         claimResult.claimCode = ClaimCodes.CLAIM_IN_PROGRESS
-        this.claimUI.openClaimInProgress("Dispenser.MakeTransaction") 
+        this.claimUI.openClaimInProgress() 
       }
       return
     } 

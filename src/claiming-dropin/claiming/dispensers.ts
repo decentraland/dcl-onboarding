@@ -194,7 +194,7 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     
                     claimUI.nothingHere()
                     claimUI.openYouHaveAlready()
-                    claimUI.openClaimInProgress("Dispensers.CreateDispensers")
+                    claimUI.openClaimInProgress()
                     claimUI.openRequiresWeb3(new ClaimTokenResult(),claimCallbacks)
                     claimUI.openNotOnMap(new ClaimTokenResult(),claimCallbacks)
                     claimUI.openOKPrompt("example error short",ClaimUiType.ERROR,undefined,claimCallbacks)
