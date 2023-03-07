@@ -17,7 +17,7 @@ branches are configured to auto deploy.  Merge code ready to release into releas
 
 
 
-<img src="screenshots/analytic-steps.png"/ height="300">
+<img src="screenshots/analytic-steps.png" height="300">
 
 https://miro.com/app/board/uXjVPd8UozA=/
 
