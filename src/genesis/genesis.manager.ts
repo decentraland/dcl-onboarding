@@ -1,6 +1,7 @@
 import { bootStrapClaimingDropins } from "src/claiming-dropin/bootstrapClaiming";
 import { initClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 import { initConfig } from "src/config";
+import { GameData } from "src/imports/game.data";
 import { initDispenserPositions, initSceneClaiming } from "src/modules/claiming/claimSetup";
 import { CameraModeManager } from "./cameraMode";
 import { QuestEmote } from "./quests/questEmote";
@@ -35,7 +36,7 @@ export class GenesisManager {
 
         StateManager.instance().initState("PortalState");
 
-        
+
 
         //INITIALIZING claiming
         initConfig()
@@ -43,7 +44,7 @@ export class GenesisManager {
         initClaimConfig()
         initDispenserPositions()
         initSceneClaiming()
-        
+
     }
 
     start() {
@@ -61,6 +62,8 @@ export class GenesisManager {
 
 class IslandStartState implements State {
     readonly name: GameState = GameState.ISLAND_START;
+    //Put on true if you want to start with orbs active for camera control tutorial
+    readonly startWithOrbs = false;
     stateStarted = false;
     init() {
         SpawnIsland.instance().loadTagData();
@@ -68,6 +71,7 @@ class IslandStartState implements State {
     start() {
         if (this.stateStarted) return;
         this.stateStarted = true;
+        GameData.instance().setVar("start_with_orbs", this.startWithOrbs)
         SpawnIsland.instance().startSpawnIsland();
     }
     end() {

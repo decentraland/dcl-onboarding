@@ -115,7 +115,7 @@ export class SpawnIsland {
         GenesisData.instance().onStartHideKeyboardUI = () => {
             movePlayerTo(this.SPAWN_POSITION.clone(), this.SPAWN_TARGET.clone())
             delay(() => {
-                blockPlayer()
+                if (GameData.instance().getVar("start_with_orbs") == true) blockPlayer()
             }, 500)
 
             this.onFocusScreen(true)
@@ -134,9 +134,14 @@ export class SpawnIsland {
             if (!getHUD().wgKeyBoard.bHideInProcess) getHUD().wgKeyBoard.hideAnim();
 
             getHUD().wgPopUpControls.showLookAroundImage(true)
-            this.lookaroundQuest()
-            onPointerLockedStateChange.clear()
+            if (GameData.instance().getVar("start_with_orbs") == true) {
+                this.lookaroundQuest()
+            }
+            else {
+                this.finishLookArround()
 
+            }
+            onPointerLockedStateChange.clear()
         }
     }
 
