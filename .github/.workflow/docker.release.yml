@@ -3,7 +3,7 @@ name: Deploy to DCL PROD
 on:
   push:
     branches:
-      - feat/release
+      - release
 
 env:
   DCL_PRIVATE_KEY: ${{ secrets.DCL_PRIVATE_KEY }}
@@ -25,4 +25,4 @@ jobs:
         npm run build:ci
     - name: Deploy scene
       run: |
-        npm run deploy:prod
+        npm run deploy:world
