@@ -12,8 +12,15 @@ branches are configured to auto deploy.  Merge code ready to release into releas
 > Requires an action secret setup named DCL_PRIVATE_KEY that has a private key to a wallet that has operator rights to the parcels you are deploying to 
 
 
+
 ## Analytics
 
-Analytics can be found here
+
+
+<img src="screenshots/analytic-steps.png"/>
+
+https://miro.com/app/board/uXjVPd8UozA=/
+
+Analytic Reports can be found here
 
 https://metabase.decentraland.systems/question/2630-onboarding-funnel
