@@ -2,7 +2,7 @@ import { movePlayerTo } from "@decentraland/RestrictedActions";
 import { SpawnIsland } from "src/genesis/quests/questStartIsland";
 import { IntervalUtil } from "../utils/interval-util";
 
-const interval = new IntervalUtil(1000)
+const interval = new IntervalUtil(5000)
 
 const camera = Camera.instance
 
