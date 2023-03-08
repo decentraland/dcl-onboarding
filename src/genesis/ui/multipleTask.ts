@@ -110,7 +110,7 @@ export class MultipleTasks extends Widget {
     this.auxcontainer.name = 'questBoxContainer'
     this.auxcontainer.width = 280
     this.auxcontainer.height = 150
-    this.auxcontainer.positionX = "-11%"
+    this.auxcontainer.positionX = "-30%"//-80//"-11%"// percent was causing text off screen on narrow windows
     this.auxcontainer.positionY = "50%"
     this.auxcontainer.vAlign = 'center'
     this.auxcontainer.hAlign = 'center'
@@ -123,7 +123,8 @@ export class MultipleTasks extends Widget {
     title.color = new Color4(1, 1, 1)
     title.vAlign = 'top'
     title.hAlign = 'left'
-    title.positionX = "7%"
+    //title.positionX = "7%" //padding is what is wanted
+    title.paddingLeft = 10
     title.positionY = -15
     title.hTextAlign = "left"
     title.vTextAlign = "top"
