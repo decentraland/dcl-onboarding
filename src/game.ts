@@ -3201,6 +3201,10 @@ s0_rocs_cpllider_71__01.addComponent(Com_TotalTrans_Mat)
 //WORKAROUND PORTAL PLAYERS FALL THROUGH PORTAL PLATFORM, 
 //For some reason that particular collider is failing to load as an asset bundle
 //node_Z3_Quest_Portal_Art/node_Z3_Quest_Portal_collider
+//can remove this when this branch gets merged
+//https://play.decentraland.org/?explorer-branch=test/remove-gpu-meshes&ENABLE_AB-NEW-CDN&realm=dclonboarding.dcl.eth
+//this PR should fix them and avoid future headaches with the colliders
+//
 var s0_rocs_cpllider_39__01_flag = new Entity("rocs_cpllider (39.b.flat)") //WORKAROUND PORTAL PLAYERS FALL THROUGH PORTAL PLATFORM
 engine.addEntity(s0_rocs_cpllider_39__01_flag)
 s0_rocs_cpllider_39__01_flag.addComponent(new BoxShape())
