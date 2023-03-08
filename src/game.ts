@@ -1,6 +1,7 @@
 import { dclTime } from "./imports/index"
 import { StateMachine } from "./imports/index"
 import { GameData } from "./imports/game.data"
+import { isPreviewMode } from "@decentraland/EnvironmentAPI"
 
 //s0 is Onboarding_Scene
 
@@ -2943,6 +2944,7 @@ s0_rocs_cpllider_39__01.getComponent(BoxShape).withCollisions = true
 s0_rocs_cpllider_39__01.addComponent(new Transform({ position: new Vector3(115.43, 74.79, 121.7), rotation: new Quaternion(0.07956963, -0.5118146, -0.1342298, 0.8448058), scale: new Vector3(16.17335, 5.842043, 11.53943) }))
 s0_rocs_cpllider_39__01.addComponent(Com_TotalTrans_Mat)
 
+
 var s0_rocs_cpllider_41__01 = new Entity("rocs_cpllider (41)")
 engine.addEntity(s0_rocs_cpllider_41__01)
 s0_rocs_cpllider_41__01.addComponent(new BoxShape())
@@ -3195,3 +3197,26 @@ s0_rocs_cpllider_71__01.getComponent(BoxShape).withCollisions = true
 s0_rocs_cpllider_71__01.addComponent(new Transform({ position: new Vector3(134.29, 70.38, 136.53), rotation: new Quaternion(0, -0.1163439, 0, 0.993209), scale: new Vector3(3.37059, 3.614739, 2.291056) }))
 s0_rocs_cpllider_71__01.addComponent(Com_TotalTrans_Mat)
 
+
+
+var s0_rocs_cpllider_39__01_flag = new Entity("rocs_cpllider (39.b.flat)") //WORKAROUND PORTAL PLAYERS FALL THROUGH PORTAL PLATFORM
+engine.addEntity(s0_rocs_cpllider_39__01_flag)
+s0_rocs_cpllider_39__01_flag.addComponent(new BoxShape())
+s0_rocs_cpllider_39__01_flag.getComponent(BoxShape).withCollisions = true
+s0_rocs_cpllider_39__01_flag.addComponent(new Transform({ position: new Vector3(105, 79.3, 103), rotation: Quaternion.Euler(0,30,0), scale: new Vector3(23 , 1, 30) }))
+s0_rocs_cpllider_39__01_flag.addComponent(Com_TotalTrans_Mat)
+
+/*
+//debug names of colliders
+if(isPreviewMode() && true){
+for(const p in engine.entities){
+    if((engine.entities[p] as Entity).name && (engine.entities[p] as Entity).name.indexOf("roc")==0){
+        (engine.entities[p]).addComponentOrReplace(new OnPointerDown(()=>{
+
+        },{
+            hoverText:(engine.entities[p] as Entity).name
+        }))
+    }
+}
+}
+*/
