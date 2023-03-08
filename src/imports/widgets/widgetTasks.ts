@@ -111,7 +111,7 @@ export class WidgetTasksBox extends Widget {
     this.auxcontainer.name = 'questBoxContainer'
     this.auxcontainer.width = 280
     this.auxcontainer.height = 80
-    this.auxcontainer.positionX = "-11%"
+    this.auxcontainer.positionX = "-30%"//-80//"-11%"// percent was causing text off screen on narrow windows
     this.auxcontainer.positionY = "50%"
     this.auxcontainer.vAlign = 'center'
     this.auxcontainer.hAlign = 'center'
@@ -189,10 +189,11 @@ export class WidgetTasks extends WidgetTasksBox {
       this.textUI[i].color = Color4.White()
       this.textUI[i].vAlign = 'top'
       this.textUI[i].hAlign = 'left'
-      this.textUI[i].positionX = "7%"
+      //this.textUI[i].positionX = "7%" //padding is what is wanted
+      this.textUI[i].paddingLeft = 10
       this.textUI[i].positionY = -15
       this.textUI[i].hTextAlign = "left"
-      this.textUI[i].vTextAlign = "top"
+      this.textUI[i].vTextAlign = "top" 
 
       if (this.taskType == TaskType.Simple) {
         this.infoUI[i] = new UIText(this.auxcontainer)
