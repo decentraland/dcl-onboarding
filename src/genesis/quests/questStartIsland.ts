@@ -30,8 +30,8 @@ export class SpawnIsland {
     bridge_1: Entity
     lookAt3DText: Entity
 
-    //readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
-    readonly SPAWN_POSITION = new Vector3(107, 88, 107) //portal
+    readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
+    //readonly SPAWN_POSITION = new Vector3(107, 88, 107) //portal
     readonly SPAWN_TARGET = new Vector3(219.13, 70.7368, 125.91)
     cable_off: Entity;
     cable_on: Entity;
