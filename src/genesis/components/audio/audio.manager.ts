@@ -90,7 +90,7 @@ export class AudioManager {
     }
 
     playMainMusic(){
-        this.audio.music.playGlobal({ volume: 0.1}) 
+        this.audio.music.playGlobal({ volume: 0.35}) 
     }
 
     stopAllAmbience() {
