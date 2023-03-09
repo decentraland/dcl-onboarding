@@ -2,6 +2,7 @@
 
 import { AudioManager } from "./audio.manager"
 
+AudioManager.instance().playMainMusic()
 const lampClip = new AudioClip("assets/audio/v3/Lamp.wav")
 
 const lamp1 = new Entity()

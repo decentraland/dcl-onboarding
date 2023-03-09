@@ -2,6 +2,7 @@ import { AudioEntity, AudioSourceOptions, PlayAudioOptions } from "./audioEntity
 
 //Add all audio files here
 export enum AudioNames {
+    music = "assets/audio/music/RAC - Genesis Plaza 1.mp3",
     npc_1_salute = "assets/audio/v2/npc_1_salute.mp3",
     npc_2_salute = "assets/audio/v2/npc_2_salute.mp3",
     npc_3_salute = "assets/audio/v3/Racoon.mp3",
@@ -25,6 +26,7 @@ export enum AudioNames {
 export class AudioManager {
 
     audio = {
+        music: new AudioEntity(new Entity(), AudioNames.music, { volume: 0.3, pitch: 1, loop: true, autoPlay: false}),
         button_interact: new AudioEntity(new Entity(), AudioNames.button_interact, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
         waterfall: new AudioEntity(new Entity(), AudioNames.waterfall, { volume: 0.6, pitch: 1, loop: true, autoPlay: false }),
         pop_up_close: new AudioEntity(new Entity(), AudioNames.pop_up_close, { volume: 0.6, pitch: 1, loop: false, autoPlay: false }),
@@ -85,6 +87,10 @@ export class AudioManager {
 
         this.audio.portal_ambiental.playGlobal({ volume: 0 });
         this.audio.portal_ambiental.setVolumeSmooth(0.015, 2000);
+    }
+
+    playMainMusic(){
+        this.audio.music.playGlobal({ volume: 0.1}) 
     }
 
     stopAllAmbience() {
