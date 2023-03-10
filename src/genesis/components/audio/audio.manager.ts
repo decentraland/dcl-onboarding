@@ -86,7 +86,7 @@ export class AudioManager {
         this.audio.portal_ambiental.playGlobal({ volume: 0 });
         this.audio.portal_ambiental.setVolumeSmooth(0.015, 2000);
     }
-
+  
     stopAllAmbience() {
         this.audio.island_ambiental.stop();
         this.audio.portal_ambiental.stop();
@@ -167,3 +167,4 @@ export class AudioManager {
         this.audio[name].playOnceGlobal(options);
     }
 }
+
