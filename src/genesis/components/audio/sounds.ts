@@ -1,8 +1,29 @@
 //#region lamp
-
+import { AudioEntity } from "./audioEntity";
 import { AudioManager } from "./audio.manager"
+import { getPlayersInScene } from "@decentraland/Players";
 
-AudioManager.instance().playMainMusic()
+const music = new Entity
+engine.addEntity(music) 
+const clip = new AudioClip("assets/audio/music/RAC - Genesis Plaza 1.mp3")
+const source = new AudioSource(clip)
+music.addComponent(source) 
+if(music.getParent() != Attachable.AVATAR) music.setParent(Attachable.AVATAR)
+source.volume = 0.035
+source.loop = true
+source.playing = true
+
+onCameraModeChangedObservable.add(({cameraMode}) => {
+    if(cameraMode == 0){
+        log("firstPerson")
+        source.volume = 0.025
+    }
+    else{
+        log("ThirdPerson")
+        source.volume = 0.035
+    }
+}) 
+
 const lampClip = new AudioClip("assets/audio/v3/Lamp.wav")
 
 const lamp1 = new Entity()
