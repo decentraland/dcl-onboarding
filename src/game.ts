@@ -3254,7 +3254,7 @@ for(const p of list){
     //listMap[p] = p
 }
 //debug names of colliders
-if(isPreviewMode() && true){
+if(isPreviewMode() && false){
 for(const p in engine.entities){
     const ent = (engine.entities[p] as Entity)
     //if(ent.name && ent.name.indexOf("roc")==0){
