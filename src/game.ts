@@ -5,6 +5,10 @@ import { isPreviewMode } from "@decentraland/EnvironmentAPI"
 
 //s0 is Onboarding_Scene
 
+//add entities that are not ciritical to initial load
+//this should improve scene load time
+const DEFER_LOADING:(()=>void)[] = []
+
 var s0_Z1_Out_IslandBase2_Art_01 = new Entity("Z1_Out_IslandBase2_Art")
 engine.addEntity(s0_Z1_Out_IslandBase2_Art_01)
 s0_Z1_Out_IslandBase2_Art_01.addComponent(new GLTFShape("unity_assets/s0_Z1_Out_IslandBase2_Art_01.glb"))
@@ -911,12 +915,15 @@ s0_Z3_Prop_Fence_Art_11__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Prop_
 s0_Z3_Prop_Fence_Art_11__01.getComponent(GLTFShape).withCollisions = false
 s0_Z3_Prop_Fence_Art_11__01.addComponent(new Transform({ position: new Vector3(147.54, 69.12, 167.16), rotation: new Quaternion(0, -0.2778702, 0, 0.9606187), scale: new Vector3(1.251684, 1.272235, 1.210179) }))
 
-var s0_Main_Island_art_01 = new Entity("Main_Island_art")
-s0_Main_Island_art_01.setParent(s0_Z3_COG_01)
-s0_Main_Island_art_01.addComponent(new GLTFShape("unity_assets/s0_Main_Island_art_01.glb"))
-s0_Main_Island_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Main_Island_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
-
+DEFER_LOADING.push( ()=>{
+    log("onSceneReadyObservable called. loading non critical values","Main_Island_art")
+    var s0_Main_Island_art_01 = new Entity("Main_Island_art")
+    s0_Main_Island_art_01.setParent(s0_Z3_COG_01)
+    s0_Main_Island_art_01.addComponent(new GLTFShape("unity_assets/s0_Main_Island_art_01.glb"))
+    s0_Main_Island_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Main_Island_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    engine.addEntity(s0_Main_Island_art_01)
+});
 var s0_Z3_Rock_3_art_12__01 = new Entity("Z3_Rock_3_art (12)")
 s0_Z3_Rock_3_art_12__01.setParent(s0_Z3_COG_01)
 s0_Z3_Rock_3_art_12__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Rock_3_art_1__01.glb"))
@@ -1275,12 +1282,14 @@ var s0_Z3_Str_Dancing_Station_Art_01 = new Entity("Z3_Str_Dancing_Station_Art")
 s0_Z3_Str_Dancing_Station_Art_01.setParent(s0_Z3_COG_01)
 s0_Z3_Str_Dancing_Station_Art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 0, 0, 1), scale: new Vector3(1, 1, 1) }))
 
-var s0_EmoteZone_01 = new Entity("EmoteZone")
-s0_EmoteZone_01.setParent(s0_Z3_Str_Dancing_Station_Art_01)
-s0_EmoteZone_01.addComponent(new GLTFShape("unity_assets/s0_EmoteZone_01.glb"))
-s0_EmoteZone_01.getComponent(GLTFShape).withCollisions = false
-s0_EmoteZone_01.addComponent(new Transform({ position: new Vector3(160.517, 66.56356, 104.0188), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
-
+DEFER_LOADING.push( ()=>{
+    log("onSceneReadyObservable called. loading non critical values","EmoteZone")
+    var s0_EmoteZone_01 = new Entity("EmoteZone")
+    s0_EmoteZone_01.setParent(s0_Z3_Str_Dancing_Station_Art_01)
+    s0_EmoteZone_01.addComponent(new GLTFShape("unity_assets/s0_EmoteZone_01.glb"))
+    s0_EmoteZone_01.getComponent(GLTFShape).withCollisions = false
+    s0_EmoteZone_01.addComponent(new Transform({ position: new Vector3(160.517, 66.56356, 104.0188), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+})
 var s0_tick_1_01 = new Entity("tick_1")
 s0_tick_1_01.setParent(s0_Z3_Str_Dancing_Station_Art_01)
 s0_tick_1_01.addComponent(new GLTFShape("unity_assets/s0_tick_1_01.glb"))
@@ -1356,12 +1365,16 @@ s0_tree_fall_art_01.addComponent(new Transform({ position: new Vector3(216.9, 67
 GameData.instance().setEntity("obstacle", s0_tree_fall_art_01)
 GameData.instance().addEntityArray("obstacle", s0_tree_fall_art_01)
 
-var s0_Main_Island_02_art_01 = new Entity("Main_Island_02_art")
-s0_Main_Island_02_art_01.setParent(s0_Z3_COG_01)
-s0_Main_Island_02_art_01.addComponent(new GLTFShape("unity_assets/s0_Main_Island_02_art_01.glb"))
-s0_Main_Island_02_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Main_Island_02_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
+//DEFER_LOADING.push( ()=>{
+    //keep this one as player can get to it fast, before download done
+    //log("onSceneReadyObservable called. loading non critical values","Main_Island_art2")
+    var s0_Main_Island_02_art_01 = new Entity("Main_Island_02_art")
+    s0_Main_Island_02_art_01.setParent(s0_Z3_COG_01)
+    s0_Main_Island_02_art_01.addComponent(new GLTFShape("unity_assets/s0_Main_Island_02_art_01.glb"))
+    s0_Main_Island_02_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Main_Island_02_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+//})
 var s0_tree_01_low_1__01 = new Entity("tree_01_low (1)")
 s0_tree_01_low_1__01.setParent(s0_Z3_COG_01)
 s0_tree_01_low_1__01.addComponent(new GLTFShape("unity_assets/s0_tree_01_low_2__01.glb"))
@@ -1425,18 +1438,21 @@ s0_Z3_Str_Bridge_Art_01.addComponent(new Transform({ position: new Vector3(189.4
 GameData.instance().setEntity("bridge_1", s0_Z3_Str_Bridge_Art_01)
 GameData.instance().addEntityArray("bridge_1", s0_Z3_Str_Bridge_Art_01)
 
-var s0_Chunk_03_grass_art_01 = new Entity("Chunk_03_grass_art")
-s0_Chunk_03_grass_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_03_grass_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_03_grass_art_01.glb"))
-s0_Chunk_03_grass_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_03_grass_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+DEFER_LOADING.push( ()=>{
+    log("onSceneReadyObservable called. loading non critical values","Chunk03")
+    var s0_Chunk_03_grass_art_01 = new Entity("Chunk_03_grass_art")
+    s0_Chunk_03_grass_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_03_grass_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_03_grass_art_01.glb"))
+    s0_Chunk_03_grass_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_03_grass_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_03_trees_art_01 = new Entity("Chunk_03_trees_art")
-s0_Chunk_03_trees_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_03_trees_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_03_trees_art_01.glb"))
-s0_Chunk_03_trees_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_03_trees_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
+    var s0_Chunk_03_trees_art_01 = new Entity("Chunk_03_trees_art")
+    s0_Chunk_03_trees_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_03_trees_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_03_trees_art_01.glb"))
+    s0_Chunk_03_trees_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_03_trees_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+})
 var s0_Chunk_02_trees_art_01 = new Entity("Chunk_02_trees_art")
 s0_Chunk_02_trees_art_01.setParent(s0_Z3_COG_01)
 s0_Chunk_02_trees_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_02_trees_art_01.glb"))
@@ -1448,6 +1464,7 @@ s0_Chunk_02_art_01.setParent(s0_Z3_COG_01)
 s0_Chunk_02_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_02_art_01.glb"))
 s0_Chunk_02_art_01.getComponent(GLTFShape).withCollisions = false
 s0_Chunk_02_art_01.addComponent(new Transform({ position: new Vector3(199.6038, 65.29468, 126.9784), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+
 
 var s0_Chunk_01_art_01 = new Entity("Chunk_01_art")
 s0_Chunk_01_art_01.setParent(s0_Z3_COG_01)
@@ -1461,48 +1478,50 @@ s0_Chunk_02_entrance_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_02
 s0_Chunk_02_entrance_art_01.getComponent(GLTFShape).withCollisions = false
 s0_Chunk_02_entrance_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_04_grass_02_art_01 = new Entity("Chunk_04_grass_02_art")
-s0_Chunk_04_grass_02_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_04_grass_02_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_grass_02_art_01.glb"))
-s0_Chunk_04_grass_02_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_04_grass_02_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+DEFER_LOADING.push( ()=>{
+    log("onSceneReadyObservable called. loading non critical values","chunk4")
+    var s0_Chunk_04_grass_02_art_01 = new Entity("Chunk_04_grass_02_art")
+    s0_Chunk_04_grass_02_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_04_grass_02_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_grass_02_art_01.glb"))
+    s0_Chunk_04_grass_02_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_04_grass_02_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_04_grass_art_01 = new Entity("Chunk_04_grass_art")
-s0_Chunk_04_grass_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_04_grass_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_grass_art_01.glb"))
-s0_Chunk_04_grass_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_04_grass_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Chunk_04_grass_art_01 = new Entity("Chunk_04_grass_art")
+    s0_Chunk_04_grass_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_04_grass_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_grass_art_01.glb"))
+    s0_Chunk_04_grass_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_04_grass_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_04_trees_art_01 = new Entity("Chunk_04_trees_art")
-s0_Chunk_04_trees_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_04_trees_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_trees_art_01.glb"))
-s0_Chunk_04_trees_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_04_trees_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Chunk_04_trees_art_01 = new Entity("Chunk_04_trees_art")
+    s0_Chunk_04_trees_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_04_trees_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_trees_art_01.glb"))
+    s0_Chunk_04_trees_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_04_trees_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_04_art_01 = new Entity("Chunk_04_art")
-s0_Chunk_04_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_04_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_art_01.glb"))
-s0_Chunk_04_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_04_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Chunk_04_art_01 = new Entity("Chunk_04_art")
+    s0_Chunk_04_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_04_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_04_art_01.glb"))
+    s0_Chunk_04_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_04_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_05_02_art_01 = new Entity("Chunk_05_02_art")
-s0_Chunk_05_02_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_05_02_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_05_02_art_01.glb"))
-s0_Chunk_05_02_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_05_02_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Chunk_05_02_art_01 = new Entity("Chunk_05_02_art")
+    s0_Chunk_05_02_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_05_02_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_05_02_art_01.glb"))
+    s0_Chunk_05_02_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_05_02_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_05_03_art_01 = new Entity("Chunk_05_03_art")
-s0_Chunk_05_03_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_05_03_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_05_03_art_01.glb"))
-s0_Chunk_05_03_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_05_03_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Chunk_05_03_art_01 = new Entity("Chunk_05_03_art")
+    s0_Chunk_05_03_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_05_03_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_05_03_art_01.glb"))
+    s0_Chunk_05_03_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_05_03_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Chunk_05_art_01 = new Entity("Chunk_05_art")
-s0_Chunk_05_art_01.setParent(s0_Z3_COG_01)
-s0_Chunk_05_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_05_art_01.glb"))
-s0_Chunk_05_art_01.getComponent(GLTFShape).withCollisions = false
-s0_Chunk_05_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
-
+    var s0_Chunk_05_art_01 = new Entity("Chunk_05_art")
+    s0_Chunk_05_art_01.setParent(s0_Z3_COG_01)
+    s0_Chunk_05_art_01.addComponent(new GLTFShape("unity_assets/s0_Chunk_05_art_01.glb"))
+    s0_Chunk_05_art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Chunk_05_art_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+})
 var s0_Z3_Rock_1_art_14__01 = new Entity("Z3_Rock_1_art (14)")
 s0_Z3_Rock_1_art_14__01.setParent(s0_Z3_COG_01)
 s0_Z3_Rock_1_art_14__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Rock_1_art_11__01.glb"))
@@ -2061,202 +2080,204 @@ s0_fog_01_art_24__01.addComponent(new GLTFShape("unity_assets/s0_fog_01_art_1__0
 s0_fog_01_art_24__01.getComponent(GLTFShape).withCollisions = false
 s0_fog_01_art_24__01.addComponent(new Transform({ position: new Vector3(0.43, 51.07, -16.03), rotation: new Quaternion(0.6684532, 0.6886779, 0.1234878, 0.2522776), scale: new Vector3(0.1334934, 0.1334934, 0.1334934) }))
 
-var s0_COG_Cable_cap_01 = new Entity("COG_Cable_cap")
-engine.addEntity(s0_COG_Cable_cap_01)
-s0_COG_Cable_cap_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 0, 0, 1), scale: new Vector3(1, 1, 1) }))
+DEFER_LOADING.push( ()=>{
+    log("onSceneReadyObservable called. loading non critical values","COG cables")
+    var s0_COG_Cable_cap_01 = new Entity("COG_Cable_cap")
+    engine.addEntity(s0_COG_Cable_cap_01)
+    s0_COG_Cable_cap_01.addComponent(new Transform({ position: new Vector3(0, 0, 0), rotation: new Quaternion(0, 0, 0, 1), scale: new Vector3(1, 1, 1) }))
 
-var s0_Cable_cap_Art_01 = new Entity("Cable_cap_Art")
-s0_Cable_cap_Art_01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_01.addComponent(new Transform({ position: new Vector3(194.334, 63.359, 119.553), rotation: new Quaternion(-0.6632667, 0.6632667, -0.2451068, 0.2451067), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_01 = new Entity("Cable_cap_Art")
+    s0_Cable_cap_Art_01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_01.addComponent(new Transform({ position: new Vector3(194.334, 63.359, 119.553), rotation: new Quaternion(-0.6632667, 0.6632667, -0.2451068, 0.2451067), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_1__01 = new Entity("Cable_cap_Art (1)")
-s0_Cable_cap_Art_1__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_1__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_1__01.addComponent(new Transform({ position: new Vector3(195.904, 64.13739, 120.864), rotation: new Quaternion(0.4384536, 0.8292188, 0.1620282, 0.3064335), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_1__01 = new Entity("Cable_cap_Art (1)")
+    s0_Cable_cap_Art_1__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_1__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_1__01.addComponent(new Transform({ position: new Vector3(195.904, 64.13739, 120.864), rotation: new Quaternion(0.4384536, 0.8292188, 0.1620282, 0.3064335), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_2__01 = new Entity("Cable_cap_Art (2)")
-s0_Cable_cap_Art_2__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_2__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_2__01.addComponent(new Transform({ position: new Vector3(201.356, 64.077, 122.285), rotation: new Quaternion(-0.6988948, 0.7152245, -3.054966E-08, -3.126345E-08), scale: new Vector3(0.07613528, 0.07613528, 0.07613528) }))
+    var s0_Cable_cap_Art_2__01 = new Entity("Cable_cap_Art (2)")
+    s0_Cable_cap_Art_2__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_2__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_2__01.addComponent(new Transform({ position: new Vector3(201.356, 64.077, 122.285), rotation: new Quaternion(-0.6988948, 0.7152245, -3.054966E-08, -3.126345E-08), scale: new Vector3(0.07613528, 0.07613528, 0.07613528) }))
 
-var s0_Cable_cap_Art_3__01 = new Entity("Cable_cap_Art (3)")
-s0_Cable_cap_Art_3__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_3__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_3__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_3__01.addComponent(new Transform({ position: new Vector3(189.1353, 63.77288, 115.6139), rotation: new Quaternion(0.7539702, 0.5792547, 0.2524149, 0.1796653), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_3__01 = new Entity("Cable_cap_Art (3)")
+    s0_Cable_cap_Art_3__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_3__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_3__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_3__01.addComponent(new Transform({ position: new Vector3(189.1353, 63.77288, 115.6139), rotation: new Quaternion(0.7539702, 0.5792547, 0.2524149, 0.1796653), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_4__01 = new Entity("Cable_cap_Art (4)")
-s0_Cable_cap_Art_4__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_4__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_4__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_4__01.addComponent(new Transform({ position: new Vector3(187.4233, 64.73728, 114.1308), rotation: new Quaternion(-0.4493738, 0.8001497, -0.2350269, 0.3202906), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_4__01 = new Entity("Cable_cap_Art (4)")
+    s0_Cable_cap_Art_4__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_4__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_4__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_4__01.addComponent(new Transform({ position: new Vector3(187.4233, 64.73728, 114.1308), rotation: new Quaternion(-0.4493738, 0.8001497, -0.2350269, 0.3202906), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_5__01 = new Entity("Cable_cap_Art (5)")
-s0_Cable_cap_Art_5__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_5__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_5__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_5__01.addComponent(new Transform({ position: new Vector3(166.623, 65.755, 98.867), rotation: new Quaternion(0.003740964, -0.06435917, -0.7190195, 0.6919935), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_5__01 = new Entity("Cable_cap_Art (5)")
+    s0_Cable_cap_Art_5__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_5__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_5__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_5__01.addComponent(new Transform({ position: new Vector3(166.623, 65.755, 98.867), rotation: new Quaternion(0.003740964, -0.06435917, -0.7190195, 0.6919935), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_6__01 = new Entity("Cable_cap_Art (6)")
-s0_Cable_cap_Art_6__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_6__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_6__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_6__01.addComponent(new Transform({ position: new Vector3(159.1846, 65.17431, 108.1971), rotation: new Quaternion(0.5903078, 0.719475, 0.3113926, 0.1921646), scale: new Vector3(0.0928479, 0.1694833, 0.0928479) }))
+    var s0_Cable_cap_Art_6__01 = new Entity("Cable_cap_Art (6)")
+    s0_Cable_cap_Art_6__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_6__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_6__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_6__01.addComponent(new Transform({ position: new Vector3(159.1846, 65.17431, 108.1971), rotation: new Quaternion(0.5903078, 0.719475, 0.3113926, 0.1921646), scale: new Vector3(0.0928479, 0.1694833, 0.0928479) }))
 
-var s0_Cable_cap_Art_7__01 = new Entity("Cable_cap_Art (7)")
-s0_Cable_cap_Art_7__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_7__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_7__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_7__01.addComponent(new Transform({ position: new Vector3(165.313, 64.984, 121.5), rotation: new Quaternion(-0.04135002, 0.8410586, -0.5385682, -0.02924232), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_7__01 = new Entity("Cable_cap_Art (7)")
+    s0_Cable_cap_Art_7__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_7__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_7__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_7__01.addComponent(new Transform({ position: new Vector3(165.313, 64.984, 121.5), rotation: new Quaternion(-0.04135002, 0.8410586, -0.5385682, -0.02924232), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_8__01 = new Entity("Cable_cap_Art (8)")
-s0_Cable_cap_Art_8__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_8__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_8__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_8__01.addComponent(new Transform({ position: new Vector3(165.332, 64.713, 122.934), rotation: new Quaternion(-0.650785, 0.001526064, -0.07112417, -0.755922), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_8__01 = new Entity("Cable_cap_Art (8)")
+    s0_Cable_cap_Art_8__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_8__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_8__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_8__01.addComponent(new Transform({ position: new Vector3(165.332, 64.713, 122.934), rotation: new Quaternion(-0.650785, 0.001526064, -0.07112417, -0.755922), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_9__01 = new Entity("Cable_cap_Art (9)")
-s0_Cable_cap_Art_9__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_9__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_9__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_9__01.addComponent(new Transform({ position: new Vector3(164.535, 66.302, 133.493), rotation: new Quaternion(-0.04013818, 0.627962, -0.7769762, 0.01899437), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_9__01 = new Entity("Cable_cap_Art (9)")
+    s0_Cable_cap_Art_9__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_9__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_9__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_9__01.addComponent(new Transform({ position: new Vector3(164.535, 66.302, 133.493), rotation: new Quaternion(-0.04013818, 0.627962, -0.7769762, 0.01899437), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_10__01 = new Entity("Cable_cap_Art (10)")
-s0_Cable_cap_Art_10__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_10__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_10__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_10__01.addComponent(new Transform({ position: new Vector3(164.7958, 67.0889, 135.3394), rotation: new Quaternion(0.0645291, 0.8061044, 0.5767986, -0.1154786), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_10__01 = new Entity("Cable_cap_Art (10)")
+    s0_Cable_cap_Art_10__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_10__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_10__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_10__01.addComponent(new Transform({ position: new Vector3(164.7958, 67.0889, 135.3394), rotation: new Quaternion(0.0645291, 0.8061044, 0.5767986, -0.1154786), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_11__01 = new Entity("Cable_cap_Art (11)")
-s0_Cable_cap_Art_11__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_11__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_11__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_11__01.addComponent(new Transform({ position: new Vector3(166.5, 67.085, 141.886), rotation: new Quaternion(-0.1638656, 0.7515974, -0.6057308, -0.2033214), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_11__01 = new Entity("Cable_cap_Art (11)")
+    s0_Cable_cap_Art_11__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_11__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_11__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_11__01.addComponent(new Transform({ position: new Vector3(166.5, 67.085, 141.886), rotation: new Quaternion(-0.1638656, 0.7515974, -0.6057308, -0.2033214), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_12__01 = new Entity("Cable_cap_Art (12)")
-s0_Cable_cap_Art_12__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_12__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_12__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_12__01.addComponent(new Transform({ position: new Vector3(167.317, 67.459, 143.113), rotation: new Quaternion(0.1385873, 0.8181386, 0.5123064, -0.2213258), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
+    var s0_Cable_cap_Art_12__01 = new Entity("Cable_cap_Art (12)")
+    s0_Cable_cap_Art_12__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_12__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_12__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_12__01.addComponent(new Transform({ position: new Vector3(167.317, 67.459, 143.113), rotation: new Quaternion(0.1385873, 0.8181386, 0.5123064, -0.2213258), scale: new Vector3(0.0928479, 0.0928479, 0.0928479) }))
 
-var s0_Cable_cap_Art_13__01 = new Entity("Cable_cap_Art (13)")
-s0_Cable_cap_Art_13__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_13__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_13__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_13__01.addComponent(new Transform({ position: new Vector3(170.301, 67.489, 147.089), rotation: new Quaternion(-0.2535414, 0.674651, -0.643211, -0.2585394), scale: new Vector3(0.0928479, 0.1112875, 0.0928479) }))
+    var s0_Cable_cap_Art_13__01 = new Entity("Cable_cap_Art (13)")
+    s0_Cable_cap_Art_13__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_13__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_13__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_13__01.addComponent(new Transform({ position: new Vector3(170.301, 67.489, 147.089), rotation: new Quaternion(-0.2535414, 0.674651, -0.643211, -0.2585394), scale: new Vector3(0.0928479, 0.1112875, 0.0928479) }))
 
-var s0_Cable_cap_Art_14__01 = new Entity("Cable_cap_Art (14)")
-s0_Cable_cap_Art_14__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_14__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_14__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_14__01.addComponent(new Transform({ position: new Vector3(171.164, 67.949, 148.61), rotation: new Quaternion(-0.5412271, -0.1328425, 0.09264027, -0.8251328), scale: new Vector3(0.0928479, 0.1112875, 0.0928479) }))
+    var s0_Cable_cap_Art_14__01 = new Entity("Cable_cap_Art (14)")
+    s0_Cable_cap_Art_14__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_14__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_14__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_14__01.addComponent(new Transform({ position: new Vector3(171.164, 67.949, 148.61), rotation: new Quaternion(-0.5412271, -0.1328425, 0.09264027, -0.8251328), scale: new Vector3(0.0928479, 0.1112875, 0.0928479) }))
 
-var s0_Cable_cap_Art_15__01 = new Entity("Cable_cap_Art (15)")
-s0_Cable_cap_Art_15__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_15__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_15__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_15__01.addComponent(new Transform({ position: new Vector3(175.441, 68.464, 160.606), rotation: new Quaternion(0.2117385, 0.6884145, -0.6630684, 0.2039426), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
+    var s0_Cable_cap_Art_15__01 = new Entity("Cable_cap_Art (15)")
+    s0_Cable_cap_Art_15__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_15__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_15__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_15__01.addComponent(new Transform({ position: new Vector3(175.441, 68.464, 160.606), rotation: new Quaternion(0.2117385, 0.6884145, -0.6630684, 0.2039426), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
 
-var s0_Cable_cap_Art_16__01 = new Entity("Cable_cap_Art (16)")
-s0_Cable_cap_Art_16__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_16__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_16__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_16__01.addComponent(new Transform({ position: new Vector3(174.255, 68.538, 162.3), rotation: new Quaternion(0.1997307, -0.6765053, -0.6752146, -0.2157162), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
+    var s0_Cable_cap_Art_16__01 = new Entity("Cable_cap_Art (16)")
+    s0_Cable_cap_Art_16__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_16__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_16__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_16__01.addComponent(new Transform({ position: new Vector3(174.255, 68.538, 162.3), rotation: new Quaternion(0.1997307, -0.6765053, -0.6752146, -0.2157162), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
 
-var s0_Cable_cap_Art_17__01 = new Entity("Cable_cap_Art (17)")
-s0_Cable_cap_Art_17__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_17__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_17__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_17__01.addComponent(new Transform({ position: new Vector3(155.407, 68.215, 164.14), rotation: new Quaternion(-0.4580262, -0.5364363, -0.5491298, 0.4482241), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
+    var s0_Cable_cap_Art_17__01 = new Entity("Cable_cap_Art (17)")
+    s0_Cable_cap_Art_17__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_17__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_17__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_17__01.addComponent(new Transform({ position: new Vector3(155.407, 68.215, 164.14), rotation: new Quaternion(-0.4580262, -0.5364363, -0.5491298, 0.4482241), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
 
-var s0_Cable_cap_Art_18__01 = new Entity("Cable_cap_Art (18)")
-s0_Cable_cap_Art_18__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_18__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_18__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_18__01.addComponent(new Transform({ position: new Vector3(153.268, 68.788, 163.989), rotation: new Quaternion(0.3449317, -0.66013, 0.2854593, 0.6031283), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
+    var s0_Cable_cap_Art_18__01 = new Entity("Cable_cap_Art (18)")
+    s0_Cable_cap_Art_18__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_18__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_18__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_18__01.addComponent(new Transform({ position: new Vector3(153.268, 68.788, 163.989), rotation: new Quaternion(0.3449317, -0.66013, 0.2854593, 0.6031283), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
 
-var s0_Cable_cap_Art_19__01 = new Entity("Cable_cap_Art (19)")
-s0_Cable_cap_Art_19__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_19__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_19__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_19__01.addComponent(new Transform({ position: new Vector3(147.998, 68.939, 163.232), rotation: new Quaternion(0.6949978, 0.7141988, 0.05952521, 0.0579248), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
+    var s0_Cable_cap_Art_19__01 = new Entity("Cable_cap_Art (19)")
+    s0_Cable_cap_Art_19__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_19__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_19__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_19__01.addComponent(new Transform({ position: new Vector3(147.998, 68.939, 163.232), rotation: new Quaternion(0.6949978, 0.7141988, 0.05952521, 0.0579248), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
 
-var s0_Cable_cap_Art_20__01 = new Entity("Cable_cap_Art (20)")
-s0_Cable_cap_Art_20__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_20__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_20__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_20__01.addComponent(new Transform({ position: new Vector3(146.692, 71.533, 163.003), rotation: new Quaternion(-0.4428708, 0.8929591, -0.03601864, -0.07205822), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
+    var s0_Cable_cap_Art_20__01 = new Entity("Cable_cap_Art (20)")
+    s0_Cable_cap_Art_20__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_20__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_20__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_20__01.addComponent(new Transform({ position: new Vector3(146.692, 71.533, 163.003), rotation: new Quaternion(-0.4428708, 0.8929591, -0.03601864, -0.07205822), scale: new Vector3(0.0928479, 0.08598629, 0.0928479) }))
 
-var s0_Cable_cap_Art_21__01 = new Entity("Cable_cap_Art (21)")
-s0_Cable_cap_Art_21__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_21__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_21__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_21__01.addComponent(new Transform({ position: new Vector3(121.475, 70.07, 150.703), rotation: new Quaternion(0.5259842, 0.7924408, 0.1420939, 0.2742039), scale: new Vector3(0.0928479, 0.1663233, 0.0928479) }))
+    var s0_Cable_cap_Art_21__01 = new Entity("Cable_cap_Art (21)")
+    s0_Cable_cap_Art_21__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_21__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_21__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_21__01.addComponent(new Transform({ position: new Vector3(121.475, 70.07, 150.703), rotation: new Quaternion(0.5259842, 0.7924408, 0.1420939, 0.2742039), scale: new Vector3(0.0928479, 0.1663233, 0.0928479) }))
 
-var s0_Cable_cap_Art_22__01 = new Entity("Cable_cap_Art (22)")
-s0_Cable_cap_Art_22__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_22__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_22__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_22__01.addComponent(new Transform({ position: new Vector3(118.476, 73.598, 147.483), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
+    var s0_Cable_cap_Art_22__01 = new Entity("Cable_cap_Art (22)")
+    s0_Cable_cap_Art_22__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_22__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_22__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_22__01.addComponent(new Transform({ position: new Vector3(118.476, 73.598, 147.483), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_23__01 = new Entity("Cable_cap_Art (23)")
-s0_Cable_cap_Art_23__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_23__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_23__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_23__01.addComponent(new Transform({ position: new Vector3(118.257, 75.247, 147.483), rotation: new Quaternion(0.8954884, 0.4450848, 3.914304E-08, -1.945527E-08), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
+    var s0_Cable_cap_Art_23__01 = new Entity("Cable_cap_Art (23)")
+    s0_Cable_cap_Art_23__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_23__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_23__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_23__01.addComponent(new Transform({ position: new Vector3(118.257, 75.247, 147.483), rotation: new Quaternion(0.8954884, 0.4450848, 3.914304E-08, -1.945527E-08), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_24__01 = new Entity("Cable_cap_Art (24)")
-s0_Cable_cap_Art_24__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_24__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_24__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_24__01.addComponent(new Transform({ position: new Vector3(116.612, 76.819, 147.46), rotation: new Quaternion(-0.3864889, 0.8650293, 0.1233773, -0.295176), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
+    var s0_Cable_cap_Art_24__01 = new Entity("Cable_cap_Art (24)")
+    s0_Cable_cap_Art_24__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_24__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_24__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_24__01.addComponent(new Transform({ position: new Vector3(116.612, 76.819, 147.46), rotation: new Quaternion(-0.3864889, 0.8650293, 0.1233773, -0.295176), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_25__01 = new Entity("Cable_cap_Art (25)")
-s0_Cable_cap_Art_25__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_25__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_25__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_25__01.addComponent(new Transform({ position: new Vector3(103.636, 76.836, 154.577), rotation: new Quaternion(0.6934031, 0.7201743, -0.01676165, -0.01613862), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
+    var s0_Cable_cap_Art_25__01 = new Entity("Cable_cap_Art (25)")
+    s0_Cable_cap_Art_25__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_25__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_25__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_25__01.addComponent(new Transform({ position: new Vector3(103.636, 76.836, 154.577), rotation: new Quaternion(0.6934031, 0.7201743, -0.01676165, -0.01613862), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_29__01 = new Entity("Cable_cap_Art (29)")
-s0_Cable_cap_Art_29__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_29__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_29__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_29__01.addComponent(new Transform({ position: new Vector3(96.008, 77.113, 141.753), rotation: new Quaternion(0.3799406, 0.4430497, -0.551553, -0.5959376), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
+    var s0_Cable_cap_Art_29__01 = new Entity("Cable_cap_Art (29)")
+    s0_Cable_cap_Art_29__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_29__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_29__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_29__01.addComponent(new Transform({ position: new Vector3(96.008, 77.113, 141.753), rotation: new Quaternion(0.3799406, 0.4430497, -0.551553, -0.5959376), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_30__01 = new Entity("Cable_cap_Art (30)")
-s0_Cable_cap_Art_30__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_30__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_30__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_30__01.addComponent(new Transform({ position: new Vector3(95.704, 77.085, 142.007), rotation: new Quaternion(0.2905858, 0.3594061, -0.6093693, -0.6442486), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
+    var s0_Cable_cap_Art_30__01 = new Entity("Cable_cap_Art (30)")
+    s0_Cable_cap_Art_30__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_30__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_30__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_30__01.addComponent(new Transform({ position: new Vector3(95.704, 77.085, 142.007), rotation: new Quaternion(0.2905858, 0.3594061, -0.6093693, -0.6442486), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_31__01 = new Entity("Cable_cap_Art (31)")
-s0_Cable_cap_Art_31__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_31__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_31__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_31__01.addComponent(new Transform({ position: new Vector3(96.51, 77.021, 141.719), rotation: new Quaternion(0.4517133, 0.5087546, -0.4916019, -0.5435545), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
+    var s0_Cable_cap_Art_31__01 = new Entity("Cable_cap_Art (31)")
+    s0_Cable_cap_Art_31__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_31__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_31__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_31__01.addComponent(new Transform({ position: new Vector3(96.51, 77.021, 141.719), rotation: new Quaternion(0.4517133, 0.5087546, -0.4916019, -0.5435545), scale: new Vector3(0.0928479, 0.08524068, 0.0928479) }))
 
-var s0_Cable_cap_Art_33__01 = new Entity("Cable_cap_Art (33)")
-s0_Cable_cap_Art_33__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_33__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_33__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_33__01.addComponent(new Transform({ position: new Vector3(98.229, 77.131, 144.562), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
+    var s0_Cable_cap_Art_33__01 = new Entity("Cable_cap_Art (33)")
+    s0_Cable_cap_Art_33__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_33__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_33__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_33__01.addComponent(new Transform({ position: new Vector3(98.229, 77.131, 144.562), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
 
-var s0_Cable_cap_Art_34__01 = new Entity("Cable_cap_Art (34)")
-s0_Cable_cap_Art_34__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_34__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_34__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_34__01.addComponent(new Transform({ position: new Vector3(96.878, 77.131, 140.121), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
+    var s0_Cable_cap_Art_34__01 = new Entity("Cable_cap_Art (34)")
+    s0_Cable_cap_Art_34__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_34__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_34__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_34__01.addComponent(new Transform({ position: new Vector3(96.878, 77.131, 140.121), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
 
-var s0_Cable_cap_Art_35__01 = new Entity("Cable_cap_Art (35)")
-s0_Cable_cap_Art_35__01.setParent(s0_COG_Cable_cap_01)
-s0_Cable_cap_Art_35__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
-s0_Cable_cap_Art_35__01.getComponent(GLTFShape).withCollisions = false
-s0_Cable_cap_Art_35__01.addComponent(new Transform({ position: new Vector3(97.467, 77.131, 142.393), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
-
+    var s0_Cable_cap_Art_35__01 = new Entity("Cable_cap_Art (35)")
+    s0_Cable_cap_Art_35__01.setParent(s0_COG_Cable_cap_01)
+    s0_Cable_cap_Art_35__01.addComponent(new GLTFShape("unity_assets/s0_Cable_cap_Art_01.glb"))
+    s0_Cable_cap_Art_35__01.getComponent(GLTFShape).withCollisions = false
+    s0_Cable_cap_Art_35__01.addComponent(new Transform({ position: new Vector3(97.467, 77.131, 142.393), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(0.1755289, 0.1611475, 0.1755289) }))
+})//END CABLE
 var s0_Leaf_Anim_02_Art_2__01 = new Entity("Leaf_Anim_02_Art (2)")
 engine.addEntity(s0_Leaf_Anim_02_Art_2__01)
 s0_Leaf_Anim_02_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Leaf_Anim_02_Art_1__01.glb"))
@@ -2623,78 +2644,80 @@ s0_Det_Firefly_art_21__01.getComponent(StateMachine).playClip("TakeFirefly", fal
 s0_Fireflys_01.addComponent(new dclTime).atDayNight(() => { s0_Fireflys_01.getComponent(Transform).position = new Vector3(89.9, -21.5, 137.5) }, () => { })
 
 //BLA LAMPS
-var s0_Z3_Str_Lamp_Art_1__01 = new Entity("Z3_Str_Lamp_Art (1)")
-engine.addEntity(s0_Z3_Str_Lamp_Art_1__01)
-s0_Z3_Str_Lamp_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
-s0_Z3_Str_Lamp_Art_1__01.getComponent(GLTFShape).withCollisions = false
-s0_Z3_Str_Lamp_Art_1__01.addComponent(new Transform({ position: new Vector3(124.85, 75.29, 123.76), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+DEFER_LOADING.push( ()=>{
+    log("onSceneReadyObservable called. loading non critical values","COG laps")
+    var s0_Z3_Str_Lamp_Art_1__01 = new Entity("Z3_Str_Lamp_Art (1)")
+    engine.addEntity(s0_Z3_Str_Lamp_Art_1__01)
+    s0_Z3_Str_Lamp_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
+    s0_Z3_Str_Lamp_Art_1__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z3_Str_Lamp_Art_1__01.addComponent(new Transform({ position: new Vector3(124.85, 75.29, 123.76), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Z3_Str_Lamp_Art_2__01 = new Entity("Z3_Str_Lamp_Art (2)")
-engine.addEntity(s0_Z3_Str_Lamp_Art_2__01)
-s0_Z3_Str_Lamp_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
-s0_Z3_Str_Lamp_Art_2__01.getComponent(GLTFShape).withCollisions = false
-s0_Z3_Str_Lamp_Art_2__01.addComponent(new Transform({ position: new Vector3(136.87, 70.57, 149.46), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Z3_Str_Lamp_Art_2__01 = new Entity("Z3_Str_Lamp_Art (2)")
+    engine.addEntity(s0_Z3_Str_Lamp_Art_2__01)
+    s0_Z3_Str_Lamp_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
+    s0_Z3_Str_Lamp_Art_2__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z3_Str_Lamp_Art_2__01.addComponent(new Transform({ position: new Vector3(136.87, 70.57, 149.46), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Z3_Str_Lamp_Art_3__01 = new Entity("Z3_Str_Lamp_Art (3)")
-engine.addEntity(s0_Z3_Str_Lamp_Art_3__01)
-s0_Z3_Str_Lamp_Art_3__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
-s0_Z3_Str_Lamp_Art_3__01.getComponent(GLTFShape).withCollisions = false
-s0_Z3_Str_Lamp_Art_3__01.addComponent(new Transform({ position: new Vector3(159.85, 67.76, 161.82), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Z3_Str_Lamp_Art_3__01 = new Entity("Z3_Str_Lamp_Art (3)")
+    engine.addEntity(s0_Z3_Str_Lamp_Art_3__01)
+    s0_Z3_Str_Lamp_Art_3__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
+    s0_Z3_Str_Lamp_Art_3__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z3_Str_Lamp_Art_3__01.addComponent(new Transform({ position: new Vector3(159.85, 67.76, 161.82), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Z3_Str_Lamp_Art_4__01 = new Entity("Z3_Str_Lamp_Art (4)")
-engine.addEntity(s0_Z3_Str_Lamp_Art_4__01)
-s0_Z3_Str_Lamp_Art_4__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
-s0_Z3_Str_Lamp_Art_4__01.getComponent(GLTFShape).withCollisions = false
-s0_Z3_Str_Lamp_Art_4__01.addComponent(new Transform({ position: new Vector3(164.19, 66.77, 137.21), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Z3_Str_Lamp_Art_4__01 = new Entity("Z3_Str_Lamp_Art (4)")
+    engine.addEntity(s0_Z3_Str_Lamp_Art_4__01)
+    s0_Z3_Str_Lamp_Art_4__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
+    s0_Z3_Str_Lamp_Art_4__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z3_Str_Lamp_Art_4__01.addComponent(new Transform({ position: new Vector3(164.19, 66.77, 137.21), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Z3_Str_Lamp_Art_5__01 = new Entity("Z3_Str_Lamp_Art (5)")
-engine.addEntity(s0_Z3_Str_Lamp_Art_5__01)
-s0_Z3_Str_Lamp_Art_5__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
-s0_Z3_Str_Lamp_Art_5__01.getComponent(GLTFShape).withCollisions = false
-s0_Z3_Str_Lamp_Art_5__01.addComponent(new Transform({ position: new Vector3(158.51, 64.78, 108.98), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_Z3_Str_Lamp_Art_5__01 = new Entity("Z3_Str_Lamp_Art (5)")
+    engine.addEntity(s0_Z3_Str_Lamp_Art_5__01)
+    s0_Z3_Str_Lamp_Art_5__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Str_Lamp_Art_01.glb"))
+    s0_Z3_Str_Lamp_Art_5__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z3_Str_Lamp_Art_5__01.addComponent(new Transform({ position: new Vector3(158.51, 64.78, 108.98), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_grass_orange_art_1__01 = new Entity("grass_orange_art (1)")
-engine.addEntity(s0_grass_orange_art_1__01)
-s0_grass_orange_art_1__01.addComponent(new GLTFShape("unity_assets/s0_grass_orange_art_01.glb"))
-s0_grass_orange_art_1__01.getComponent(GLTFShape).withCollisions = false
-s0_grass_orange_art_1__01.addComponent(new Transform({ position: new Vector3(224.711, 68.396, 126.606), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
+    var s0_grass_orange_art_1__01 = new Entity("grass_orange_art (1)")
+    engine.addEntity(s0_grass_orange_art_1__01)
+    s0_grass_orange_art_1__01.addComponent(new GLTFShape("unity_assets/s0_grass_orange_art_01.glb"))
+    s0_grass_orange_art_1__01.getComponent(GLTFShape).withCollisions = false
+    s0_grass_orange_art_1__01.addComponent(new Transform({ position: new Vector3(224.711, 68.396, 126.606), rotation: new Quaternion(0, 1, 0, -4.371139E-08), scale: new Vector3(1, 1, 1) }))
 
-var s0_Dto_Bird_Art_1__01 = new Entity("Dto_Bird_Art (1)")
-engine.addEntity(s0_Dto_Bird_Art_1__01)
-s0_Dto_Bird_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Dto_Bird_Art_6__01.glb"))
-s0_Dto_Bird_Art_1__01.getComponent(GLTFShape).withCollisions = false
-s0_Dto_Bird_Art_1__01.addComponent(new Transform({ position: new Vector3(145.2148, 75.4785, 152.0894), rotation: new Quaternion(-0.4299748, 0.4893725, -0.5435354, -0.5293445), scale: new Vector3(100, 100, 100) }))
+    var s0_Dto_Bird_Art_1__01 = new Entity("Dto_Bird_Art (1)")
+    engine.addEntity(s0_Dto_Bird_Art_1__01)
+    s0_Dto_Bird_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Dto_Bird_Art_6__01.glb"))
+    s0_Dto_Bird_Art_1__01.getComponent(GLTFShape).withCollisions = false
+    s0_Dto_Bird_Art_1__01.addComponent(new Transform({ position: new Vector3(145.2148, 75.4785, 152.0894), rotation: new Quaternion(-0.4299748, 0.4893725, -0.5435354, -0.5293445), scale: new Vector3(100, 100, 100) }))
 
-var s0_Dto_Bird_Art_2__01 = new Entity("Dto_Bird_Art (2)")
-engine.addEntity(s0_Dto_Bird_Art_2__01)
-s0_Dto_Bird_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Dto_Bird_Art_6__01.glb"))
-s0_Dto_Bird_Art_2__01.getComponent(GLTFShape).withCollisions = false
-s0_Dto_Bird_Art_2__01.addComponent(new Transform({ position: new Vector3(145.2547, 75.4576, 151.6969), rotation: new Quaternion(-0.4094036, 0.6543568, -0.4787436, -0.4183428), scale: new Vector3(100, 100, 100) }))
+    var s0_Dto_Bird_Art_2__01 = new Entity("Dto_Bird_Art (2)")
+    engine.addEntity(s0_Dto_Bird_Art_2__01)
+    s0_Dto_Bird_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Dto_Bird_Art_6__01.glb"))
+    s0_Dto_Bird_Art_2__01.getComponent(GLTFShape).withCollisions = false
+    s0_Dto_Bird_Art_2__01.addComponent(new Transform({ position: new Vector3(145.2547, 75.4576, 151.6969), rotation: new Quaternion(-0.4094036, 0.6543568, -0.4787436, -0.4183428), scale: new Vector3(100, 100, 100) }))
 
-var s0_Dto_Bird_Art_4__01 = new Entity("Dto_Bird_Art (4)")
-engine.addEntity(s0_Dto_Bird_Art_4__01)
-s0_Dto_Bird_Art_4__01.addComponent(new GLTFShape("unity_assets/s0_Dto_Bird_Art_6__01.glb"))
-s0_Dto_Bird_Art_4__01.getComponent(GLTFShape).withCollisions = false
-s0_Dto_Bird_Art_4__01.addComponent(new Transform({ position: new Vector3(169.3856, 74.6725, 172.9483), rotation: new Quaternion(0.5141044, 0.391908, -0.2141115, 0.7322986), scale: new Vector3(100, 100, 100) }))
+    var s0_Dto_Bird_Art_4__01 = new Entity("Dto_Bird_Art (4)")
+    engine.addEntity(s0_Dto_Bird_Art_4__01)
+    s0_Dto_Bird_Art_4__01.addComponent(new GLTFShape("unity_assets/s0_Dto_Bird_Art_6__01.glb"))
+    s0_Dto_Bird_Art_4__01.getComponent(GLTFShape).withCollisions = false
+    s0_Dto_Bird_Art_4__01.addComponent(new Transform({ position: new Vector3(169.3856, 74.6725, 172.9483), rotation: new Quaternion(0.5141044, 0.391908, -0.2141115, 0.7322986), scale: new Vector3(100, 100, 100) }))
 
-var s0_Z1_Out_IslandBase2_Art_1__01 = new Entity("Z1_Out_IslandBase2_Art (1)")
-engine.addEntity(s0_Z1_Out_IslandBase2_Art_1__01)
-s0_Z1_Out_IslandBase2_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Z1_Out_IslandBase2_Art_01.glb"))
-s0_Z1_Out_IslandBase2_Art_1__01.getComponent(GLTFShape).withCollisions = false
-s0_Z1_Out_IslandBase2_Art_1__01.addComponent(new Transform({ position: new Vector3(127.33, 70.41, 93.55), rotation: new Quaternion(0, 0.8832645, 0, 0.4688751), scale: new Vector3(0.391064, 0.3483358, 0.3483358) }))
+    var s0_Z1_Out_IslandBase2_Art_1__01 = new Entity("Z1_Out_IslandBase2_Art (1)")
+    engine.addEntity(s0_Z1_Out_IslandBase2_Art_1__01)
+    s0_Z1_Out_IslandBase2_Art_1__01.addComponent(new GLTFShape("unity_assets/s0_Z1_Out_IslandBase2_Art_01.glb"))
+    s0_Z1_Out_IslandBase2_Art_1__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z1_Out_IslandBase2_Art_1__01.addComponent(new Transform({ position: new Vector3(127.33, 70.41, 93.55), rotation: new Quaternion(0, 0.8832645, 0, 0.4688751), scale: new Vector3(0.391064, 0.3483358, 0.3483358) }))
 
-var s0_Z1_Out_IslandBase2_Art_2__01 = new Entity("Z1_Out_IslandBase2_Art (2)")
-engine.addEntity(s0_Z1_Out_IslandBase2_Art_2__01)
-s0_Z1_Out_IslandBase2_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Z1_Out_IslandBase2_Art_01.glb"))
-s0_Z1_Out_IslandBase2_Art_2__01.getComponent(GLTFShape).withCollisions = false
-s0_Z1_Out_IslandBase2_Art_2__01.addComponent(new Transform({ position: new Vector3(133.34, 69.26, 102.31), rotation: new Quaternion(0, 0.7877673, 0, 0.6159729), scale: new Vector3(0.4586008, 0.3483358, 0.3483358) }))
+    var s0_Z1_Out_IslandBase2_Art_2__01 = new Entity("Z1_Out_IslandBase2_Art (2)")
+    engine.addEntity(s0_Z1_Out_IslandBase2_Art_2__01)
+    s0_Z1_Out_IslandBase2_Art_2__01.addComponent(new GLTFShape("unity_assets/s0_Z1_Out_IslandBase2_Art_01.glb"))
+    s0_Z1_Out_IslandBase2_Art_2__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z1_Out_IslandBase2_Art_2__01.addComponent(new Transform({ position: new Vector3(133.34, 69.26, 102.31), rotation: new Quaternion(0, 0.7877673, 0, 0.6159729), scale: new Vector3(0.4586008, 0.3483358, 0.3483358) }))
 
-var s0_Z1_Out_IslandBase2_Art_3__01 = new Entity("Z1_Out_IslandBase2_Art (3)")
-engine.addEntity(s0_Z1_Out_IslandBase2_Art_3__01)
-s0_Z1_Out_IslandBase2_Art_3__01.addComponent(new GLTFShape("unity_assets/s0_Z1_Out_IslandBase2_Art_01.glb"))
-s0_Z1_Out_IslandBase2_Art_3__01.getComponent(GLTFShape).withCollisions = false
-s0_Z1_Out_IslandBase2_Art_3__01.addComponent(new Transform({ position: new Vector3(138.39, 66.78, 113.38), rotation: new Quaternion(0, 0.7490135, 0, 0.6625547), scale: new Vector3(0.4586008, 0.2889167, 0.2987502) }))
-
+    var s0_Z1_Out_IslandBase2_Art_3__01 = new Entity("Z1_Out_IslandBase2_Art (3)")
+    engine.addEntity(s0_Z1_Out_IslandBase2_Art_3__01)
+    s0_Z1_Out_IslandBase2_Art_3__01.addComponent(new GLTFShape("unity_assets/s0_Z1_Out_IslandBase2_Art_01.glb"))
+    s0_Z1_Out_IslandBase2_Art_3__01.getComponent(GLTFShape).withCollisions = false
+    s0_Z1_Out_IslandBase2_Art_3__01.addComponent(new Transform({ position: new Vector3(138.39, 66.78, 113.38), rotation: new Quaternion(0, 0.7490135, 0, 0.6625547), scale: new Vector3(0.4586008, 0.2889167, 0.2987502) }))
+})
 var s0_rocks_collider_01 = new Entity("rocks_collider")
 engine.addEntity(s0_rocks_collider_01)
 s0_rocks_collider_01.addComponent(new BoxShape())
@@ -3212,17 +3235,52 @@ s0_rocs_cpllider_39__01_flag.getComponent(BoxShape).withCollisions = true
 s0_rocs_cpllider_39__01_flag.addComponent(new Transform({ position: new Vector3(105, 79.3, 103), rotation: Quaternion.Euler(0,30,0), scale: new Vector3(23 , 1, 30) }))
 s0_rocs_cpllider_39__01_flag.addComponent(Com_TotalTrans_Mat)
 
-/*
+ 
+const list = [
+    "Main_Island_art",
+        "Puzle_machines",
+        "Chunk_05_art",
+        "hill_art (1)",
+        "Chunk_05_02_art",
+        "Leaf_Anim_Art (13)",
+        "tree_02_low (85)",
+        "Z3_Rock_3_art (6)",
+        "Chunk_04_grass_02_art",
+        "Chunk_04_trees_art",
+        "Z3_Str_Wereable_Station_Art"  
+]
+const listMap: Record<string,string> = {}
+for(const p of list){
+    //listMap[p] = p
+}
 //debug names of colliders
 if(isPreviewMode() && true){
 for(const p in engine.entities){
-    if((engine.entities[p] as Entity).name && (engine.entities[p] as Entity).name.indexOf("roc")==0){
-        (engine.entities[p]).addComponentOrReplace(new OnPointerDown(()=>{
-
+    const ent = (engine.entities[p] as Entity)
+    //if(ent.name && ent.name.indexOf("roc")==0){
+    if(ent.hasComponent(GLTFShape)){
+        ent.addComponentOrReplace(new OnPointerDown(()=>{
+            const shape = ent.getComponent(GLTFShape)
+            shape.visible = !shape.visible
+            log(ent.name)
         },{
             hoverText:(engine.entities[p] as Entity).name
         }))
+ 
+        if(listMap[ent.name]){
+            const shape = ent.getComponent(GLTFShape)
+            shape.visible = false
+            log("hid on load",ent.name,shape.src) 
+        }
+    
+        
     }
+    
 }
 }
-*/
+onSceneReadyObservable.add(()=>{
+    log("onSceneReadyObservable called. loading non critical values")
+    for(const p of DEFER_LOADING){
+        p()
+    } 
+})
