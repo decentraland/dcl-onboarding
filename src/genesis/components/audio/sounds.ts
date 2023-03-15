@@ -9,18 +9,18 @@ const clip = new AudioClip("assets/audio/music/RAC - Genesis Plaza 1.mp3")
 const source = new AudioSource(clip)
 music.addComponent(source) 
 if(music.getParent() != Attachable.AVATAR) music.setParent(Attachable.AVATAR)
-source.volume = 0.035
+source.volume = 0.04
 source.loop = true
 source.playing = true
 
 onCameraModeChangedObservable.add(({cameraMode}) => {
     if(cameraMode == 0){
         log("firstPerson")
-        source.volume = 0.025
+        source.volume = 0.015
     }
     else{
         log("ThirdPerson")
-        source.volume = 0.035
+        source.volume = 0.04
     }
 }) 
 
@@ -162,7 +162,7 @@ rock.addComponent(rock1Transform)
 const rockSource = new AudioSource(floatingRoksClip)
 rock.addComponent(rockSource)
 rockSource.loop = true
-rockSource.volume = 0.05
+rockSource.volume = 0.08
 rockSource.pitch = 1
 rockSource.playOnce()
 engine.addEntity(rock)
@@ -173,8 +173,8 @@ rock2.addComponent(rock2Transform)
 const rockSource2 = new AudioSource(floatingRoksClip)
 rock2.addComponent(rockSource2)
 rockSource2.loop = true
-rockSource2.volume = 0.05
-rockSource2.pitch = 1
+rockSource2.volume = 0.08
+rockSource2.pitch = 1 
 rockSource2.playOnce()
 engine.addEntity(rock2)
 //#endregion 

@@ -97,7 +97,7 @@ export class QuestPortal implements IClaimProvider{
 
         this.robotPortal()
 
-        this.ambienceTrigger()
+        //this.ambienceTrigger()
     }
 
     private ambienceTrigger() {
@@ -155,16 +155,8 @@ export class QuestPortal implements IClaimProvider{
                 //Show popup tobor cap reward
                 this.givereward()
                 this.portal.getComponent(StateMachine).playClip("Portal_Activate", false, 1.1, false, () => {
-                    //AudioManager.instance().playOnce("tower_activated", { volume: 1, parent: this.portal })
-                    
-                    //Restore portal ambience
-                    if (AudioManager.instance().audio.portal_ambiental.audioSource.playing) {
-                        //AudioManager.instance().playPortalAmbience(true)
-                        //BLA PORTALS
-                        //AudioManager.instance().playOnce("portals", { volume: 1, parent: this.portal })
-                        activateLoopSoundPortal()
-                    }  
 
+                    activateLoopSoundPortal()   
                 })
                 this.displayEvents()
                 //Set portal ambience to 0
