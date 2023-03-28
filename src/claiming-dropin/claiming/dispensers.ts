@@ -173,7 +173,7 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
 
         const outOfStockObjTest = new Entity("out-of-stock-test")
         engine.addEntity(outOfStockObjTest)
-        outOfStockObjTest.addComponent(new Transform({position:new Vector3( 225,69,125 )}))
+        outOfStockObjTest.addComponent(new Transform({position:new Vector3( 226,69,125 )}))
         outOfStockObjTest.addComponent(new BoxShape())
         outOfStockObjTest.addComponent(new OnPointerDown( async ()=>{
                     if(claimUI && claimUI.lastUI && claimUI.lastUI.background.visible){
