@@ -36,7 +36,7 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                     log(METHOD_NAME,"doing " , h.name,claimUI)
                     //show example of working directly with ClaimTokenRequest 
 
-                    const hasWearable = claimUI.claimConfig?.wearableUrnsToCheck !== undefined ? await checkIfPlayerHasAnyWearableByUrn(
+                    const hasWearable = claimUI?.claimConfig?.wearableUrnsToCheck !== undefined ? await checkIfPlayerHasAnyWearableByUrn(
                         //ClaimConfig.campaign.dcl_artweek_px.wearableUrnsToCheck
                         claimUI.claimConfig?.wearableUrnsToCheck
                         //ClaimConfig.campaign.mvfw.wearableUrnsToCheck
@@ -60,17 +60,17 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                         claimProvider.claimTokenResult = claimResult
 
                         
-                        claimUI.openYouHaveAlready(claimResult,claimProvider.claimCallbacks)
+                        claimUI?.openYouHaveAlready(claimResult,claimProvider.claimCallbacks)
                     }else{
                         const claimReq = new ClaimTokenRequest( h.claimData )
                 
                         //if(!this.claimUI.claimInformedPending){
                         if(claimProvider.showClaimPrompts){
-                          let inprogressWindow = claimProvider.claimUI.openClaimInProgress()
+                          let inprogressWindow = claimProvider.claimUI?.openClaimInProgress()
                           //inprogressWindow.hide();
                           //claimProvider.claimUI.claimInformedPending = true
                         }
-                        claimProvider.claimUI.claimInformedPending = true
+                        if(claimProvider.claimUI) claimProvider.claimUI.claimInformedPending = true
 
                         log(METHOD_NAME,"claimReq.isCaptchaEnabled()",claimReq.isCaptchaEnabled(),"CONFIG.CLAIM_TESTING_ENABLED",CONFIG.CLAIM_TESTING_ENABLED)
 
@@ -78,7 +78,7 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                         if(claimReq.isCaptchaEnabled()){
                           let server = claimReq.claimServer
                           
-                          let captchaUUID:CaptchaResponse={   ok:true,
+                          let captchaUUID:CaptchaResponse|undefined={   ok:true,
                                 data: {height:100,width:300,id:"000-00-00",image:""} }
                           if(CONFIG.CLAIM_TESTING_CAPTCHA_ENABLED){
                             //server = "local"
@@ -86,10 +86,13 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                                     //"src/claiming-dropin/images/example-botdetect3-captcha-ancientmosaic.jpeg"
                           }else{
                             captchaUUID = await claimReq.getCaptcha()
+                            if(captchaUUID === undefined){
+                              throw new Error("FAILED TO GET captchaUUID")
+                            }
                           }
-                          claimReq.challenge = await claimUI.openCaptchaChallenge(server, captchaUUID, claimProvider)
-                          if(claimReq.challenge.status === ChallengeDataStatus.Canceled) {
-                            claimUI.closeClaimInProgress();
+                          claimReq.challenge = await claimUI?.openCaptchaChallenge(server, captchaUUID, claimProvider)
+                          if(claimReq && claimReq.challenge?.status === ChallengeDataStatus.Canceled) {
+                            claimUI?.closeClaimInProgress();
                             return;
                           }
                         }
@@ -98,7 +101,7 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
 
                         log(METHOD_NAME,"claim result",claimResult.success)
 
-                        claimUI.setClaimUIConfig( h.claimUIConfig )
+                        claimUI?.setClaimUIConfig( h.claimUIConfig )
 
                         
                         claimProvider.claimTokenReady = true
@@ -106,7 +109,7 @@ export async function doClaim(claimProvider:IClaimProvider,showClaimPrompts:bool
                         claimProvider.claimTokenResult = claimResult
 
                         
-                        if(claimProvider.claimUI.claimInformedPending){
+                        if(claimProvider.claimUI?.claimInformedPending){
                           claimProvider.claimUI.claimInformedPending = false
                         }
                         if(claimProvider.showClaimPrompts){

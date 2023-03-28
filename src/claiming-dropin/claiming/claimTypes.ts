@@ -36,7 +36,7 @@ export enum ChallengeDataStatus{
 
 export type ChallengeData={
     challenge:CaptchaResponse;
-    answer:string;
+    answer?:string;
     status:ChallengeDataStatus;
 }
 

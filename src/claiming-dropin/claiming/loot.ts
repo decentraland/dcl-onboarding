@@ -144,13 +144,13 @@ export class ClaimTokenRequest{
   }
 
   
-  async getCaptcha(): Promise<CaptchaResponse> {
+  async getCaptcha(): Promise<CaptchaResponse|undefined> {
     const serverURL = ensureFormat(this.claimServer)
 
     const captchaUUIDQuery = await signedFetch(`https://${serverURL}/api/captcha`, {
       method: 'POST'
     })
-    const json = JSON.parse(captchaUUIDQuery.text) as CaptchaResponse
+    const json = captchaUUIDQuery && captchaUUIDQuery.text ? JSON.parse(captchaUUIDQuery.text) as CaptchaResponse : undefined
     return json //"botdetect3-captcha-ancientmosaic.jpg" //
   }
 
@@ -206,8 +206,8 @@ export class ClaimTokenRequest{
       campaign_key: this.campaign_key,
       catalyst: playerRealm ? playerRealm.domain : "",
       beneficiary: userData ? userData.publicKey : "",
-      captcha_id: hasCaptcha ? this.challenge.challenge.data.id : undefined,
-      captcha_value: hasCaptcha ? this.challenge.answer : undefined,
+      captcha_id: hasCaptcha ? this.challenge?.challenge.data.id : undefined,
+      captcha_value: hasCaptcha ? this.challenge?.answer : undefined,
     })
   
     try {
@@ -502,17 +502,17 @@ const claimConfigDefaults:ClaimUIConfig = {
 }
 
 class CaptchaChallengeWindow extends Entity{
-  submitButton : ui.CustomPromptButton;
-  reloadButton : ui.CustomPromptButton;
-  noCaptchaLabel : ui.CustomPromptText;
-  expirationTimerLabel : ui.CustomPromptText;
-  captchaImage : ui.CustomPromptIcon;
+  submitButton? : ui.CustomPromptButton;
+  reloadButton? : ui.CustomPromptButton;
+  noCaptchaLabel? : ui.CustomPromptText;
+  expirationTimerLabel? : ui.CustomPromptText;
+  captchaImage? : ui.CustomPromptIcon;
 
   timerEntity : Entity;
 
-  delay : number;
-  countdownMark : number;
-  countdownStep : number;
+  delay: number = 120000;
+  countdownMark : number = 15000;
+  countdownStep : number = 1000;
 
   constructor(){
     super();
@@ -533,14 +533,18 @@ class CaptchaChallengeWindow extends Entity{
     }))
  
     this.timerEntity.addComponentOrReplace(new utils.Delay(this.delay - this.countdownMark, () => {
-      this.expirationTimerLabel.show();
-      this.expirationTimerLabel.text.value = "This Captcha will Expire in " + (this.countdownMark/1000).toString() + " seconds";
+      if(this.expirationTimerLabel){
+        this.expirationTimerLabel.show();
+        this.expirationTimerLabel.text.value = "This Captcha will Expire in " + (this.countdownMark/1000).toString() + " seconds";
+      }
       this.timerEntity.addComponentOrReplace(new utils.Interval(this.countdownStep, () => {
         counter -= this.countdownStep;
-        this.expirationTimerLabel.text.value = "This Captcha will Expire in " + (counter/1000).toString() + " seconds";
+        if(this.expirationTimerLabel){
+          this.expirationTimerLabel.text.value = "This Captcha will Expire in " + (counter/1000).toString() + " seconds";
+        }
         if(counter <= 0){
           this.timerEntity.removeComponent(utils.Interval);
-          this.expirationTimerLabel.hide();
+          this.expirationTimerLabel?.hide();
           return;
         }
       }))
@@ -553,13 +557,13 @@ class CaptchaChallengeWindow extends Entity{
   }
 
   expireCaptcha() : void{
-    this.submitButton.image.isPointerBlocker = false;
+    if(this.submitButton) this.submitButton.image.isPointerBlocker = false;
     //this.submitButton.label.value = "Captcha Expired";
-    this.reloadButton.show();
-    this.noCaptchaLabel.show();
-    this.captchaImage.hide();
+    this.reloadButton?.show();
+    this.noCaptchaLabel?.show();
+    this.captchaImage?.hide();
     //---
-    setSection(this.submitButton.image, resources.buttons.roundSilver);
+    if(this.submitButton) setSection(this.submitButton.image, resources.buttons.roundSilver);
   }
 }
 
@@ -574,8 +578,8 @@ export class ClaimUI {
   campaignSchedule?:CampaignSchedule
 
   claimInformedPending:boolean = false //to know if we showed claimInProgressUI already
-  claimInProgressUI?:ui.OkPrompt = null;
-  captchaWindow : CaptchaChallengeWindow;
+  claimInProgressUI?:ui.OkPrompt = undefined;
+  captchaWindow? : CaptchaChallengeWindow;//lazy loaded
 
   UI_SCALE_MULT = 0.7
 
@@ -613,12 +617,14 @@ export class ClaimUI {
 
 
     if(this.claimInProgressUI !== null && this.claimInProgressUI !== undefined){
-      this.claimInProgressUI.button.onClick.callback = () => {
-        if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(ClaimUiType.CLAIM_IN_PROGRESS,claimResult);
-        this.closeClaimInProgress();
-      };
+      if(this.claimInProgressUI.button.onClick){
+        this.claimInProgressUI.button.onClick.callback = () => {
+          if(callbacks && callbacks.onCloseUI) callbacks.onCloseUI(ClaimUiType.CLAIM_IN_PROGRESS,claimResult);
+          this.closeClaimInProgress();
+        };
+      }
       this.claimInProgressUI.text.value = "Claim in progress";
-      this.lastUI = p
+      //this.lastUI = p
       return;
     }
 
@@ -642,7 +648,7 @@ export class ClaimUI {
   closeClaimInProgress(claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
     if(this.claimInProgressUI !== undefined && this.claimInProgressUI !== null ){
       this.claimInProgressUI.hide()
-      this.claimInProgressUI = null;
+      this.claimInProgressUI = undefined;
     }
   }
   openYouHaveAlready(claimResult?:ClaimTokenResult,_callbacks?:HandleClaimTokenCallbacks){
@@ -718,10 +724,12 @@ export class ClaimUI {
       const Y_ADJUST = 20
       const captchaUI = new ui.CustomPrompt(this.getCustomPromptStyle(), 600, 370 + Y_ADJUST)
 
-      captchaUI.closeIcon.onClick.callback = () => {
-        captchaUI.hide();
-        resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled});
-      };
+      if(captchaUI && captchaUI.closeIcon.onClick){
+        captchaUI.closeIcon.onClick.callback = () => {
+          captchaUI.hide();
+          resolve({challenge:{ok:false,data:captchaResponse.data},answer:undefined,status:ChallengeDataStatus.Canceled});
+        };
+      }
 
       captchaUI.addText(
         'Please complete this captcha',
@@ -739,10 +747,10 @@ export class ClaimUI {
 
       let reloadButton = captchaUI.addButton("Get a new one", 0, Y_ADJUST, () => {
           captchaUI.hide()
-          this.captchaWindow.stopTimer();
-          resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled});
+          this.captchaWindow?.stopTimer();
+          resolve({challenge:{ok:false,data:captchaResponse.data},answer:undefined,status:ChallengeDataStatus.Canceled});
 
-          const claimUI = claimProvider.claimUI
+          const claimUI = claimProvider?.claimUI
           //help with message, know if out of stock or wait till next day
           //claimUI.campaignSchedule = dispenserSchedule
           log(METHOD_NAME,'get item clicked')
@@ -753,7 +761,7 @@ export class ClaimUI {
             claimUI.lastUI.hide()
           }
 
-          claimProvider.claimCallbacks.onRetry(ClaimUiType.CAPTCHA_TIMEOUT)
+          if(claimProvider && claimProvider.claimCallbacks && claimProvider.claimCallbacks.onRetry) claimProvider.claimCallbacks.onRetry(ClaimUiType.CAPTCHA_TIMEOUT)
       }, ui.ButtonStyles.ROUNDGOLD);
 
       reloadButton.hide();
@@ -833,7 +841,7 @@ export class ClaimUI {
             errorText.hide()
             helpText.show()
             captchaUI.hide()
-            this.captchaWindow.stopTimer();
+            this.captchaWindow?.stopTimer();
             resolve({challenge:captchaResponse,answer:captchaCodeAnswer, status: ChallengeDataStatus.AnswerProvided})
           }else{
             errorText.show()
@@ -848,8 +856,8 @@ export class ClaimUI {
         -140,
         () => {
           captchaUI.hide()
-          this.captchaWindow.stopTimer();
-          resolve({challenge:undefined,answer:undefined,status:ChallengeDataStatus.Canceled});
+          this.captchaWindow?.stopTimer();
+          resolve({challenge:{ok:false,data:captchaData},answer:undefined,status:ChallengeDataStatus.Canceled});
         },
         ui.ButtonStyles.ROUNDBLACK
       )
@@ -930,7 +938,7 @@ export class ClaimUI {
   
   
 
-  getCustomPromptFontColor(): Color4 | undefined {
+  getCustomPromptFontColor(): Color4 {
     const style = this.getCustomPromptStyle()
     switch(style){
       case ui.PromptStyles.DARK: 
@@ -1060,7 +1068,7 @@ export class ClaimUI {
             },
             () => {//on reject
               p.close()
-              log("OptionPrompt retrying",callbacks.onRetry)
+              log("OptionPrompt retrying",callbacks?.onRetry)
               //   representation.vanish()
               PlayCloseSound()
               if(callbacks && callbacks.onRetry) callbacks.onRetry(type,claimResult)
@@ -1093,6 +1101,23 @@ export class ClaimUI {
       if( modal instanceof ui.CustomPrompt){
         modal.texture = custUiAtlas
       }
+
+      if( modal instanceof ui.OptionPrompt){
+        //modal.buttonE
+        modal.buttonE.source = custUiAtlas
+        modal.buttonF.source = custUiAtlas
+
+        //should not have to re selection if in same spot on atlas
+        //setSection( modal.buttonE, resources.buttons.buttonE )
+        //setSection( modal.buttonF, resources.buttons.buttonF )
+      }
+      if( modal instanceof ui.OkPrompt){
+        modal.button.source = custUiAtlas
+        
+        //should not have to re selection if in same spot on atlas
+        //setSection( modal.button, resources.buttons.buttonE )
+      }
+      
     }
     /*setSection(mmPrompt.background, this.getCustomBGImageSection())
       mmPrompt.background.source
