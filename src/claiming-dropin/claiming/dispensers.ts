@@ -279,8 +279,6 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
             const objectDispenser = new Entity(h.name)
             engine.addEntity(objectDispenser)
 
-            storeInst( { dispData:h,entity:objectDispenser })
-
             objectDispenser.addComponent(new Transform( h.transform ))
             if(h.model == "boxshape"){
                 objectDispenser.addComponent(new BoxShape())
@@ -294,6 +292,10 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                 objectDispenser.addComponent(new GLTFShape(h.model))
             }
             //objectDispenser.addComponent(TRANSPARENT_MATERIAL)
+
+            //do it at end incase objectDispenser gets redefined above
+            storeInst( { dispData:h,entity:objectDispenser })
+
 
             const claimFlow = async ()=>{
                 if(claimUI && claimUI.lastUI && claimUI.lastUI.background.visible){
