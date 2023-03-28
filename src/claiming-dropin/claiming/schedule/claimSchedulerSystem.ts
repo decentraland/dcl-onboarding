@@ -158,6 +158,8 @@ export class ClaimSchedulerSystem implements ISystem{
               }
             }
             
+          }else{
+            this.logger.error(METHOD_NAME,'WARNING! could not find',camp.refId,"to update",camp)
           }
         }
       }else{

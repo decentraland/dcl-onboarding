@@ -261,6 +261,9 @@ export class Dispenser extends Entity implements IDispenser {
     try {
       if(claimReq.isCaptchaEnabled()){
         const captchaUUID = await claimReq.getCaptcha()
+        if(captchaUUID === undefined){
+          throw new Error("FAILED TO GET CAPTCHA")
+        }
         claimReq.challenge = await this.claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
         if(claimReq.challenge.status == ChallengeDataStatus.Canceled) return;
       }
