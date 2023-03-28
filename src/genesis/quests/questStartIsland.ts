@@ -333,6 +333,12 @@ export class SpawnIsland {
         //Show controls ui
         getHUD().wgPopUpControls.showSpaceImage(true)
 
+        //Remove barrier
+        GameData.instance().getEntity("z0_barrier").getComponent(GLTFShape).visible = false
+        GameData.instance().getEntity("z0_barrier").getComponent(GLTFShape).withCollisions = false
+        GameData.instance().getEntity("z0_barrier").getComponent(Transform).position = new Vector3(0, 0, 0)
+        GameData.instance().getEntity("z0_barrier").getComponent(Transform).scale = new Vector3(0,0,0) 
+
         let obstacletrigger = new Entity();
         obstacletrigger.addComponent(new Transform({ position: utils.getEntityWorldPosition(this.obstacle).addInPlace(new Vector3(-2, 0, 3)) }))
         let triggerBox = new utils.TriggerBoxShape(new Vector3(3, 9, 10))
