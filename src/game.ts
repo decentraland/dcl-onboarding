@@ -1918,6 +1918,19 @@ s0_Fence_Art_01.addComponent(new Transform({ position: new Vector3(149.38, 71.40
 GameData.instance().setEntity("z2_barrier", s0_Fence_Art_01)
 GameData.instance().addEntityArray("z2_barrier", s0_Fence_Art_01)
 
+var s0_Fence_Art_02 = new Entity("Fence_Art.z0")
+s0_Fence_Art_02.setParent(s0_Z3_COG_01)
+s0_Fence_Art_02.addComponent(new GLTFShape("unity_assets/s0_Fence_Art_01.glb"))
+s0_Fence_Art_02.getComponent(GLTFShape).withCollisions = false
+s0_Fence_Art_02.addComponent(new Transform({ position: new Vector3(216,68.4,131.5), rotation: Quaternion.Euler(0,270,0), scale: new Vector3(1, 1, 1) }))
+GameData.instance().setEntity("z0_barrier", s0_Fence_Art_02)
+GameData.instance().addEntityArray("z0_barrier", s0_Fence_Art_02)
+s0_Fence_Art_02.addComponent(new OnPointerDown(()=>{
+
+},{
+    hoverText:'Talk to Tobor First'
+}))
+
 var s0_COG_Landscape_Planes_01 = new Entity("COG_Landscape_Planes")
 engine.addEntity(s0_COG_Landscape_Planes_01)
 s0_COG_Landscape_Planes_01.addComponent(new Transform({ position: new Vector3(160.4, 9.799999, 151), rotation: new Quaternion(0, 0, 0, 1), scale: new Vector3(1, 1, 1) }))
