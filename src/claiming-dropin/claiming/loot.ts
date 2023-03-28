@@ -1025,7 +1025,7 @@ export class ClaimUI {
             ui.ButtonStyles.F
           )
         }else{
-          mmPrompt.addButton(
+          const buttonE:ui.CustomPromptButton= mmPrompt.addButton(
             'OK',
             0,
             -100,
@@ -1037,6 +1037,7 @@ export class ClaimUI {
             },
             ui.ButtonStyles.E
           )
+          //this.applyCustomAtlasButton(buttonE)
         }
       
     }else{
@@ -1100,20 +1101,31 @@ export class ClaimUI {
 
       if( modal instanceof ui.CustomPrompt){
         modal.texture = custUiAtlas
+        modal.closeIcon.source = custUiAtlas
+        //modal..source = custUiAtlas
+        //modal.icon.source = custUiAtlas
       }
 
       if( modal instanceof ui.OptionPrompt){
         //modal.buttonE
         modal.buttonE.source = custUiAtlas
         modal.buttonF.source = custUiAtlas
+        modal.closeIcon.source = custUiAtlas
 
         //should not have to re selection if in same spot on atlas
         //setSection( modal.buttonE, resources.buttons.buttonE )
         //setSection( modal.buttonF, resources.buttons.buttonF )
-      }
+
+        modal.buttonFIcon.source = custUiAtlas
+        modal.buttonEIcon.source = custUiAtlas
+      } 
       if( modal instanceof ui.OkPrompt){
+        modal.text.fontSize -= 2
         modal.button.source = custUiAtlas
-        
+        modal.icon.source = custUiAtlas
+        //modal.buttonEIcon.source = custUiAtlas
+        modal.closeIcon.source = custUiAtlas
+
         //should not have to re selection if in same spot on atlas
         //setSection( modal.button, resources.buttons.buttonE )
       }
@@ -1241,6 +1253,8 @@ export class ClaimUI {
       },
       ui.ButtonStyles.E
     )
+    
+
     //   okButton.image.positionX = -100
     okButton.label.positionX = 30 * UI_SCALE_MULT
     okButton.image.width = 238 * UI_SCALE_MULT
@@ -1274,6 +1288,23 @@ export class ClaimUI {
     txButton.label.fontSize = 24 * UI_SCALE_MULT
     txButton.label.positionX = 30 * UI_SCALE_MULT
 
+    //using custom atlas for skinned buttons
+    okButton.image.source = custUiAtlas
+    if(okButton.icon){ 
+      okButton.icon.source = custUiAtlas
+      //setSection( okButton.icon, resources.icons.EWhite )
+    }
+    txButton.image.source = custUiAtlas
+    if(txButton.icon){
+       txButton.icon.source = custUiAtlas
+       //setSection( txButton.icon, resources.icons.FWhite )
+    }
+
+    
+
+    //claimUI.texture = custUiAtlas
+    claimUI.closeIcon.source = custUiAtlas
+    
     return claimUI
   }
 }
