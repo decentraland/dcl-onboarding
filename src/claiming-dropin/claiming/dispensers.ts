@@ -113,10 +113,11 @@ function storeInst(inst:ClaimDataInst){
     dispenserRefIdInstRecord[inst.dispData.claimConfig.refId].push(inst)
 }
 
-function makeImage(urn: string): string {
+function makeImage(urn?: string): string {
     let retVal = "" 
     //if(play5games !== undefined && play5games.claimConfig.wearableUrnsToCheck.length > 0){
     //  let urn = play5games.claimConfig.wearableUrnsToCheck[0]
+    //TODO check for null and use defualt? will make 404 image good enough??
       retVal = "https://peer-lb.decentraland.org/lambdas/collections/contents/"+urn+"/thumbnail"
     //}
     log("makeImage",retVal)
@@ -172,7 +173,7 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
 
         const outOfStockObjTest = new Entity("out-of-stock-test")
         engine.addEntity(outOfStockObjTest)
-        outOfStockObjTest.addComponent(new Transform({position:new Vector3( 225,69,125 )}))
+        outOfStockObjTest.addComponent(new Transform({position:new Vector3( 226,69,125 )}))
         outOfStockObjTest.addComponent(new BoxShape())
         outOfStockObjTest.addComponent(new OnPointerDown( async ()=>{
                     if(claimUI && claimUI.lastUI && claimUI.lastUI.background.visible){
@@ -191,19 +192,21 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                     claimUI.handleClaimJson(testClaimTokenResult)
 
                     claimUI.openOutOfStockPrompt(new ClaimTokenResult(),claimCallbacks)
-                    
+
+                    const fakeTestResult:ClaimTokenResult = new ClaimTokenResult()
+
                     claimUI.nothingHere()
                     claimUI.openYouHaveAlready()
                     claimUI.openClaimInProgress()
                     claimUI.openRequiresWeb3(new ClaimTokenResult(),claimCallbacks)
                     claimUI.openNotOnMap(new ClaimTokenResult(),claimCallbacks)
-                    claimUI.openOKPrompt("example error short",ClaimUiType.ERROR,undefined,claimCallbacks)
-                    claimUI.openOKPrompt("example error short with retry",ClaimUiType.ERROR,undefined,claimCallbacks,true)
+                    claimUI.openOKPrompt("example error short",ClaimUiType.ERROR,fakeTestResult,claimCallbacks)
+                    claimUI.openOKPrompt("example error short with retry",ClaimUiType.ERROR,fakeTestResult,claimCallbacks,true)
 
                     claimUI.openOKPrompt("example error longerror longerror longerror longerror longerror longerror "+
-                        "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror long",ClaimUiType.ERROR,undefined,claimCallbacks)
+                        "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror long",ClaimUiType.ERROR,fakeTestResult,claimCallbacks)
                     claimUI.openOKPrompt("example error with retry longerror longerror longerror longerror longerror "+
-                        "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror with retry",ClaimUiType.ERROR,undefined,claimCallbacks,true)
+                        "\nlongerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror longerror with retry",ClaimUiType.ERROR,fakeTestResult,claimCallbacks,true)
                         //url just happens to match my pattern i need https://captcha.com/images/captcha/botdetect3-captcha-ancientmosaic.jpg
                     claimUI.openCaptchaChallenge("http://hello", 
                         //"src/claiming-dropin/images/example-botdetect3-captcha-ancientmosaic.jpeg"
@@ -276,8 +279,6 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
             const objectDispenser = new Entity(h.name)
             engine.addEntity(objectDispenser)
 
-            storeInst( { dispData:h,entity:objectDispenser })
-
             objectDispenser.addComponent(new Transform( h.transform ))
             if(h.model == "boxshape"){
                 objectDispenser.addComponent(new BoxShape())
@@ -291,6 +292,10 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
                 objectDispenser.addComponent(new GLTFShape(h.model))
             }
             //objectDispenser.addComponent(TRANSPARENT_MATERIAL)
+
+            //do it at end incase objectDispenser gets redefined above
+            storeInst( { dispData:h,entity:objectDispenser })
+
 
             const claimFlow = async ()=>{
                 if(claimUI && claimUI.lastUI && claimUI.lastUI.background.visible){
@@ -318,6 +323,9 @@ export function createDispeners(dispenserPositions:DispenserPos[],dispenserSched
             
                     if(claimReq.isCaptchaEnabled()){
                         const captchaUUID = await claimReq.getCaptcha() //fetches capcha image
+                        if(captchaUUID ===undefined){
+                            throw new Error("claimReq.getCaptcha() FAILED TO RETURN VALUE")
+                        }
                         claimReq.challenge = await claimUI.openCaptchaChallenge(claimReq.claimServer, captchaUUID)
                         if(claimReq.challenge.status == ChallengeDataStatus.Canceled) return;
                     }
