@@ -8,6 +8,7 @@ export class KeyboardUI extends Widget {
     inputSubscribeArray: any[] = []
     hideTimeout: any
     callback: Function
+    callbackStart: Function
 
     private readonly IMAGE_SCALE: number = 0.7
     pressanykey: UIText;
@@ -91,6 +92,10 @@ export class KeyboardUI extends Widget {
     }
 
     hideAnim() {
+        //call the second we start to hide,
+        //this was on the final 
+        if (this.callbackStart) this.callbackStart()
+
         if (!this.container.visible) return;
         this.unsubscribeInputs()
         this.bHideInProcess = true
@@ -116,6 +121,9 @@ export class KeyboardUI extends Widget {
         }, 62);
     }
 
+    setcallbackStart(callback: Function) {
+        this.callbackStart = callback
+    }
     setcallback(callback: Function) {
         this.callback = callback
     }
