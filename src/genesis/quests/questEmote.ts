@@ -71,6 +71,14 @@ export class QuestEmote implements IClaimProvider {
         this.cable_on = GameData.instance().getEntity("cables2_on") as Entity
 
 
+        this.bridge_2.addComponentOrReplace(new OnPointerDown(()=>{
+
+            }
+            ,{
+                hoverText:'Talk to Bezier Before Crossing'
+            }
+        ))
+
         GenesisData.instance().quest1.npc1 = this.npc1
         GenesisData.instance().quest1.npc1Anim = this.npc1Anim
 
@@ -482,6 +490,9 @@ export class QuestEmote implements IClaimProvider {
     activateBridge() {
         AudioManager.instance().playBridge(this.bridge_2)
 
+        //remove onclick tooltip
+        if(this.bridge_2.hasComponent(OnPointerDown)) this.bridge_2.removeComponent(OnPointerDown)
+        
         this.bridge_2.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
             this.bridge_2.getComponent(StateMachine).playClip("Bridge On", false, 1, false, () => {
