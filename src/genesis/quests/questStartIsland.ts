@@ -28,6 +28,7 @@ export class SpawnIsland {
     bubbleTalk: BubbleTalk;
     pilar_tobor: Entity
     bridge_1: Entity
+    barrier_1: Entity
     lookAt3DText: Entity
 
     readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
@@ -54,7 +55,14 @@ export class SpawnIsland {
         this.pilar_1 = GameData.instance().getEntity("pilar_1") as Entity
         this.pilar_tobor = GameData.instance().getEntity("pilar_tobor") as Entity
         this.bridge_1 = GameData.instance().getEntity("bridge_1") as Entity
+        this.barrier_1 = GameData.instance().getEntity("z0_barrier") as Entity
+            
+        this.barrier_1.addComponentOrReplace(new OnPointerDown(()=>{
 
+            },{
+                hoverText:'Talk to Tobor First'
+            }
+        ))
         this.cable_off = GameData.instance().getEntity("cables1_off") as Entity
         this.cable_on = GameData.instance().getEntity("cables1_on") as Entity
 
@@ -334,10 +342,10 @@ export class SpawnIsland {
         getHUD().wgPopUpControls.showSpaceImage(true)
 
         //Remove barrier
-        GameData.instance().getEntity("z0_barrier").getComponent(GLTFShape).visible = false
-        GameData.instance().getEntity("z0_barrier").getComponent(GLTFShape).withCollisions = false
-        GameData.instance().getEntity("z0_barrier").getComponent(Transform).position = new Vector3(0, 0, 0)
-        GameData.instance().getEntity("z0_barrier").getComponent(Transform).scale = new Vector3(0,0,0) 
+        this.barrier_1.getComponent(GLTFShape).visible = false
+        this.barrier_1.getComponent(GLTFShape).withCollisions = false
+        this.barrier_1.getComponent(Transform).position = new Vector3(0, 0, 0)
+        this.barrier_1.getComponent(Transform).scale = new Vector3(0,0,0) 
 
         let obstacletrigger = new Entity();
         obstacletrigger.addComponent(new Transform({ position: utils.getEntityWorldPosition(this.obstacle).addInPlace(new Vector3(-2, 0, 3)) }))
