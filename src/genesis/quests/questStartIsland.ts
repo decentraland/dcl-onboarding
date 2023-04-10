@@ -63,6 +63,15 @@ export class SpawnIsland {
                 hoverText:'Talk to Tobor First'
             }
         ))
+  
+        this.bridge_1.addComponentOrReplace(new OnPointerDown(()=>{
+
+            }
+            ,{
+                hoverText:'Talk to Tobor Before Crossing'
+            }
+        ))
+ 
         this.cable_off = GameData.instance().getEntity("cables1_off") as Entity
         this.cable_on = GameData.instance().getEntity("cables1_on") as Entity
 
@@ -505,6 +514,9 @@ export class SpawnIsland {
     ativateBridge() {
 
         AudioManager.instance().playBridge(this.bridge_1)
+
+        //remove onclick tooltip
+        //if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
 
         this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
