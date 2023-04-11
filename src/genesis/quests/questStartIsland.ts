@@ -291,6 +291,12 @@ export class SpawnIsland {
             this.bubbleTalk.setActive(false)
             GenesisData.instance().targeterRobot.show(false)
 
+            //fail safe. should be  part of keyboard wgKeyBoard.setcallbackStart ???
+            //just incase was not called!!!
+            if(!getHUD().wgQuest){
+                log("getHUD().wgQuest was null!!! workaround why was this null")
+                getHUD().setWidgetQuest(0, TaskType.Simple)
+            }
             //Task interact complete
             getHUD().wgQuest.showTick(0, true)
 
