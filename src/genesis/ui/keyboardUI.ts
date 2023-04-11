@@ -92,12 +92,18 @@ export class KeyboardUI extends Widget {
     }
 
     hideAnim() {
+        if (!this.container.visible) return;
+        if(this.bHideInProcess){
+            log("keyboardUI","hideAnim","this.bHideInProcess",this.bHideInProcess,"skipping")
+            return
+        } 
+
+        this.unsubscribeInputs()
+        
         //call the second we start to hide,
         //this was on the final 
         if (this.callbackStart) this.callbackStart()
 
-        if (!this.container.visible) return;
-        this.unsubscribeInputs()
         this.bHideInProcess = true
         GenesisData.instance().onStartHideKeyboardUI()
         this.hideAnimRecursive()
