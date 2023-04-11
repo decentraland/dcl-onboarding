@@ -476,7 +476,8 @@ export class QuestMaterials implements IClaimProvider {
         this.afterEndQuestClick()
         StateManager.instance().startState("IslandQuest3State")
 
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        //need this as onfocus listerner has been removed
+        getHUD().wgPopUpControls.showTakecontrolCameraImage(true,3000,true)
         getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
 
     }

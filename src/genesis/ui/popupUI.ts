@@ -50,6 +50,7 @@ export class Popup extends Widget {
 
     constructor(parentUI: Widget | UIShape) {
         var parent: UIShape;
+        //debugger
         //wg 
         if (parentUI as Widget) {
             parent = (parentUI as Widget).container
@@ -290,9 +291,9 @@ export class Popup extends Widget {
         this.buttonRightText.visible = true
         this.buttonRightText.isPointerBlocker = false
 
-        const MouseRigth = new UIImage(this.takecontrolBackground, new Texture("assets/ui/UI_mouse_2.png"))
-        MouseRigth.sourceWidth = 100
-        MouseRigth.sourceHeight = 100
+        const MouseRigth = new UIImage(this.takecontrolBackground, new Texture("assets/ui/UI_UnlockMouseRightBtn.png"))//UI_mouse_2.png"))
+        MouseRigth.sourceWidth = 61//100
+        MouseRigth.sourceHeight = 76//100
         MouseRigth.width = MouseRigth.sourceWidth * 0.65  //620
         MouseRigth.height = MouseRigth.sourceHeight * 0.65  //356
         MouseRigth.vAlign = 'center'
@@ -301,6 +302,18 @@ export class Popup extends Widget {
         MouseRigth.positionX = "5%"
         MouseRigth.opacity = 1
         MouseRigth.visible = true
+
+        const arrowAttention = new UIImage(this.takecontrolBackground, new Texture("assets/ui/UI_Arrow.png"))
+        arrowAttention.sourceWidth = 45
+        arrowAttention.sourceHeight = 61
+        arrowAttention.width = arrowAttention.sourceWidth * 0.65  //620
+        arrowAttention.height = arrowAttention.sourceHeight * 0.65  //356
+        arrowAttention.vAlign = 'center'
+        arrowAttention.hAlign = 'center'
+        arrowAttention.positionY = 50
+        arrowAttention.positionX = "0%"
+        arrowAttention.opacity = 1
+        arrowAttention.visible = true
 
         const containerTextTakeControl = new UIContainerRect(this.takecontrolBackground)
         containerTextTakeControl.visible = true

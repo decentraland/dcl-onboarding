@@ -358,19 +358,30 @@ export class popUpControls extends Widget {
         this.spaceContainer.visible = false
     }
 
-    showTakecontrolCameraImage(bVisible: boolean) {
-        if (bVisible) {
-            this.hideAll()
+    /**
+     * 
+     * @param bVisible 
+     * @param delayHideTime <= 0 means no delay hide time, stays up permentantly
+     * @param hideAll 
+     */
+    showTakecontrolCameraImage(bVisible: boolean,delayHideTime?:number,hideAll?:boolean) {
+        log("showTakecontrolCameraImage",bVisible,delayHideTime,hideAll)
+        //hides all then make visible select things
+        if ((hideAll === undefined && bVisible) || (hideAll && bVisible)) {
+            this.hideAll() 
         }
         this.takecontrolCameraImageText.value = "Click to take control \nof the camera"
         this.containerBig.visible = bVisible
         this.takecontrolCameraImageContainer.visible = bVisible
         this.takecontrolCameraImageContainerBackground.visible = bVisible
-        delay(() => {
-            this.containerBig.visible = !bVisible
-            this.takecontrolCameraImageContainer.visible = !bVisible
-            this.takecontrolCameraImageContainerBackground.visible = !bVisible
-        }, 3000)
+        if(delayHideTime && delayHideTime > 0){
+            delay(() => {
+                this.containerBig.visible = !bVisible
+                this.takecontrolCameraImageContainer.visible = !bVisible
+                this.takecontrolCameraImageContainerBackground.visible = !bVisible
+            }, delayHideTime)
+        }
+        
 
     }
 
@@ -409,6 +420,7 @@ export class popUpControls extends Widget {
     }
 
     showCameraModeImage(bVisible: boolean) {
+        log("showCameraModeImage",bVisible)
         if (bVisible) {
             this.hideAll()
         }

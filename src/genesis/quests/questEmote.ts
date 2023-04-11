@@ -470,7 +470,8 @@ export class QuestEmote implements IClaimProvider {
         this.dialogQuestFinished()
         StateManager.instance().startState("IslandQuest2State")
 
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        //have an onFocusListener now, no need to call this here
+        getHUD().wgPopUpControls.showTakecontrolCameraImage(true,3000)
         getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
 
     }
@@ -498,7 +499,7 @@ export class QuestEmote implements IClaimProvider {
             this.bridge_2.getComponent(StateMachine).playClip("Bridge On", false, 1, false, () => {
 
 
-            })
+            }) 
         })
     }
 

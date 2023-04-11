@@ -120,13 +120,15 @@ export class SpawnIsland {
         AudioManager.instance().playMainAmbience(true)
         AudioManager.instance().play("waterfall", { volume: 1, loop: true, position: new Vector3(226.94, 70, 130.37) })
 
+        //Show popup tutorial tasks up front for easier testing
+        //TESTING ONLY getHUD().wgPopUp.popUpMode(POPUP_STATE.Tasks)
+
         //Show controls
         getHUD().wgPopUpControls.show(true)
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        getHUD().wgPopUpControls.showTakecontrolCameraImage(true,5000)
 
         //Focus pointer in game
         onPointerLockedStateChange.add(({ locked }) => {
-
             this.onFocusScreen(locked)
         })
 
@@ -161,9 +163,26 @@ export class SpawnIsland {
 
             }
             onPointerLockedStateChange.clear()
+
+            onPointerLockedStateChange.add(({ locked }) => {
+                log("onPointerLockedStateChange","ENTRY",locked)
+                
+                log("onPointerLockedStateChange","getHUD().wgPopUp.isVisible()",getHUD().wgPopUp.isVisible())
+                if( getHUD().wgPopUp.isVisible() ) {
+                    //FIXME shared with jump space???
+                    //for now so only have it visible when dialog is visible
+                    getHUD().wgPopUpControls.showTakecontrolCameraImage(!locked,0,false)
+
+                    getHUD().wgPopUp.takecontrolBackground.visible = locked
+                }else{
+                    if(getHUD().wgPopUpControls.takecontrolCameraImageContainer.visible){
+                        getHUD().wgPopUpControls.showTakecontrolCameraImage(false,0,false)
+                    }
+                }
+            })
         }
     }
-
+ 
     lookaroundQuest() {
 
         var blookedLeft = false
@@ -295,6 +314,7 @@ export class SpawnIsland {
             //fail safe. should be  part of keyboard wgKeyBoard.setcallbackStart ???
             //just incase was not called!!!
             if(!getHUD().wgQuest){
+                debugger
                 log("getHUD().wgQuest was null!!! workaround why was this null")
                 getHUD().setWidgetQuest(0, TaskType.Simple)
             }
@@ -480,8 +500,10 @@ export class SpawnIsland {
         getHUD().wgPopUp.leftButtonClic = () => { }
         this.activatePilar()
         this.ativateBridge()
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
-        getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
+
+        //have an onFocusListener now, no need to call this here
+        //getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        //getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
 
         //Start Emote State Quest
         StateManager.instance().startState("IslandQuest1State")
@@ -523,7 +545,7 @@ export class SpawnIsland {
         AudioManager.instance().playBridge(this.bridge_1)
 
         //remove onclick tooltip
-        //if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
+        if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
 
         this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
