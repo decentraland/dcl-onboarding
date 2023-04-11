@@ -2,7 +2,7 @@
 
 export const START_ISLAND_0 = "Welcome to Decentraland! The metaverse <b>owned and created</b> by people like you. My name is Tobor."
 export const START_ISLAND_1 = "Decentraland is a place to <b>socialise with friends, play games,</b> and <b>so much more!</b>"
-export const START_ISLAND_2 = "Follow me to get started."
+export const START_ISLAND_2 = "Follow me to get started.  It should only take 5 minutes of your time."
 export const START_ISLAND_3 = "For your first day in the metaverse we have <b>a few quick tasks</b> for you to do so you can get the hang of what Decentraland is all about."
 export const START_ISLAND_4 = "<b>Head over the bridge</b> to meet my friends. They will teach you everything you need to know."
 export const START_ISLAND_5 = "You might meet other newbies here too! Press <b>enter</b> to chat with them."
