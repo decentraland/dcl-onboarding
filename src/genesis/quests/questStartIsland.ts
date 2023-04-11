@@ -12,6 +12,7 @@ import { movePlayerTo } from '@decentraland/RestrictedActions';
 import { TweenManagerComponent } from 'src/imports/components/tween/tweenmanager';
 import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
+import { TaskType } from 'src/imports/widgets/widgetTasks';
 export class SpawnIsland {
 
     private static instanceRef: SpawnIsland;
@@ -28,6 +29,7 @@ export class SpawnIsland {
     bubbleTalk: BubbleTalk;
     pilar_tobor: Entity
     bridge_1: Entity
+    barrier_1: Entity
     lookAt3DText: Entity
 
     readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
@@ -54,7 +56,23 @@ export class SpawnIsland {
         this.pilar_1 = GameData.instance().getEntity("pilar_1") as Entity
         this.pilar_tobor = GameData.instance().getEntity("pilar_tobor") as Entity
         this.bridge_1 = GameData.instance().getEntity("bridge_1") as Entity
+        this.barrier_1 = GameData.instance().getEntity("z0_barrier") as Entity
+            
+        this.barrier_1.addComponentOrReplace(new OnPointerDown(()=>{
 
+            },{
+                hoverText:'Talk to Tobor First'
+            }
+        ))
+  
+        this.bridge_1.addComponentOrReplace(new OnPointerDown(()=>{
+
+            }
+            ,{
+                hoverText:'Talk to Tobor Before Crossing'
+            }
+        ))
+ 
         this.cable_off = GameData.instance().getEntity("cables1_off") as Entity
         this.cable_on = GameData.instance().getEntity("cables1_on") as Entity
 
@@ -274,6 +292,12 @@ export class SpawnIsland {
             this.bubbleTalk.setActive(false)
             GenesisData.instance().targeterRobot.show(false)
 
+            //fail safe. should be  part of keyboard wgKeyBoard.setcallbackStart ???
+            //just incase was not called!!!
+            if(!getHUD().wgQuest){
+                log("getHUD().wgQuest was null!!! workaround why was this null")
+                getHUD().setWidgetQuest(0, TaskType.Simple)
+            }
             //Task interact complete
             getHUD().wgQuest.showTick(0, true)
 
@@ -334,10 +358,10 @@ export class SpawnIsland {
         getHUD().wgPopUpControls.showSpaceImage(true)
 
         //Remove barrier
-        GameData.instance().getEntity("z0_barrier").getComponent(GLTFShape).visible = false
-        GameData.instance().getEntity("z0_barrier").getComponent(GLTFShape).withCollisions = false
-        GameData.instance().getEntity("z0_barrier").getComponent(Transform).position = new Vector3(0, 0, 0)
-        GameData.instance().getEntity("z0_barrier").getComponent(Transform).scale = new Vector3(0,0,0) 
+        this.barrier_1.getComponent(GLTFShape).visible = false
+        this.barrier_1.getComponent(GLTFShape).withCollisions = false
+        this.barrier_1.getComponent(Transform).position = new Vector3(0, 0, 0)
+        this.barrier_1.getComponent(Transform).scale = new Vector3(0,0,0) 
 
         let obstacletrigger = new Entity();
         obstacletrigger.addComponent(new Transform({ position: utils.getEntityWorldPosition(this.obstacle).addInPlace(new Vector3(-2, 0, 3)) }))
@@ -497,6 +521,9 @@ export class SpawnIsland {
     ativateBridge() {
 
         AudioManager.instance().playBridge(this.bridge_1)
+
+        //remove onclick tooltip
+        //if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
 
         this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
