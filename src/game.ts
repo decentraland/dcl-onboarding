@@ -1925,11 +1925,6 @@ s0_Fence_Art_02.getComponent(GLTFShape).withCollisions = false
 s0_Fence_Art_02.addComponent(new Transform({ position: new Vector3(216,68.4,131.5), rotation: Quaternion.Euler(0,270,0), scale: new Vector3(1, 1, 1) }))
 GameData.instance().setEntity("z0_barrier", s0_Fence_Art_02)
 GameData.instance().addEntityArray("z0_barrier", s0_Fence_Art_02)
-s0_Fence_Art_02.addComponent(new OnPointerDown(()=>{
-
-},{
-    hoverText:'Talk to Tobor First'
-}))
 
 var s0_COG_Landscape_Planes_01 = new Entity("COG_Landscape_Planes")
 engine.addEntity(s0_COG_Landscape_Planes_01)
