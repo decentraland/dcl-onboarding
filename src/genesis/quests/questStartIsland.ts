@@ -12,6 +12,7 @@ import { movePlayerTo } from '@decentraland/RestrictedActions';
 import { TweenManagerComponent } from 'src/imports/components/tween/tweenmanager';
 import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
+import { TaskType } from 'src/imports/widgets/widgetTasks';
 export class SpawnIsland {
 
     private static instanceRef: SpawnIsland;
