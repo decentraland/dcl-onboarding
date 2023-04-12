@@ -36,6 +36,7 @@ export class QuestEmote implements IClaimProvider {
     tick2: Entity
     tick3: Entity
     bridge_2: Entity
+    arrow: Entity
 
     bnpc1isInPlaza: boolean = false
 
@@ -507,6 +508,12 @@ export class QuestEmote implements IClaimProvider {
 
         this.npc1.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.ZONE_1_EMOTE_4)
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(true)
+
+        this.arrow = new Entity()
+        this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb")) 
+        this.arrow.getComponent(GLTFShape).visible = true
+        this.arrow.setParent(this.bridge_2)
+        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(-2, 1.5, 0), scale: new Vector3(0.2, 7, 5), rotation: new Vector3(0, 0, -90).toQuaternion()})) 
 
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
 
