@@ -498,13 +498,6 @@ export class SpawnIsland {
                     this.onCloseRewardUI()
                 }
 
-                //BLA talk to tobor second time
-                this.arrow = new Entity()
-                this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb"))
-                this.arrow.getComponent(GLTFShape).visible = true
-        
-                this.arrow.setParent(this.bridge_1)
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0, 4, -3), scale: new Vector3(2, 2, 2), rotation: new Vector3(1, -1, 90).toQuaternion()}))
 
                 //play close sound 
                 AudioManager.instance().playOnce("pop_up_close", { volume: 0.2, parent: this.tobor })
@@ -572,6 +565,8 @@ export class SpawnIsland {
 
         AudioManager.instance().playBridge(this.bridge_1)
 
+        
+
         //remove onclick tooltip
         if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
 
@@ -585,6 +580,12 @@ export class SpawnIsland {
 
                 //Play tobor idle anim
                 this.tobor.getComponent(RobotNPC).idleAnim()
+
+                this.arrow = new Entity()
+                this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb")) 
+                this.arrow.getComponent(GLTFShape).visible = true
+                this.arrow.setParent(this.bridge_1)
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(2, 1.5, 0), scale: new Vector3(0.2, 7, 5), rotation: new Vector3(1, -1, 90).toQuaternion()}))
             })
         })
     }
