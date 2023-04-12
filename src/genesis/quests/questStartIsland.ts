@@ -8,7 +8,7 @@ import { AudioManager } from '../components/audio/audio.manager';
 import * as bubbleText from "src/jsonData/textsTutorialBubble"
 import { blockPlayer, delay, MovementType, releasePlayer, StateMachine } from 'src/imports/index';
 import { POPUP_STATE } from '../ui/popupUI';
-import { movePlayerTo } from '@decentraland/RestrictedActions';
+import { movePlayerTo } from '@decentraland/RestrictedActions'; 
 import { TweenManagerComponent } from 'src/imports/components/tween/tweenmanager';
 import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
@@ -448,7 +448,7 @@ export class SpawnIsland {
         
             
 
-            //Show bubble
+            //BLA removed the bubble with the esxlamation mark to be more in line with the other avatars
             /*
             this.bubbleTalk.setTextWithDelay(bubbleText.OVERHERE)
             this.bubbleTalk.setBubbleMaxScale(1.7)
@@ -462,7 +462,7 @@ export class SpawnIsland {
     dialogAtPilar() {
         this.tobor.addComponentOrReplace(new OnPointerDown((e) => {
             this.tobor.removeComponent(OnPointerDown)
-            this.bubbleTalk.setBubbleDisapearDistance(10)
+            //this.bubbleTalk.setBubbleDisapearDistance(10)
 
             this.tobor.getComponent(RobotNPC).indicator.hide()
 
@@ -474,7 +474,7 @@ export class SpawnIsland {
             getHUD().wgQuest.setOtherTaskDelay(3, 1)
 
             //Bubble off
-            this.bubbleTalk.setActive(false)
+            //this.bubbleTalk.setActive(false)
             GenesisData.instance().targeterRobot.show(false);
 
             //sound effect
@@ -504,13 +504,13 @@ export class SpawnIsland {
                 this.arrow.getComponent(GLTFShape).visible = true
         
                 this.arrow.setParent(this.bridge_1)
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0, 4, -3), scale: new Vector3(2, 2, 2), rotation: new Quaternion(1, 0, 0, 0)}))
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0, 4, -3), scale: new Vector3(2, 2, 2), rotation: new Vector3(1, -1, 90).toQuaternion()}))
 
-                //play close sound
+                //play close sound 
                 AudioManager.instance().playOnce("pop_up_close", { volume: 0.2, parent: this.tobor })
 
                 //Show popup tutorial tasks
-                getHUD().wgPopUp.popUpMode(POPUP_STATE.Tasks)
+                getHUD().wgPopUp.popUpMode(POPUP_STATE.Tasks) 
 
                 //Play popup sound
                 AudioManager.instance().playPopupOpen()
