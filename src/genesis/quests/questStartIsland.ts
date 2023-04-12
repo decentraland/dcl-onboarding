@@ -325,7 +325,7 @@ export class SpawnIsland {
             //fail safe. should be  part of keyboard wgKeyBoard.setcallbackStart ???
             //just incase was not called!!!
             if(!getHUD().wgQuest){
-                debugger
+                //debugger
                 log("getHUD().wgQuest was null!!! workaround why was this null")
                 getHUD().setWidgetQuest(0, TaskType.Simple)
             }
