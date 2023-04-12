@@ -13,6 +13,7 @@ import { TweenManagerComponent } from 'src/imports/components/tween/tweenmanager
 import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
 import { TaskType } from 'src/imports/widgets/widgetTasks';
+
 export class SpawnIsland {
 
     private static instanceRef: SpawnIsland;
@@ -31,6 +32,8 @@ export class SpawnIsland {
     bridge_1: Entity
     barrier_1: Entity
     lookAt3DText: Entity
+    arrow: Entity
+    toborPos: Vector3
 
     readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
     //readonly SPAWN_POSITION = new Vector3(107, 88, 107) //portal
@@ -57,6 +60,13 @@ export class SpawnIsland {
         this.pilar_tobor = GameData.instance().getEntity("pilar_tobor") as Entity
         this.bridge_1 = GameData.instance().getEntity("bridge_1") as Entity
         this.barrier_1 = GameData.instance().getEntity("z0_barrier") as Entity
+
+        
+        //this.arrow = new Entity()
+        //this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb"))
+        //this.arrow.setParent(this.bridge_1)
+        //this.arrow.addComponent(new Transform({position: new Vector3(0, 4, 0), rotation: new Quaternion(0, 0, 1, 0), scale: new Vector3(2,2,2)}))
+        
             
         this.barrier_1.addComponentOrReplace(new OnPointerDown(()=>{
 
@@ -427,9 +437,18 @@ export class SpawnIsland {
         getHUD().wgPopUpControls.show(false)
 
         this.tobor.getComponent(RobotNPC).setMoveSpeed(6)
-        this.tobor.getComponent(RobotNPC).moveTo(this.pilar_tobor.getComponent(Transform).position, true, () => {
+        this.toborPos = this.pilar_tobor.getComponent(Transform).position
+        this.tobor.getComponent(RobotNPC).moveTo(this.toborPos, true, () => {
 
             this.dialogAtPilar()
+
+            //BLA Show Pointing arrow
+            this.arrow = new Entity()
+            this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb"))
+            this.arrow.addComponent(new Transform({position: new Vector3(this.toborPos.x, this.toborPos.y + 2, this.toborPos.z ), scale: new Vector3(2,2,2)}))
+            this.arrow.getComponent(GLTFShape).visible = true
+            engine.addEntity(this.arrow)
+
 
             //Show bubble
             this.bubbleTalk.setTextWithDelay(bubbleText.OVERHERE)
@@ -477,6 +496,9 @@ export class SpawnIsland {
                 getHUD().wgPopUp.rightButtonClic = () => {
                     this.onCloseRewardUI()
                 }
+
+                //BLA talk to tobor second time
+                this.arrow.getComponent(GLTFShape).visible = false
 
                 //play close sound
                 AudioManager.instance().playOnce("pop_up_close", { volume: 0.2, parent: this.tobor })
@@ -546,6 +568,8 @@ export class SpawnIsland {
 
         //remove onclick tooltip
         if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
+        //remove bridge arrow
+        if(this.arrow.alive == true) engine.removeEntity(this.arrow)
 
         this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
