@@ -13,6 +13,7 @@ import { TweenManagerComponent } from 'src/imports/components/tween/tweenmanager
 import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
 import { TaskType } from 'src/imports/widgets/widgetTasks';
+import { IndicatorState } from '../components/npcs/questIndicator';
 
 export class SpawnIsland {
 
@@ -443,17 +444,15 @@ export class SpawnIsland {
             this.dialogAtPilar()
 
             //BLA Show Pointing arrow
-            this.arrow = new Entity()
-            this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb"))
-            this.arrow.addComponent(new Transform({position: new Vector3(this.toborPos.x, this.toborPos.y + 2, this.toborPos.z ), scale: new Vector3(2,2,2)}))
-            this.arrow.getComponent(GLTFShape).visible = true
-            engine.addEntity(this.arrow)
-
+            this.tobor.getComponent(RobotNPC).indicator.updateStatus(IndicatorState.EXCLAMATION)
+        
+            
 
             //Show bubble
+            /*
             this.bubbleTalk.setTextWithDelay(bubbleText.OVERHERE)
             this.bubbleTalk.setBubbleMaxScale(1.7)
-            this.bubbleTalk.setActive(true)
+            this.bubbleTalk.setActive(true)*/
 
             GenesisData.instance().targeterRobot.translate(utils.getEntityWorldPosition(this.tobor).add(new Vector3(0, 0, 0)))
             GenesisData.instance().targeterRobot.showCircle(true)
@@ -464,6 +463,8 @@ export class SpawnIsland {
         this.tobor.addComponentOrReplace(new OnPointerDown((e) => {
             this.tobor.removeComponent(OnPointerDown)
             this.bubbleTalk.setBubbleDisapearDistance(10)
+
+            this.tobor.getComponent(RobotNPC).indicator.hide()
 
             //Stat
             sendTrak('z0_quest0_04')
@@ -498,7 +499,12 @@ export class SpawnIsland {
                 }
 
                 //BLA talk to tobor second time
-                this.arrow.getComponent(GLTFShape).visible = false
+                this.arrow = new Entity()
+                this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb"))
+                this.arrow.getComponent(GLTFShape).visible = true
+        
+                this.arrow.setParent(this.bridge_1)
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0, 4, -3), scale: new Vector3(2, 2, 2), rotation: new Quaternion(1, 0, 0, 0)}))
 
                 //play close sound
                 AudioManager.instance().playOnce("pop_up_close", { volume: 0.2, parent: this.tobor })
@@ -568,8 +574,6 @@ export class SpawnIsland {
 
         //remove onclick tooltip
         if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
-        //remove bridge arrow
-        if(this.arrow.alive == true) engine.removeEntity(this.arrow)
 
         this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
