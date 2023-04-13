@@ -449,7 +449,10 @@ export class QuestMaterials implements IClaimProvider {
             } else {
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
             }
-        } else {
+        } else { 
+
+            this.onCloseRewardUI()
+            return
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
             getHUD().wgPopUp.setText(CHAPTER3)
