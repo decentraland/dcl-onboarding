@@ -585,7 +585,7 @@ export class SpawnIsland {
                 this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb")) 
                 this.arrow.getComponent(GLTFShape).visible = true
                 this.arrow.setParent(this.bridge_1)
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(2, 1.5, 0), scale: new Vector3(0.2, 7, 5), rotation: new Vector3(1, -1, 90).toQuaternion()}))
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(2, 1.4, 0), scale: new Vector3(0.2, 7, 5), rotation: new Vector3(1, -1, 90).toQuaternion()}))
             })
         })
     }
