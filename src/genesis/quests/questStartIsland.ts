@@ -581,11 +581,22 @@ export class SpawnIsland {
                 //Play tobor idle anim
                 this.tobor.getComponent(RobotNPC).idleAnim()
 
-                this.arrow = new Entity()
-                this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb")) 
-                this.arrow.getComponent(GLTFShape).visible = true
-                this.arrow.setParent(this.bridge_1)
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(2, 1.4, 0), scale: new Vector3(0.2, 7, 5), rotation: new Vector3(1, -1, 90).toQuaternion()}))
+          
+                let zOffset = 1.85
+                const xOffsets = [-2.2, -0.3, 0.9, 2.7, -2.2, -0.3, 0.9, 2.7]
+
+                for (let i = 0; i < 8; i++) {
+                    
+                    this.arrow = new Entity()
+                    this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb")) 
+                    this.arrow.getComponent(GLTFShape).visible = true
+                    this.arrow.setParent(this.bridge_1)
+
+                    if(i==4) zOffset = - 1.85
+
+                    this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(0.2, 1, 0.7), rotation: new Vector3(1, -1, 90).toQuaternion()}))
+                }
+
             })
         })
     }
