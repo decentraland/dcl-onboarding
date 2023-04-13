@@ -433,6 +433,9 @@ export class QuestEmote implements IClaimProvider {
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
             }
         } else {
+
+            this.onCloseRewardUI()
+            return
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
             getHUD().wgPopUp.setText(CHAPTER2)
