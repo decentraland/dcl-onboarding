@@ -587,19 +587,16 @@ export class SpawnIsland {
                 let scale = 0.3
                 const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
 
-                this.arrowTexture = new Texture("assets/textures/whiteArrow.png")
-                
+                this.arrowTexture = new Texture("assets/textures/arrow2.png")
                 const baseMaterial = new Material()
-                const originalColor = Color3.Blue()
+                const originalColor = Color3.Yellow()
+                baseMaterial.albedoColor = originalColor
                 baseMaterial.emissiveColor = originalColor
-                baseMaterial.emissiveIntensity = 10
+                baseMaterial.emissiveIntensity = 5
                 baseMaterial.albedoTexture = this.arrowTexture 
                 baseMaterial.alphaTexture = this.arrowTexture
-
-
                 
-                for (let i = 0; i < 8; i++) {
-                    
+                for (let i = 0; i < 9; i++) {
                     this.arrow = new Entity()
                     this.arrow.addComponent(new PlaneShape()).visible = true
                     this.arrow.setParent(this.bridge_1)
@@ -608,9 +605,11 @@ export class SpawnIsland {
 
                     if(i==4) zOffset = - 1.85
 
-                    if(i==9) scale = 1
-
-                    this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                    if(i==8){
+                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(-7, 1.5, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                    }else{
+                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                    }
                 }
             })
         })
