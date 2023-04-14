@@ -35,7 +35,6 @@ export class SpawnIsland {
     lookAt3DText: Entity
     arrow: Entity
     toborPos: Vector3
-    arrowTexture: Texture
 
     readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
     //readonly SPAWN_POSITION = new Vector3(107, 88, 107) //portal
@@ -587,14 +586,7 @@ export class SpawnIsland {
                 let scale = 0.3
                 const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
 
-                this.arrowTexture = new Texture("assets/textures/arrow2.png")
-                const baseMaterial = new Material()
-                const originalColor = Color3.Yellow()
-                baseMaterial.albedoColor = originalColor
-                baseMaterial.emissiveColor = originalColor
-                baseMaterial.emissiveIntensity = 5
-                baseMaterial.albedoTexture = this.arrowTexture 
-                baseMaterial.alphaTexture = this.arrowTexture
+                const baseMaterial = MaterialPool.instance().getBridgeArrow()
                 
                 for (let i = 0; i < 9; i++) {
                     this.arrow = new Entity()

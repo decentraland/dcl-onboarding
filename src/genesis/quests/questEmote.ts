@@ -37,7 +37,6 @@ export class QuestEmote implements IClaimProvider {
     tick3: Entity
     bridge_2: Entity
     arrow: Entity
-    arrowTexture: Texture
 
     bnpc1isInPlaza: boolean = false
 
@@ -517,14 +516,7 @@ export class QuestEmote implements IClaimProvider {
         let scale = 0.3
         const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
 
-        this.arrowTexture = new Texture("assets/textures/arrow2.png")
-        const baseMaterial = new Material()
-        const originalColor = Color3.Yellow()
-        baseMaterial.albedoColor = originalColor
-        baseMaterial.emissiveColor = originalColor
-        baseMaterial.emissiveIntensity = 5
-        baseMaterial.albedoTexture = this.arrowTexture 
-        baseMaterial.alphaTexture = this.arrowTexture
+        const baseMaterial = MaterialPool.instance().getBridgeArrow()
         
         for (let i = 0; i < 9; i++) {
             this.arrow = new Entity()
