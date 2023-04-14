@@ -1,5 +1,7 @@
 // Dialogs  Start island
 
+import { CONFIG } from "src/config"
+
 export const START_ISLAND_0 = "Welcome to Decentraland! The metaverse <b>owned and created</b> by people like you. My name is Tobor."
 export const START_ISLAND_1 = "Decentraland is a place to <b>socialise with friends, play games,</b> and <b>so much more!</b>"
 export const START_ISLAND_2 = "Follow me to get started.  It should only take 5 minutes of your time."
@@ -14,10 +16,10 @@ export const SECOND_ISLAND_1 = "It’s easy to make friends at Decentraland’s 
 export const SECOND_ISLAND_2 = "Let me teach you how to express yourself so you can party in Decentraland."
 export const SECOND_ISLAND_3 = "Well done! You really know how to party."
 export const SECOND_ISLAND_4 = "Your next task is to talk to my friend Mat. He’s across the bridge on the next island."
-export const SECOND_ISLAND_5 = "But first, let me give you this NFT emote!"
+export const SECOND_ISLAND_5 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "But first, let me give you this NFT emote!" : "Good Luck!"
 export const SECOND_ISLAND_6 = "You can find Mat on the next island."
 export const SECOND_ISLAND_7 = "You can find Mat on the next island."
-export const SECOND_ISLAND_8 = "And by the way you forgot your NFT emote."
+export const SECOND_ISLAND_8 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "And by the way you forgot your NFT emote." : "Good Luck!"
 
 // Dialogs  Mat island
 export const THIRD_ISLAND_0 = "Hey, I'm Mat. I have a business in the metaverse selling NFT wearables."
