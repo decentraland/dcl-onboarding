@@ -202,9 +202,14 @@ export class QuestPortal implements IClaimProvider{
                 doClaim(this,showUIHere_NO)
             }else{
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
-            }
+            } 
         } else {
             //Set up popup with disclaimer
+            if(CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.puzzle){
+                log("CONFIG.CLAIM_NONWEB3_ONLY_SHOW_DISCLAIMER_ONCE",CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER, "skipping showing them DISCLAIMTEXT")
+                this.onCloseRewardUI()
+                return
+            } 
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
             getHUD().wgPopUp.setText(CHAPTER4)
             getHUD().wgPopUp.setText(DISCLAIMTEXT)
