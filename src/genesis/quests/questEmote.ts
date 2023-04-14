@@ -37,6 +37,7 @@ export class QuestEmote implements IClaimProvider {
     tick3: Entity
     bridge_2: Entity
     arrow: Entity
+    arrowTexture: Texture
 
     bnpc1isInPlaza: boolean = false
 
@@ -512,11 +513,33 @@ export class QuestEmote implements IClaimProvider {
         this.npc1.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.ZONE_1_EMOTE_4)
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(true)
 
-        this.arrow = new Entity()
-        this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb")) 
-        this.arrow.getComponent(GLTFShape).visible = true
-        this.arrow.setParent(this.bridge_2)
-        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(-2, 1.5, 0), scale: new Vector3(0.2, 7, 5), rotation: new Vector3(0, 0, -90).toQuaternion()})) 
+        let zOffset = 1.85
+        let scale = 0.3
+        const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
+
+        this.arrowTexture = new Texture("assets/textures/arrow2.png")
+        const baseMaterial = new Material()
+        const originalColor = Color3.Yellow()
+        baseMaterial.albedoColor = originalColor
+        baseMaterial.emissiveColor = originalColor
+        baseMaterial.emissiveIntensity = 5
+        baseMaterial.albedoTexture = this.arrowTexture 
+        baseMaterial.alphaTexture = this.arrowTexture
+        
+        for (let i = 0; i < 9; i++) {
+            this.arrow = new Entity()
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.setParent(this.bridge_2)
+            this.arrow.addComponent(baseMaterial)
+
+            if(i==4) zOffset = - 1.85
+
+            if(i==8){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+            }
+        }
 
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
 

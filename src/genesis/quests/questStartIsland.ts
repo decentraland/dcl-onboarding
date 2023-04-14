@@ -601,12 +601,11 @@ export class SpawnIsland {
                     this.arrow.addComponent(new PlaneShape()).visible = true
                     this.arrow.setParent(this.bridge_1)
                     this.arrow.addComponent(baseMaterial)
-                    this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0, 1.4, 1), scale: new Vector3(1, 1, 0.7), rotation: new Vector3(0, 90, 90).toQuaternion()}))
 
                     if(i==4) zOffset = - 1.85
 
                     if(i==8){
-                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(-7, 1.5, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(-7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, 90).toQuaternion()}))
                     }else{
                         this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, 90).toQuaternion()}))
                     }
