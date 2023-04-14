@@ -35,6 +35,7 @@ export class SpawnIsland {
     lookAt3DText: Entity
     arrow: Entity
     toborPos: Vector3
+    arrowTexture: Texture
 
     readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
     //readonly SPAWN_POSITION = new Vector3(107, 88, 107) //portal
@@ -583,20 +584,34 @@ export class SpawnIsland {
 
           
                 let zOffset = 1.85
-                const xOffsets = [-2.2, -0.3, 0.9, 2.7, -2.2, -0.3, 0.9, 2.7]
+                let scale = 0.3
+                const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
 
+                this.arrowTexture = new Texture("assets/textures/whiteArrow.png")
+                
+                const baseMaterial = new Material()
+                const originalColor = Color3.Blue()
+                baseMaterial.emissiveColor = originalColor
+                baseMaterial.emissiveIntensity = 10
+                baseMaterial.albedoTexture = this.arrowTexture 
+                baseMaterial.alphaTexture = this.arrowTexture
+
+
+                
                 for (let i = 0; i < 8; i++) {
                     
                     this.arrow = new Entity()
-                    this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb")) 
-                    this.arrow.getComponent(GLTFShape).visible = true
+                    this.arrow.addComponent(new PlaneShape()).visible = true
                     this.arrow.setParent(this.bridge_1)
+                    this.arrow.addComponent(baseMaterial)
+                    this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0, 1.4, 1), scale: new Vector3(1, 1, 0.7), rotation: new Vector3(0, 90, 90).toQuaternion()}))
 
                     if(i==4) zOffset = - 1.85
 
-                    this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(0.2, 1, 0.7), rotation: new Vector3(1, -1, 90).toQuaternion()}))
-                }
+                    if(i==9) scale = 1
 
+                    this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                }
             })
         })
     }
