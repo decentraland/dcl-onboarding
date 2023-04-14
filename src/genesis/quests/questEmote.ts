@@ -433,7 +433,7 @@ export class QuestEmote implements IClaimProvider {
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
             }
         } else {
-            if(CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote){
+            if(!CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote){
                 log("CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER",CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER, "skipping showing them DISCLAIMTEXT")
                 this.onCloseRewardUI()
                 return

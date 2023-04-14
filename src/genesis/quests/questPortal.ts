@@ -205,7 +205,7 @@ export class QuestPortal implements IClaimProvider{
             } 
         } else {
             //Set up popup with disclaimer
-            if(CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.puzzle){
+            if(!CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.puzzle){
                 log("CONFIG.CLAIM_NONWEB3_ONLY_SHOW_DISCLAIMER_ONCE",CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER, "skipping showing them DISCLAIMTEXT")
                 this.onCloseRewardUI()
                 return
