@@ -104,6 +104,15 @@ export class Widget {
       this.container = container
     }
   }
+
+
+  isVisible(){
+    //debugger
+    const retVal = this.container.visible
+    
+    return retVal
+  }
+
   //Muestra u oculta el widget y sus hijos, no muestra los hijos que no tengan bVisibleWithParent==true
   show(bVisible: boolean) {
     this.container.visible = bVisible

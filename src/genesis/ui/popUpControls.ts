@@ -68,7 +68,7 @@ export class popUpControls extends Widget {
         this.takecontrolCameraImageContainerBackground.visible = true
         this.takecontrolCameraImageContainerBackground.hAlign = 'center'
         this.takecontrolCameraImageContainerBackground.vAlign = 'bottom'
-        this.takecontrolCameraImageContainerBackground.width = 558 * 0.5
+        this.takecontrolCameraImageContainerBackground.width = 558 * 0.6
         this.takecontrolCameraImageContainerBackground.height = 200 * 0.5
         this.takecontrolCameraImageContainerBackground.positionX = "0%"
         this.takecontrolCameraImageContainerBackground.positionY = "-25%"
@@ -197,7 +197,7 @@ export class popUpControls extends Widget {
         this.emoteContainer.visible = false
         this.emoteContainer.hAlign = 'center'
         this.emoteContainer.vAlign = 'bottom'
-        this.emoteContainer.width = 558
+        this.emoteContainer.width = 300
         this.emoteContainer.height = 252
         this.emoteContainer.positionX = "0%"
         this.emoteContainer.positionY = "-30%"
@@ -210,16 +210,32 @@ export class popUpControls extends Widget {
         this.emoteImage.height = this.emoteImage.sourceHeight * 1
         this.emoteImage.hAlign = "center"
         this.emoteImage.vAlign = "bottom"
-        this.emoteImage.positionX = -75
+        this.emoteImage.positionX = -75 + 20
         this.emoteImage.positionY = "7%"
         this.emoteImage.isPointerBlocker = false
         this.emoteImage.visible = true
 
+        const emoteText2 = new UIText(this.emoteContainer)
+        emoteText2.value = "Press"
+        emoteText2.width = 10
+        emoteText2.height = "100%"
+        emoteText2.hAlign = "left"
+        emoteText2.vAlign = "center"
+        emoteText2.hTextAlign = "center"
+        emoteText2.vTextAlign = "center"
+        emoteText2.positionY = "-26%"
+        emoteText2.positionX = "6%"
+        emoteText2.color = Color4.White()
+        emoteText2.fontSize = 14
+        emoteText2.textWrapping = false
+        emoteText2.visible = true
+        emoteText2.isPointerBlocker = false
+
         this.emoteText = new UIText(this.emoteContainer)
-        this.emoteText.value = "Open emote menu\nand select a move"
-        this.emoteText.width = "100%"
+        this.emoteText.value = "to open emote menu\nand select a move"
+        this.emoteText.width = "70%"
         this.emoteText.height = "100%"
-        this.emoteText.hAlign = "center"
+        this.emoteText.hAlign = "right"
         this.emoteText.vAlign = "bottom"
         this.emoteText.hTextAlign = "center"
         this.emoteText.vTextAlign = "center"
@@ -358,19 +374,30 @@ export class popUpControls extends Widget {
         this.spaceContainer.visible = false
     }
 
-    showTakecontrolCameraImage(bVisible: boolean) {
-        if (bVisible) {
-            this.hideAll()
+    /**
+     * 
+     * @param bVisible 
+     * @param delayHideTime <= 0 means no delay hide time, stays up permentantly
+     * @param hideAll 
+     */
+    showTakecontrolCameraImage(bVisible: boolean,delayHideTime?:number,hideAll?:boolean) {
+        log("showTakecontrolCameraImage",bVisible,delayHideTime,hideAll)
+        //hides all then make visible select things
+        if ((hideAll === undefined && bVisible) || (hideAll && bVisible)) {
+            this.hideAll() 
         }
         this.takecontrolCameraImageText.value = "Click to take control \nof the camera"
         this.containerBig.visible = bVisible
         this.takecontrolCameraImageContainer.visible = bVisible
         this.takecontrolCameraImageContainerBackground.visible = bVisible
-        delay(() => {
-            this.containerBig.visible = !bVisible
-            this.takecontrolCameraImageContainer.visible = !bVisible
-            this.takecontrolCameraImageContainerBackground.visible = !bVisible
-        }, 3000)
+        if(delayHideTime && delayHideTime > 0){
+            delay(() => {
+                this.containerBig.visible = !bVisible
+                this.takecontrolCameraImageContainer.visible = !bVisible
+                this.takecontrolCameraImageContainerBackground.visible = !bVisible
+            }, delayHideTime)
+        }
+        
 
     }
 
@@ -409,6 +436,7 @@ export class popUpControls extends Widget {
     }
 
     showCameraModeImage(bVisible: boolean) {
+        log("showCameraModeImage",bVisible)
         if (bVisible) {
             this.hideAll()
         }
