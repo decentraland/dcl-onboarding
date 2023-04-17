@@ -147,6 +147,23 @@ class MaterialPool {
         return this.primaryMaterialPool.getResource("gray");
     }
 
+    getBridgeArrow(): Material {
+        if (!this.primaryMaterialPool.hasResource("bridgeArrow")) {
+            this.createPrimaryMaterial("bridgeArrow", Color3.Gray());
+            const arrowTexture = new Texture("assets/textures/arrow2.png")
+            const baseMaterial = new Material()
+            const originalColor = Color3.Yellow()
+            baseMaterial.albedoColor = originalColor
+            baseMaterial.emissiveColor = originalColor
+            baseMaterial.emissiveIntensity = 5
+            baseMaterial.albedoTexture = arrowTexture 
+            baseMaterial.alphaTexture = arrowTexture
+
+            this.primaryMaterialPool.setResource("bridgeArrow", baseMaterial);
+        }
+        return this.primaryMaterialPool.getResource("bridgeArrow");
+    }
+
     private createPrimaryMaterial(name: string, color: Color3) {
         let mat = new Material();
         mat.albedoColor = color;

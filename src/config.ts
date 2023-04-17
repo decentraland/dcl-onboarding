@@ -39,6 +39,18 @@ const REMOTE_VIDEO_CONFIG: Record<string, string> = {
     "prd": "PROVIDE CONFIG JSON HERE",//PROD/live use this for launch
 };
 
+enum QuestTypeEnum{
+  EMOTE='emote',
+  MATERIAL='material',
+  PUZZLE='puzzle'
+} 
+
+const CLAIM_NONWEB3_SHOW_DISCLAIMER_FLAG: Record<string, Record<QuestTypeEnum,boolean>> = {
+  "local": {emote:true,'material':true,puzzle:true},//for local testing if u need different value
+  "stg": {emote:true,'material':true,puzzle:true},//DEV/preview
+  "prd": {emote:true,'material':true,puzzle:true},//PROD/live use this for launch
+};
+
 const ENABLED_DETECT_SCENE_ACTIVE_UTIL = true 
 export class Config{
   sizeX!:number
@@ -72,6 +84,7 @@ export class Config{
   CLAIM_DATE_TESTING_ENABLED = DEBUG_CLAIMING_FLAGS_VAL[DEFAULT_ENV]
   DISPENSER_POSITIONS:DispenserPos[] = [] 
   CLAIM_CAPTCHA_ENABLED = true //worlds needs recaptcha since world catalyst not trusted by reward server
+  CLAIM_NONWEB3_SHOW_DISCLAIMER = CLAIM_NONWEB3_SHOW_DISCLAIMER_FLAG[DEFAULT_ENV]
   //END claiming/dispensers
  
   init(){

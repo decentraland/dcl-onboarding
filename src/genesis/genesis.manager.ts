@@ -9,6 +9,7 @@ import { QuestMaterials } from "./quests/questMaterials";
 import { QuestPortal } from "./quests/questPortal";
 import { QuestPuzzle } from "./quests/questPuzzle";
 import { SpawnIsland } from "./quests/questStartIsland";
+import { getHUD } from "src/hud";
 
 //All game manager
 export class GenesisManager {
@@ -75,7 +76,7 @@ class IslandStartState implements State {
         SpawnIsland.instance().startSpawnIsland();
     }
     end() {
-
+        
     }
 }
 
@@ -91,6 +92,14 @@ class IslandQuest1State implements State {
         QuestEmote.instance().startQuest1();
     }
     end() {
+        log("IslandQuest1State","end","ENTRY")
+        log("IslandQuest1State","end","onPointerLockedStateChange.clear")
+        //onPointerLockedStateChange
+        //ensure take control is removed
+        //up to this point the "take control , clear cursor msg: is OK but will start to conflict
+        //with the "press V" message, long term they have to fix the fact they all share same parent container :(
+        getHUD().wgPopUpControls.showTakecontrolCameraImage(false,0)
+        onPointerLockedStateChange.clear()
     }
 }
 
@@ -106,7 +115,7 @@ class IslandQuest2State implements State {
         QuestMaterials.instance().startQuest();
     }
     end() {
-
+        
     }
 }
 

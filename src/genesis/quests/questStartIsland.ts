@@ -8,11 +8,13 @@ import { AudioManager } from '../components/audio/audio.manager';
 import * as bubbleText from "src/jsonData/textsTutorialBubble"
 import { blockPlayer, delay, MovementType, releasePlayer, StateMachine } from 'src/imports/index';
 import { POPUP_STATE } from '../ui/popupUI';
-import { movePlayerTo } from '@decentraland/RestrictedActions';
+import { movePlayerTo } from '@decentraland/RestrictedActions'; 
 import { TweenManagerComponent } from 'src/imports/components/tween/tweenmanager';
 import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
 import { TaskType } from 'src/imports/widgets/widgetTasks';
+import { IndicatorState } from '../components/npcs/questIndicator';
+
 export class SpawnIsland {
 
     private static instanceRef: SpawnIsland;
@@ -31,6 +33,8 @@ export class SpawnIsland {
     bridge_1: Entity
     barrier_1: Entity
     lookAt3DText: Entity
+    arrow: Entity
+    toborPos: Vector3
 
     readonly SPAWN_POSITION = new Vector3(223.85, 71.7368, 123.52) //actual start
     //readonly SPAWN_POSITION = new Vector3(107, 88, 107) //portal
@@ -57,6 +61,13 @@ export class SpawnIsland {
         this.pilar_tobor = GameData.instance().getEntity("pilar_tobor") as Entity
         this.bridge_1 = GameData.instance().getEntity("bridge_1") as Entity
         this.barrier_1 = GameData.instance().getEntity("z0_barrier") as Entity
+
+        
+        //this.arrow = new Entity()
+        //this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb"))
+        //this.arrow.setParent(this.bridge_1)
+        //this.arrow.addComponent(new Transform({position: new Vector3(0, 4, 0), rotation: new Quaternion(0, 0, 1, 0), scale: new Vector3(2,2,2)}))
+        
             
         this.barrier_1.addComponentOrReplace(new OnPointerDown(()=>{
 
@@ -120,13 +131,15 @@ export class SpawnIsland {
         AudioManager.instance().playMainAmbience(true)
         AudioManager.instance().play("waterfall", { volume: 1, loop: true, position: new Vector3(226.94, 70, 130.37) })
 
+        //Show popup tutorial tasks up front for easier testing
+        //TESTING ONLY getHUD().wgPopUp.popUpMode(POPUP_STATE.Tasks)
+
         //Show controls
         getHUD().wgPopUpControls.show(true)
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        getHUD().wgPopUpControls.showTakecontrolCameraImage(true,5000)
 
         //Focus pointer in game
         onPointerLockedStateChange.add(({ locked }) => {
-
             this.onFocusScreen(locked)
         })
 
@@ -161,9 +174,26 @@ export class SpawnIsland {
 
             }
             onPointerLockedStateChange.clear()
+
+            onPointerLockedStateChange.add(({ locked }) => {
+                log("onPointerLockedStateChange","ENTRY",locked)
+                
+                log("onPointerLockedStateChange","getHUD().wgPopUp.isVisible()",getHUD().wgPopUp.isVisible())
+                if( getHUD().wgPopUp.isVisible() ) {
+                    //FIXME shared with jump space???
+                    //for now so only have it visible when dialog is visible
+                    getHUD().wgPopUpControls.showTakecontrolCameraImage(!locked,0,false)
+
+                    getHUD().wgPopUp.takecontrolBackground.visible = locked
+                }else{
+                    if(getHUD().wgPopUpControls.takecontrolCameraImageContainer.visible){
+                        getHUD().wgPopUpControls.showTakecontrolCameraImage(false,0,false)
+                    }
+                }
+            })
         }
     }
-
+ 
     lookaroundQuest() {
 
         var blookedLeft = false
@@ -295,6 +325,7 @@ export class SpawnIsland {
             //fail safe. should be  part of keyboard wgKeyBoard.setcallbackStart ???
             //just incase was not called!!!
             if(!getHUD().wgQuest){
+                //debugger
                 log("getHUD().wgQuest was null!!! workaround why was this null")
                 getHUD().setWidgetQuest(0, TaskType.Simple)
             }
@@ -407,14 +438,21 @@ export class SpawnIsland {
         getHUD().wgPopUpControls.show(false)
 
         this.tobor.getComponent(RobotNPC).setMoveSpeed(6)
-        this.tobor.getComponent(RobotNPC).moveTo(this.pilar_tobor.getComponent(Transform).position, true, () => {
+        this.toborPos = this.pilar_tobor.getComponent(Transform).position
+        this.tobor.getComponent(RobotNPC).moveTo(this.toborPos, true, () => {
 
             this.dialogAtPilar()
 
-            //Show bubble
+            //BLA Show Pointing arrow
+            this.tobor.getComponent(RobotNPC).indicator.updateStatus(IndicatorState.EXCLAMATION)
+        
+            
+
+            //BLA removed the bubble with the esxlamation mark to be more in line with the other avatars
+            /*
             this.bubbleTalk.setTextWithDelay(bubbleText.OVERHERE)
             this.bubbleTalk.setBubbleMaxScale(1.7)
-            this.bubbleTalk.setActive(true)
+            this.bubbleTalk.setActive(true)*/
 
             GenesisData.instance().targeterRobot.translate(utils.getEntityWorldPosition(this.tobor).add(new Vector3(0, 0, 0)))
             GenesisData.instance().targeterRobot.showCircle(true)
@@ -424,7 +462,9 @@ export class SpawnIsland {
     dialogAtPilar() {
         this.tobor.addComponentOrReplace(new OnPointerDown((e) => {
             this.tobor.removeComponent(OnPointerDown)
-            this.bubbleTalk.setBubbleDisapearDistance(10)
+            //this.bubbleTalk.setBubbleDisapearDistance(10)
+
+            this.tobor.getComponent(RobotNPC).indicator.hide()
 
             //Stat
             sendTrak('z0_quest0_04')
@@ -434,7 +474,7 @@ export class SpawnIsland {
             getHUD().wgQuest.setOtherTaskDelay(3, 1)
 
             //Bubble off
-            this.bubbleTalk.setActive(false)
+            //this.bubbleTalk.setActive(false)
             GenesisData.instance().targeterRobot.show(false);
 
             //sound effect
@@ -458,11 +498,12 @@ export class SpawnIsland {
                     this.onCloseRewardUI()
                 }
 
-                //play close sound
+
+                //play close sound 
                 AudioManager.instance().playOnce("pop_up_close", { volume: 0.2, parent: this.tobor })
 
                 //Show popup tutorial tasks
-                getHUD().wgPopUp.popUpMode(POPUP_STATE.Tasks)
+                getHUD().wgPopUp.popUpMode(POPUP_STATE.Tasks) 
 
                 //Play popup sound
                 AudioManager.instance().playPopupOpen()
@@ -480,8 +521,10 @@ export class SpawnIsland {
         getHUD().wgPopUp.leftButtonClic = () => { }
         this.activatePilar()
         this.ativateBridge()
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
-        getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
+
+        //have an onFocusListener now, no need to call this here
+        //getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        //getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
 
         //Start Emote State Quest
         StateManager.instance().startState("IslandQuest1State")
@@ -522,8 +565,10 @@ export class SpawnIsland {
 
         AudioManager.instance().playBridge(this.bridge_1)
 
+        
+
         //remove onclick tooltip
-        //if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
+        if(this.bridge_1.hasComponent(OnPointerDown)) this.bridge_1.removeComponent(OnPointerDown)
 
         this.bridge_1.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
@@ -535,6 +580,28 @@ export class SpawnIsland {
 
                 //Play tobor idle anim
                 this.tobor.getComponent(RobotNPC).idleAnim()
+
+          
+                let zOffset = 1.85
+                let scale = 0.3
+                const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
+
+                const baseMaterial = MaterialPool.instance().getBridgeArrow()
+                
+                for (let i = 0; i < 9; i++) {
+                    this.arrow = new Entity()
+                    this.arrow.addComponent(new PlaneShape()).visible = true
+                    this.arrow.setParent(this.bridge_1)
+                    this.arrow.addComponent(baseMaterial)
+
+                    if(i==4) zOffset = - 1.85
+
+                    if(i==8){
+                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(-7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                    }else{
+                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                    }
+                }
             })
         })
     }
