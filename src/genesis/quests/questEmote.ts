@@ -570,7 +570,7 @@ export class QuestEmote implements IClaimProvider {
             this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
 
             if(userWallet != null || userWallet != undefined){
-                this.giveReward()
+                this.giveReward() 
             }else{
                 this.dialogQuestFinished()
             }
