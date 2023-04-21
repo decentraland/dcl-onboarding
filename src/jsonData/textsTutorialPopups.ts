@@ -19,7 +19,7 @@ export const SECOND_ISLAND_4 = "Your next task is to talk to my friend Mat. He�
 export const SECOND_ISLAND_5 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "But first, let me give you this NFT emote!" : "Good Luck!"
 export const SECOND_ISLAND_6 = "You can find Mat on the next island."
 export const SECOND_ISLAND_7 = "You can find Mat on the next island."
-export const SECOND_ISLAND_8 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "And by the way you forgot your NFT emote." : "Good Luck!"
+export const SECOND_ISLAND_8 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "Good Luck!" : "And by the way you forgot your NFT emote."
 
 // Dialogs  Mat island
 export const THIRD_ISLAND_0 = "Hey, I'm Mat. I have a business in the metaverse selling NFT wearables."
@@ -35,7 +35,7 @@ export const THIRD_ISLAND_7 = "Your next task is to talk to Kit, find him on the
 export const THIRD_ISLAND_8 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "Thanks for your help." : "Before you go, take this wearable as thanks for your help."
 export const THIRD_ISLAND_9 = "Kit should be in the next island."
 export const THIRD_ISLAND_10 = "Kit should be in the next island."
-export const THIRD_ISLAND_11 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "now I have to go back to work to create awesome wearables" : "Oh! You forgot your wearable."
+export const THIRD_ISLAND_11 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "Whith the materials that you gave me, I can create awesome wearables. Thanks!" : "Oh! You forgot your wearable."
 
 // Dialogs  Kit island
 export const FOURTH_ISLAND_0 = "Hi I’m Kit. You’re just about ready to visit the main part of Decentraland: Genesis City!"

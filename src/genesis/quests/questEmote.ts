@@ -550,6 +550,8 @@ export class QuestEmote implements IClaimProvider {
     }
 
     private remindPlayerOfReward() {
+        let userWallet = UserData.instance().getWallet()
+
         this.npc1.removeComponent(OnPointerDown)
 
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
@@ -566,8 +568,14 @@ export class QuestEmote implements IClaimProvider {
             getHUD().wgTalkNPC1.callback = () => { };
             //Recursive Call
             this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
-            this.giveReward();
+
+            if(userWallet != null || userWallet != undefined){
+                this.giveReward()
+            }else{
+                this.dialogQuestFinished()
+            }
         }
+        
     }
 
     private tellPlayerToFindMat() { //Go to Next Island Dialog
