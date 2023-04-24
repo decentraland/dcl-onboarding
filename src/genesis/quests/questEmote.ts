@@ -40,6 +40,7 @@ export class QuestEmote implements IClaimProvider {
 
     bnpc1isInPlaza: boolean = false
 
+    firstTimeClosingRewardUI: boolean = true
 
     //start claim code
     hasReward: boolean
@@ -468,10 +469,15 @@ export class QuestEmote implements IClaimProvider {
     private onCloseRewardUI() {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
-        //Pilar Turn ON
-        this.activatePilar()
-        //Bridge Turn ON
-        this.activateBridge()
+
+        if(this.firstTimeClosingRewardUI){
+            //Pilar Turn ON
+            this.activatePilar()
+            //Bridge Turn ON
+            this.activateBridge()
+
+            this.firstTimeClosingRewardUI = false
+        }
 
         this.dialogQuestFinished()
         StateManager.instance().startState("IslandQuest2State")
