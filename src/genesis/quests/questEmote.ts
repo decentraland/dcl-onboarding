@@ -550,7 +550,6 @@ export class QuestEmote implements IClaimProvider {
     }
 
     private remindPlayerOfReward() {
-        let userWallet = UserData.instance().getWallet()
 
         this.npc1.removeComponent(OnPointerDown)
 
@@ -569,11 +568,7 @@ export class QuestEmote implements IClaimProvider {
             //Recursive Call
             this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
 
-            if(userWallet != null || userWallet != undefined){
-                this.giveReward() 
-            }else{
-                this.dialogQuestFinished()
-            }
+            this.giveReward()
         }
         
     }
