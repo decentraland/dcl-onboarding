@@ -40,6 +40,7 @@ export class QuestMaterials implements IClaimProvider {
     blocker: Entity;
     barrier_2: Entity
 
+    firstTimeClosingRewardUI: boolean = true
 
     //start claim code
     hasReward: boolean
@@ -486,7 +487,14 @@ export class QuestMaterials implements IClaimProvider {
     private onCloseRewardUI() {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
-        this.activatePilar()
+
+
+        if(this.firstTimeClosingRewardUI){
+            //Pilar Turn ON
+            this.activatePilar()
+
+            this.firstTimeClosingRewardUI = false
+        }
 
         this.afterEndQuestClick()
         StateManager.instance().startState("IslandQuest3State")
