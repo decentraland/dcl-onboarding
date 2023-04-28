@@ -46,9 +46,9 @@ enum QuestTypeEnum{
 } 
 
 const CLAIM_NONWEB3_SHOW_DISCLAIMER_FLAG: Record<string, Record<QuestTypeEnum,boolean>> = {
-  "local": {emote:true,material:true,portal:true},//for local testing if u need different value
-  "stg": {emote:true,material:true,portal:true},//DEV/preview
-  "prd": {emote:true,material:false,portal:false},//PROD/live use this for launch
+  "local": {emote:true,material:true,puzzle:true},//for local testing if u need different value
+  "stg": {emote:true,material:true,puzzle:true},//DEV/preview
+  "prd": {emote:true,material:false,puzzle:false},//PROD/live use this for launch
 };
 
 const ENABLED_DETECT_SCENE_ACTIVE_UTIL = true 
