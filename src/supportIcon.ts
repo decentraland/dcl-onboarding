@@ -3,32 +3,37 @@ import * as ui from '@dcl/ui-scene-utils'
 initGameSupportUI()
 
 export function initGameSupportUI(){
-    let healthIcon = new ui.SmallIcon('assets/ui/support/support_icon.png', -20, 10, 36, 36)
-    
- 
+
 
     let prompt = new ui.OkPrompt(
-        'If you need more information click',
+        'Ask for more informationts to the Decentraland support.',
         () => {
             openExternalURL("https://intercom.decentraland.org/")
         },
-        'Here',
+        'Bring me',
         false
     )
+    prompt.hide()
 
-    healthIcon.addComponent(new OnPointerDown(() => void{
-        
-        createPrompt(){
-            log("createPrompt has been called")
-            let dio = new ui.OkPrompt(
-                'This is an Ok Prompt',
-                () => {
-                  log(`accepted`)
-                },
-                'Ok',
-                true
-              )
+    let open = false
+    const clickableImage = new UIImage(prompt.canvas, new Texture('assets/ui/support/support_icon.png'))
+    clickableImage.hAlign = "left"
+    clickableImage.vAlign = "top"
+    clickableImage.width = 34
+    clickableImage.height = 34
+    clickableImage.positionX = 163
+    clickableImage.positionY = 25
+    clickableImage.sourceWidth = 36
+    clickableImage.sourceHeight = 36
+    clickableImage.isPointerBlocker = true
+    clickableImage.onClick = new OnPointerDown(() => {
+
+        if(open){
+            open = false
+            prompt.hide()
+        }else{
+            open = true
+            prompt.show()
         }
-        
-    }))
+    })
 }
