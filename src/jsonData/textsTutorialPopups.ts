@@ -1,6 +1,8 @@
 // Dialogs  Start island
 
-import { CONFIG } from "src/config"
+import { CONFIG, initConfig } from "src/config"
+
+initConfig()
 
 export const START_ISLAND_0 = "Welcome to Decentraland! The metaverse <b>owned and created</b> by people like you. My name is Tobor."
 export const START_ISLAND_1 = "Decentraland is a place to <b>socialise with friends, play games,</b> and <b>so much more!</b>"
@@ -16,10 +18,10 @@ export const SECOND_ISLAND_1 = "It’s easy to make friends at Decentraland’s 
 export const SECOND_ISLAND_2 = "Let me teach you how to express yourself so you can party in Decentraland."
 export const SECOND_ISLAND_3 = "Well done! You really know how to party."
 export const SECOND_ISLAND_4 = "Your next task is to talk to my friend Mat. He’s across the bridge on the next island."
-export const SECOND_ISLAND_5 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "But first, let me give you this NFT emote!" : "Good Luck!"
+export const SECOND_ISLAND_5 = "But first, let me give you this NFT emote!"
 export const SECOND_ISLAND_6 = "You can find Mat on the next island."
 export const SECOND_ISLAND_7 = "You can find Mat on the next island."
-export const SECOND_ISLAND_8 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote ? "And by the way you forgot your NFT emote." : "Good Luck!"
+export const SECOND_ISLAND_8 = ()=>{ return CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote  || CONFIG.PLAYER_IS_WEB3_CONNECTED ? "And by the way you forgot your NFT emote." : "Good Luck!" }
 
 // Dialogs  Mat island
 export const THIRD_ISLAND_0 = "Hey, I'm Mat. I have a business in the metaverse selling NFT wearables."
@@ -32,10 +34,10 @@ export const THIRD_ISLAND_5 = "Come back here! That’s everything I need."
 
 export const THIRD_ISLAND_6 = "Thanks for collecting the materials and meshes, now I can make more wearables."
 export const THIRD_ISLAND_7 = "Your next task is to talk to Kit, find him on the last island."
-export const THIRD_ISLAND_8 = "Before you go, take this wearable as thanks for your help."
+export const THIRD_ISLAND_8 = ()=>{ return CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.material  || CONFIG.PLAYER_IS_WEB3_CONNECTED ? "Before you go, take this wearable as thanks for your help." : "Thanks for your help."}
 export const THIRD_ISLAND_9 = "Kit should be in the next island."
 export const THIRD_ISLAND_10 = "Kit should be in the next island."
-export const THIRD_ISLAND_11 = "Oh! You forgot your wearable."
+export const THIRD_ISLAND_11 = ()=>{ return CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.material || CONFIG.PLAYER_IS_WEB3_CONNECTED ? "Oh! You forgot your wearable." : "With the materials that you gave me, I can create awesome wearables. Thanks!" }
 
 // Dialogs  Kit island
 export const FOURTH_ISLAND_0 = "Hi I’m Kit. You’re just about ready to visit the main part of Decentraland: Genesis City!"
@@ -54,7 +56,4 @@ export const PORTAL_ISLAND_0 = "Awesome, the portals are online!"
 export const PORTAL_ISLAND_1 = "From here on out it's up to you... <b>what do you want to do in Decentraland?</b>"
 export const PORTAL_ISLAND_2 = "Don't like these choices? Press <b>tab</b> to open the menu and choose from loads of different experiences."
 export const PORTAL_ISLAND_3 = "Well, what are you waiting for, choose your next experience!"
-export const PORTAL_ISLAND_4 = "Before you go, don't forget your reward for activating the portals"
-
-
-
+export const PORTAL_ISLAND_4 = ()=>{ return CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.puzzle || CONFIG.PLAYER_IS_WEB3_CONNECTED ? "Before you go, don't forget your reward for activating the portals" : "Thanks again for activating the portals!" }

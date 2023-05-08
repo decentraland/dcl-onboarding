@@ -2,7 +2,7 @@
 import * as text2D from "./textsTutorialPopups"
 
 export class Text {
-  text: { en: string }
+  text: { en: string | (()=>string) }
   comfirmText?: { en: string, fontSize?: number }
   cancelText?: { en: string, fontSize?: number }
   fontSize: number
@@ -794,7 +794,13 @@ export function getText(dialogId: number, textId: number, textLanguage: string):
       if (!textDialogs[dialogId].texts[textId].text[textLanguage]) {
         textLanguage = 'en'
       }
-      return textDialogs[dialogId].texts[textId].text[textLanguage];
+      const myVar = textDialogs[dialogId].texts[textId].text[textLanguage];
+      if (typeof myVar === 'string' ){//|| myVar instanceof String){
+        return myVar
+      }else{
+        //assume function
+        return myVar()
+      }
     }
     else return "";
   }
