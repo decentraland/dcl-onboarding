@@ -40,6 +40,7 @@ export class QuestEmote implements IClaimProvider {
 
     bnpc1isInPlaza: boolean = false
 
+    firstTimeClosingRewardUI: boolean = true
 
     //start claim code
     hasReward: boolean
@@ -468,10 +469,15 @@ export class QuestEmote implements IClaimProvider {
     private onCloseRewardUI() {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
-        //Pilar Turn ON
-        this.activatePilar()
-        //Bridge Turn ON
-        this.activateBridge()
+
+        if(this.firstTimeClosingRewardUI){
+            //Pilar Turn ON
+            this.activatePilar()
+            //Bridge Turn ON
+            this.activateBridge()
+
+            this.firstTimeClosingRewardUI = false
+        }
 
         this.dialogQuestFinished()
         StateManager.instance().startState("IslandQuest2State")
@@ -550,6 +556,7 @@ export class QuestEmote implements IClaimProvider {
     }
 
     private remindPlayerOfReward() {
+
         this.npc1.removeComponent(OnPointerDown)
 
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
@@ -566,8 +573,10 @@ export class QuestEmote implements IClaimProvider {
             getHUD().wgTalkNPC1.callback = () => { };
             //Recursive Call
             this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
-            this.giveReward();
+
+            this.giveReward()
         }
+        
     }
 
     private tellPlayerToFindMat() { //Go to Next Island Dialog
