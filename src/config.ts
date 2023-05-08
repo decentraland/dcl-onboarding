@@ -1,5 +1,6 @@
 import { isPreviewMode } from '@decentraland/EnvironmentAPI'
 import { DispenserPos } from "./claiming-dropin/claiming/claimTypes"
+import { UserData, getUserData } from '@decentraland/Identity'
 
 
 const ParcelCountX:number = 12
@@ -86,6 +87,9 @@ export class Config{
   CLAIM_CAPTCHA_ENABLED = true //worlds needs recaptcha since world catalyst not trusted by reward server
   CLAIM_NONWEB3_SHOW_DISCLAIMER = CLAIM_NONWEB3_SHOW_DISCLAIMER_FLAG[DEFAULT_ENV]
   //END claiming/dispensers
+
+  //defaults false, will be updated below 
+  PLAYER_IS_WEB3_CONNECTED = false
  
   init(){
     if(this.initAlready) return;
@@ -110,6 +114,12 @@ export function initConfig(){
   isPreviewMode().then( (val:boolean) =>{
     log("IN_PREVIEW",CONFIG.IN_PREVIEW,val)
     CONFIG.IN_PREVIEW = val || CONFIG.FORCE_PREVIEW_ENABLED
+    log("initConfig","CONFIG.CONFIG.IN_PREVIEW",CONFIG.IN_PREVIEW)
+  })
+
+  getUserData().then((userData:UserData)=>{
+    CONFIG.PLAYER_IS_WEB3_CONNECTED = userData.hasConnectedWeb3
+    log("initConfig","CONFIG.PLAYER_IS_WEB3_CONNECTED",CONFIG.PLAYER_IS_WEB3_CONNECTED)
   })
   return CONFIG
 }
