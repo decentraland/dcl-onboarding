@@ -35,7 +35,7 @@ export const THIRD_ISLAND_7 = "Your next task is to talk to Kit, find him on the
 export const THIRD_ISLAND_8 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.material ? "Thanks for your help." : "Before you go, take this wearable as thanks for your help."
 export const THIRD_ISLAND_9 = "Kit should be in the next island."
 export const THIRD_ISLAND_10 = "Kit should be in the next island."
-export const THIRD_ISLAND_11 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.material ? "Whith the materials that you gave me, I can create awesome wearables. Thanks!" : "Oh! You forgot your wearable."
+export const THIRD_ISLAND_11 = CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.material ? "With the materials that you gave me, I can create awesome wearables. Thanks!" : "Oh! You forgot your wearable."
 
 // Dialogs  Kit island
 export const FOURTH_ISLAND_0 = "Hi I’m Kit. You’re just about ready to visit the main part of Decentraland: Genesis City!"
