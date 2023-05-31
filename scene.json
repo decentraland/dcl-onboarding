@@ -426,6 +426,7 @@
   "tags": [],
   "worldConfiguration" : {
     "fixedAdapter": "offline:offline",
+    "skybox": 21600,
     "name": "dclonboarding.dcl.eth"
   }
 }
