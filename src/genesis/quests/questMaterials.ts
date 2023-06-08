@@ -43,6 +43,7 @@ export class QuestMaterials implements IClaimProvider {
     arrow: Entity
     arrows: Entity []
 
+
     firstTimeClosingRewardUI: boolean = true
 
     //start claim code
@@ -111,12 +112,12 @@ export class QuestMaterials implements IClaimProvider {
         this.setQuestStartDialog()
         this.setUpTriggerHi()
         this.setUpClaim()
-        this.setUpArrows()
+        
     }
 
     private setUpArrows(){
         let scale = 0.3
-        let zOffset = 4.5
+        let xOffset = 4.5
         const zOffsets = [-2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2, -2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2]
         const yOffsets = [-1.085, -0.77, -0.46, -0.13, 0.18, 0.6, 0.915, 1.35, 1.67, -1.05, -0.72, -0.4, -0.15, 0.178, 0.59, 0.9, 1.33, 1.65]
 
@@ -129,26 +130,27 @@ export class QuestMaterials implements IClaimProvider {
             if(i < 9){
                 this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
             }else{
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(zOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
             }
             this.arrow.setParent(s0_Z3_Prop_Stairs03_Art_01)
-            engine.addEntity(this.arrow)    
-            //this.arrows.push(this.arrow)    
         }
 
-        /*for (let i = 0; i < 18; i++) {
+        const zOffsets2 = [-2.68, -1.44, -0.25, 0.93, 2.2, 3.41, 4.67, 5.9, 7.2, 8.4, 9.7, -2.68, -1.44, -0.25, 0.93, 2.2, 3.41, 4.67, 5.9, 7.2, 8.4, 9.7]
+        const yOffsets2 = [-1, -0.7, -0.4, -0.1, 0.2, 0.6, 0.915, 1.35, 1.67, 1.99, 2.31, -1, -0.7, -0.4, -0.1, 0.2, 0.6, 0.915, 1.35, 1.67, 1.99, 2.31]
+
+
+        for (let i = 0; i < 22; i++) {
             this.arrow = new Entity()
             this.arrow.addComponent(new PlaneShape()).visible = true
             this.arrow.addComponent(baseMaterial)
-            if(i < 9){
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            if(i < 11){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets2[i] +0.77 , zOffsets2[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
             }else{
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(zOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets2[i] +0.77 , zOffsets2[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
             }
             this.arrow.setParent(s0_Z3_Prop_Stairs02_Art_3__01)
-            engine.addEntity(this.arrow)     
-            this.arrows.push(this.arrow)       
-        }*/
+            engine.addEntity(this.arrow)          
+        }
     }
 
     private setUpClaim() {
@@ -562,7 +564,7 @@ export class QuestMaterials implements IClaimProvider {
         this.deleteBlocker()
 
         //ABC
-        
+        this.setUpArrows()
 
     }
 
