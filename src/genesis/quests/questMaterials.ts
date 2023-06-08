@@ -19,6 +19,7 @@ import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from "src/claimi
 import { CONFIG } from "src/config";
 import { activateSoundPillar3 } from "../components/audio/sounds";
 import { QuestPuzzle } from "./questPuzzle";
+import {s0_Z3_Prop_Stairs02_Art_3__01, s0_Z3_Prop_Stairs03_Art_01 } from "src/game";
 
 //Quest collect matterials
 export class QuestMaterials implements IClaimProvider {
@@ -39,6 +40,8 @@ export class QuestMaterials implements IClaimProvider {
     cable_on: Entity;
     blocker: Entity;
     barrier_2: Entity
+    arrow: Entity
+    arrows: Entity []
 
     firstTimeClosingRewardUI: boolean = true
 
@@ -108,6 +111,44 @@ export class QuestMaterials implements IClaimProvider {
         this.setQuestStartDialog()
         this.setUpTriggerHi()
         this.setUpClaim()
+        this.setUpArrows()
+    }
+
+    private setUpArrows(){
+        let scale = 0.3
+        let zOffset = 4.5
+        const zOffsets = [-2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2, -2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2]
+        const yOffsets = [-1.085, -0.77, -0.46, -0.13, 0.18, 0.6, 0.915, 1.35, 1.67, -1.05, -0.72, -0.4, -0.15, 0.178, 0.59, 0.9, 1.33, 1.65]
+
+        const baseMaterial = MaterialPool.instance().getBridgeArrow()
+
+        for (let i = 0; i < 18; i++) {
+            this.arrow = new Entity()
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.addComponent(baseMaterial)
+            if(i < 9){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(zOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }
+            this.arrow.setParent(s0_Z3_Prop_Stairs03_Art_01)
+            engine.addEntity(this.arrow)    
+            //this.arrows.push(this.arrow)    
+        }
+
+        /*for (let i = 0; i < 18; i++) {
+            this.arrow = new Entity()
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.addComponent(baseMaterial)
+            if(i < 9){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(zOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }
+            this.arrow.setParent(s0_Z3_Prop_Stairs02_Art_3__01)
+            engine.addEntity(this.arrow)     
+            this.arrows.push(this.arrow)       
+        }*/
     }
 
     private setUpClaim() {
@@ -488,7 +529,6 @@ export class QuestMaterials implements IClaimProvider {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
 
-
         if(this.firstTimeClosingRewardUI){
             //Pilar Turn ON
             this.activatePilar()
@@ -520,6 +560,10 @@ export class QuestMaterials implements IClaimProvider {
         })
         //Remove blocker to next island
         this.deleteBlocker()
+
+        //ABC
+        
+
     }
 
     private activeCables(bActive: boolean) {
