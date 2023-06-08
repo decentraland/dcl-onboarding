@@ -16,6 +16,7 @@ import { DispenserPos } from 'src/claiming-dropin/claiming/claimTypes'
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from 'src/claiming-dropin/claiming/loot'
 import { IClaimProvider } from 'src/claiming-dropin/claiming/defaultClaimProvider'
 import { activatePillarSound4, changeGeneratosSound } from '../components/audio/sounds'
+import { s0_Z3_Prop_Stairs02_Art_3__01, s0_Z3_Prop_Stairs02_Art_4__01, s0_Z3_Prop_Stairs02_Art_5__01, s0_Z3_Prop_Stairs03_Art_01 } from 'src/game'
 
 //Quest restore energy
 
@@ -31,6 +32,9 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
     pilar4: Entity
     cable_off: Entity
     cable_on: Entity
+    arrow: Entity
+    arrowsToFlip: Entity []
+
 
     /*//start claim code
     hasReward:boolean 
@@ -71,6 +75,85 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         this.setUpInitQuest()
         this.setUpTriggerHi()
         this.setUpClaim()
+        this.setUpArrows()
+    }
+
+    private setUpArrows(){
+        let scale = 0.3
+        let xOffset = 4.5
+        const zOffsets = [-2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2, -2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2]
+        const yOffsets = [-1.085, -0.77, -0.46, -0.13, 0.18, 0.6, 0.915, 1.35, 1.67, -1.05, -0.72, -0.4, -0.15, 0.178, 0.59, 0.9, 1.33, 1.65]
+
+        const baseMaterial = MaterialPool.instance().getBridgeArrow()
+
+        for (let i = 0; i < 18; i++) {
+            this.arrow = new Entity()
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.addComponent(baseMaterial)
+            if(i < 9){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }
+            this.arrow.setParent(s0_Z3_Prop_Stairs03_Art_01)
+        }
+
+        const zOffsets2 = [-2.68, -1.44, -0.25, 0.93, 2.2, 3.41, 4.67, 5.9, 7.2, 8.4, 9.7, -2.68, -1.44, -0.25, 0.93, 2.2, 3.41, 4.67, 5.9, 7.2, 8.4, 9.7]
+        const yOffsets2 = [-1, -0.7, -0.4, -0.1, 0.2, 0.6, 0.915, 1.35, 1.67, 1.99, 2.31, -1, -0.7, -0.4, -0.1, 0.2, 0.6, 0.915, 1.35, 1.67, 1.99, 2.31]
+
+
+        for (let i = 0; i < 22; i++) {
+            this.arrow = new Entity()
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.addComponent(baseMaterial)
+            if(i < 11){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets2[i] +0.77 , zOffsets2[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets2[i] +0.77 , zOffsets2[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }
+            this.arrow.setParent(s0_Z3_Prop_Stairs02_Art_3__01)
+            engine.addEntity(this.arrow)          
+        }
+
+        const zOffsets3 = [-2.68, -1.44, -0.25, -2.68, -1.44, -0.25]
+        const yOffsets3 = [-1, -0.7, -0.4, -1, -0.7, -0.4]
+
+        for (let i = 0; i < 6; i++) {
+            this.arrow = new Entity()
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.addComponent(baseMaterial)
+            if(i < 3){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets3[i] +0.77 , zOffsets3[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets3[i] +0.77 , zOffsets3[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }
+            this.arrow.setParent(s0_Z3_Prop_Stairs02_Art_4__01)
+            engine.addEntity(this.arrow)          
+        }
+
+        let arrowsToFlipRef = []
+
+        for (let i = 0; i < 6; i++) {
+            this.arrow = new Entity()
+            arrowsToFlipRef.push(this.arrow)
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.addComponent(baseMaterial)
+            if(i < 3){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets3[i] +0.77 , zOffsets3[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets3[i] +0.77 , zOffsets3[i] + 3), scale: new Vector3 (scale, scale, scale), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+            }
+            this.arrow.setParent(s0_Z3_Prop_Stairs02_Art_5__01)
+            engine.addEntity(this.arrow)          
+        }
+
+        this.arrowsToFlip = arrowsToFlipRef
+    }
+
+    private flipArrows(){
+        for (let i = 0; i < this.arrowsToFlip.length; i++) {
+            this.arrowsToFlip[i].getComponent(Transform).rotation = new Vector3(0, 90, 0).toQuaternion()
+        }
     }
 
     private setUpClaim() {
@@ -380,5 +463,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
             DebugAccess.instance().log("cable_on not found. Skip", LogType.WARN)
         }
         else this.cable_on.getComponent(GLTFShape).visible = bActive
+
+        this.flipArrows()
     }
 }
