@@ -385,6 +385,6 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         else this.cable_on.getComponent(GLTFShape).visible = bActive
 
         //ABC
-        //this.flipArrows()
+        Arrows.instance().flipArrows()
     }
 }

@@ -532,23 +532,20 @@ export class QuestMaterials implements IClaimProvider {
 
         const zOffsets = [-2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2, -2.75, -1.5, -0.3, 0.9, 2.17, 3.41, 4.67, 5.9, 7.2]
         const yOffsets = [-1.085, -0.77, -0.46, -0.13, 0.18, 0.6, 0.915, 1.35, 1.67, -1.05, -0.72, -0.4, -0.15, 0.178, 0.59, 0.9, 1.33, 1.65]
-        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs03_Art_01, yOffsets, zOffsets)
+        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs03_Art_01, false, yOffsets, zOffsets)
         
 
         const zOffsets2 = [0.32, 1.56, 2.75, 3.93, 5.2, 6.41, 7.67, 8.9, 10.2, 11.4, 12.7, 0.32, 1.56, 2.75, 3.93, 5.2, 6.41, 7.67, 8.9, 10.2, 11.4, 12.7]
-        const yOffsets2 = [-0.23, 0.07, 0.37, 0.67, 0.97, 1.37, 1.685, 2.3, 2.44, 2.76, 3.08, -0.23, 0.07, 0.37, 0.67, 0.97, 1.37, 1.685, 2.1, 2.44, 2.76, 3.08] 
-        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs02_Art_3__01, yOffsets2, zOffsets2)
+        const yOffsets2 = [-0.23, 0.07, 0.37, 0.67, 0.97, 1.37, 1.685, 2.1, 2.44, 2.76, 3.08, -0.23, 0.07, 0.37, 0.67, 0.97, 1.37, 1.685, 2.1, 2.44, 2.76, 3.08] 
+        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs02_Art_3__01, false, yOffsets2, zOffsets2)
 
 
         const zOffsets3 = [0.32, 1.56, 2.75, 0.32, 1.56, 2.75]
         const yOffsets3 = [-0.23, 0.07, 0.37, -0.23, 0.07, 0.37] 
-        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs02_Art_4__01, yOffsets3, zOffsets3)
+        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs02_Art_4__01, false, yOffsets3, zOffsets3)
 
         
-        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs02_Art_5__01, yOffsets3, zOffsets3)
-
-
-        let arrowsToFlipRef = []
+        Arrows.instance().createStairsArrows(s0_Z3_Prop_Stairs02_Art_5__01, true, yOffsets3, zOffsets3)
     }
 
     private activeCables(bActive: boolean) {
