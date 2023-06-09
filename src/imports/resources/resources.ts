@@ -212,6 +212,10 @@ class Arrows{
 
     arrowsToFlip: Entity []
 
+    private constructor() {
+        this.arrowsToFlip = []
+    }
+
     // Singleton Instance of the Object
     static instance(): Arrows { return this.instanceRef || (this.instanceRef = new this()); }
 
@@ -293,10 +297,10 @@ class Arrows{
     
 
     public flipArrows(){
-        if(this.arrowsToFlip){
-            for (let i = 0; i < this.arrowsToFlip.length; i++) {
-                this.arrowsToFlip[i].getComponent(Transform).rotation = new Vector3(0, 90, 0).toQuaternion()
-            }
+        log("CANE")
+        for (let i = 0; i < this.arrowsToFlip.length; i++) {
+            log("DIO")
+            this.arrowsToFlip[i].getComponent(Transform).rotation = new Vector3(0, 90, 0).toQuaternion()
         }
     }
 }
