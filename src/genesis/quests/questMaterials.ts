@@ -40,8 +40,8 @@ export class QuestMaterials implements IClaimProvider {
     cable_on: Entity;
     blocker: Entity;
     barrier_2: Entity
-    arrow: Entity
-    arrowsToFlip: Entity []
+    //arrow: Entity
+    //arrowsToFlip: Entity []
 
 
     firstTimeClosingRewardUI: boolean = true

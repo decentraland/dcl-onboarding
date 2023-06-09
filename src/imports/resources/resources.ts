@@ -205,3 +205,51 @@ class TexturePool {
     }
 
 }
+
+class Arrows{
+
+    private static instanceRef: Arrows;
+
+    // Singleton Instance of the Object
+    static instance(): Arrows { return this.instanceRef || (this.instanceRef = new this()); }
+
+    public createBridgeArrows(parent: Entity, bridge1: boolean, xOffsets: number[], yOffsets?: number[]){
+        
+        const baseMaterial = MaterialPool.instance().getBridgeArrow()
+        
+        let arrow 
+        let zOffset = 1.85
+
+        if(bridge1){
+            for (let i = 0; i < xOffsets.length + 1; i++) {
+                arrow = new Entity()
+                arrow.addComponent(new PlaneShape()).visible = true
+                arrow.setParent(parent)
+                arrow.addComponent(baseMaterial)
+    
+                if(i == xOffsets.length / 2) zOffset = - 1.85
+    
+                if(i==8){
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(-7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                }else{
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(.3, .3, .3), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                }
+            }
+        }else{
+            for (let i = 0; i < xOffsets.length + 1; i++) {
+                arrow = new Entity()
+                arrow.addComponent(new PlaneShape()).visible = true
+                arrow.setParent(parent)
+                arrow.addComponent(baseMaterial)
+    
+                if(i == xOffsets.length / 2) zOffset = - 1.85
+    
+                if(i==8){
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+                }else{
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(.3, .3, .3), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+                }
+            }
+        }
+    }
+}

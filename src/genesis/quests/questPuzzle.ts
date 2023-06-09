@@ -75,9 +75,10 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         this.setUpInitQuest()
         this.setUpTriggerHi()
         this.setUpClaim()
-        this.setUpArrows()
+        //this.setUpArrows()
     }
 
+    /*
     private setUpArrows(){
         let scale = 0.3
         let xOffset = 4.5
@@ -154,7 +155,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         for (let i = 0; i < this.arrowsToFlip.length; i++) {
             this.arrowsToFlip[i].getComponent(Transform).rotation = new Vector3(0, 90, 0).toQuaternion()
         }
-    }
+    }*/
 
     private setUpClaim() {
         /*this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.CAP.refId )
@@ -464,6 +465,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         }
         else this.cable_on.getComponent(GLTFShape).visible = bActive
 
-        this.flipArrows()
+        //ABC
+        //this.flipArrows()
     }
 }
