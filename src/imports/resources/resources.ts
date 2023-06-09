@@ -272,4 +272,11 @@ class Arrows{
             arrow.setParent(parent)
         }
     }
+    /*
+
+    public flipArrows(){
+        for (let i = 0; i < this.arrowsToFlip.length; i++) {
+            this.arrowsToFlip[i].getComponent(Transform).rotation = new Vector3(0, 90, 0).toQuaternion()
+        }
+    }*/
 }
