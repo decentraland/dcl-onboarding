@@ -297,9 +297,7 @@ class Arrows{
     
 
     public flipArrows(){
-        log("CANE")
         for (let i = 0; i < this.arrowsToFlip.length; i++) {
-            log("DIO")
             this.arrowsToFlip[i].getComponent(Transform).rotation = new Vector3(0, 90, 0).toQuaternion()
         }
     }

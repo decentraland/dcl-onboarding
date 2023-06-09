@@ -236,6 +236,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         getHUD().wgQuest.show(true)
     }
     private clicOnNPC2PuzzleCompleted() {
+
         this.npc3.addComponentOrReplace(new OnPointerDown(() => {
             this.npc3.removeComponent(OnPointerDown)
             this.spawnparticles(true)
@@ -331,6 +332,9 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
     //Dialog End Quest
     private dialogQuestFinished() {
 
+        
+        Arrows.instance().flipArrows()
+
         this.npc3.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.GO_TO_PORTAL)
         this.npc3.getComponent(QuestNpc).bubbleTalk.setActive(true)
 
@@ -383,8 +387,5 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
             DebugAccess.instance().log("cable_on not found. Skip", LogType.WARN)
         }
         else this.cable_on.getComponent(GLTFShape).visible = bActive
-
-        //ABC
-        Arrows.instance().flipArrows()
     }
 }
