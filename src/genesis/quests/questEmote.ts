@@ -16,7 +16,7 @@ import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
 import { CONFIG } from "src/config";
 import { activateSoundPillar2 } from "../components/audio/sounds";
-import { foxBezier } from "src/compass";
+import { foxBezier, racoonMat } from "src/compass";
 
 export class QuestEmote implements IClaimProvider {
 
@@ -476,7 +476,8 @@ export class QuestEmote implements IClaimProvider {
             //Bridge Turn ON
             this.activateBridge()
 
-            foxBezier.questCompleted = true
+            foxBezier.pointToThisNpc = false
+            racoonMat.pointToThisNpc = true
 
             this.firstTimeClosingRewardUI = false
         }
