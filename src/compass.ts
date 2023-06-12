@@ -2,7 +2,7 @@ import * as ui from '@dcl/ui-scene-utils'
 
 
 //#region npcs
-export class npc extends Entity {
+export class npcCompassReference extends Entity {
     name: string
     transform: Transform
     isComplated: boolean
@@ -15,19 +15,19 @@ export class npc extends Entity {
     }
 }
 
-const foxTransform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
-const fox = new npc("fox", foxTransform, false)
+const foxBezierTransform = new Transform({position: new Vector3(160.1, 66.1, 104.3)})
+const foxBezier = new npcCompassReference("foxBezier", foxBezierTransform, false)
 
-const racoonTransform = new Transform({ position: new Vector3(111.05, 77.703, 138.8)})
-const racoon = new npc("racoon", racoonTransform, false)
+const racoonMatTransform = new Transform({position: new Vector3(170.4, 68.9, 159)})
+const racoonMat = new npcCompassReference("racoonMat", racoonMatTransform, false)
 
-const racoon2Transform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
-const racoon2 = new npc("racoon2", racoon2Transform, false)
+const racoonKitTransform = new Transform({ position: new Vector3(111, 77.6, 138.8)})
+const racoonKit = new npcCompassReference("racoonKit", racoonKitTransform, false)
 
-const portalToborTransform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
-const portalTobor = new npc("portalTobor", portalToborTransform, false)
+const portalToborTransform = new Transform({ position: new Vector3(117.2, 80.9, 113)})
+const portalTobor = new npcCompassReference("portalTobor", portalToborTransform, false)
 
-const npcsToFind = [fox, racoon, racoon2, portalTobor]
+const npcsToFind = [foxBezier, racoonMat, racoonKit, portalTobor]
 
 
 class npcState{
@@ -240,7 +240,7 @@ export function disableCompass() {
 
 function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entity[]) {
     for (let i = 0; i < npcs.length; i++) {
-      const currentPage = npcs[i] as npc
+      const currentPage = npcs[i] as npcCompassReference
   
       if (currentPage.isComplated) continue
   
@@ -254,6 +254,3 @@ function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entit
       }
     }
 }
-
-
-
