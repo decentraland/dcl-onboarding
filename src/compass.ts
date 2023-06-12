@@ -199,9 +199,9 @@ export function disableCompass() {
 
 function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entity[]) {
     for (let i = 0; i < npcs.length; i++) {
-      const currentPage = npcs[i] as GiftBox
+      const currentPage = npcs[i] as npc
   
-      if (currentPage.isPicked) continue
+      if (currentPage.isComplated) continue
   
       let distanceToPlayer = Vector3.Distance(
         currentPage.transform.position,
@@ -224,3 +224,12 @@ class npcState{
 }
   
 export const PRESENT_STATE = new npcState()
+
+export class npc extends Entity {
+    name: string
+    transform: Transform
+    isComplated: boolean
+}
+
+const foxTransform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
+const fox = new npc("fox", foxTransform, false )
