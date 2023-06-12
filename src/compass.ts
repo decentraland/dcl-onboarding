@@ -5,18 +5,18 @@ import * as ui from '@dcl/ui-scene-utils'
 export class npcCompassReference extends Entity {
     name: string
     transform: Transform
-    questCompleted: boolean
+    pointToThisNpc: boolean
 
-    constructor(name: string, transform: Transform, questCompleted: boolean){
+    constructor(name: string, transform: Transform, pointToThisNpc: boolean){
         super()
         this.name = name
         this.transform = transform
-        this.questCompleted = questCompleted
+        this.pointToThisNpc = pointToThisNpc
     }
 }
 
 const foxBezierTransform = new Transform({position: new Vector3(160.1, 66.1, 104.3)})
-export const foxBezier = new npcCompassReference("foxBezier", foxBezierTransform, false)
+export const foxBezier = new npcCompassReference("foxBezier", foxBezierTransform, true)
 
 const racoonMatTransform = new Transform({position: new Vector3(170.4, 68.9, 159)})
 export const racoonMat = new npcCompassReference("racoonMat", racoonMatTransform, false)
@@ -31,12 +31,8 @@ const npcsToFind = [foxBezier, racoonMat, racoonKit, portalTobor]
 
 
 class npcState{
-    TOTAL_TO_FIND: number = 4
-    firstNPC: boolean
     npcs = npcsToFind
     compassVisible: boolean = false
-    hintedAtPuzzle:boolean = false
-    warnedIfNotWeb3:boolean = false //find better place for this!?!?!
 }
   
 export const NPC_STATE = new npcState()
@@ -241,16 +237,16 @@ export function disableCompass() {
 
 function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entity[]) {
     for (let i = 0; i < npcs.length; i++) {
-      const currentPage = npcs[i] as npcCompassReference
+      const currentNpcToPoint = npcs[i] as npcCompassReference
   
-      if (currentPage.questCompleted) continue
+      if (!currentNpcToPoint.pointToThisNpc) continue
   
       let distanceToPlayer = Vector3.Distance(
-        currentPage.transform.position,
+        currentNpcToPoint.transform.position,
         camera.position
       )
       if (distanceToPlayer < closestData.closestPageDistance) {
-        closestData.closestPagePosition = currentPage.transform.position.clone()
+        closestData.closestPagePosition = currentNpcToPoint.transform.position.clone()
         closestData.closestPageDistance = distanceToPlayer
       }
     }
