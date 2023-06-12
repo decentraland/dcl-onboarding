@@ -5,27 +5,27 @@ import * as ui from '@dcl/ui-scene-utils'
 export class npcCompassReference extends Entity {
     name: string
     transform: Transform
-    isComplated: boolean
+    questCompleted: boolean
 
-    constructor(name: string, transform: Transform, isComplated: boolean){
+    constructor(name: string, transform: Transform, questCompleted: boolean){
         super()
         this.name = name
         this.transform = transform
-        this.isComplated = isComplated
+        this.questCompleted = questCompleted
     }
 }
 
 const foxBezierTransform = new Transform({position: new Vector3(160.1, 66.1, 104.3)})
-const foxBezier = new npcCompassReference("foxBezier", foxBezierTransform, false)
+export const foxBezier = new npcCompassReference("foxBezier", foxBezierTransform, false)
 
 const racoonMatTransform = new Transform({position: new Vector3(170.4, 68.9, 159)})
-const racoonMat = new npcCompassReference("racoonMat", racoonMatTransform, false)
+export const racoonMat = new npcCompassReference("racoonMat", racoonMatTransform, false)
 
 const racoonKitTransform = new Transform({ position: new Vector3(111, 77.6, 138.8)})
-const racoonKit = new npcCompassReference("racoonKit", racoonKitTransform, false)
+export const racoonKit = new npcCompassReference("racoonKit", racoonKitTransform, false)
 
 const portalToborTransform = new Transform({ position: new Vector3(117.2, 80.9, 113)})
-const portalTobor = new npcCompassReference("portalTobor", portalToborTransform, false)
+export const portalTobor = new npcCompassReference("portalTobor", portalToborTransform, false)
 
 const npcsToFind = [foxBezier, racoonMat, racoonKit, portalTobor]
 
@@ -243,7 +243,7 @@ function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entit
     for (let i = 0; i < npcs.length; i++) {
       const currentPage = npcs[i] as npcCompassReference
   
-      if (currentPage.isComplated) continue
+      if (currentPage.questCompleted) continue
   
       let distanceToPlayer = Vector3.Distance(
         currentPage.transform.position,

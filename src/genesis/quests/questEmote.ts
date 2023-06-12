@@ -16,6 +16,7 @@ import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
 import { CONFIG } from "src/config";
 import { activateSoundPillar2 } from "../components/audio/sounds";
+import { foxBezier } from "src/compass";
 
 export class QuestEmote implements IClaimProvider {
 
@@ -168,7 +169,6 @@ export class QuestEmote implements IClaimProvider {
 
         //Idle animation
         this.npc1.getComponent(QuestNpc).idleAnim()
-
     }
 
     private setUpTriggerHi() {
@@ -475,6 +475,8 @@ export class QuestEmote implements IClaimProvider {
             this.activatePilar()
             //Bridge Turn ON
             this.activateBridge()
+
+            foxBezier.questCompleted = true
 
             this.firstTimeClosingRewardUI = false
         }
