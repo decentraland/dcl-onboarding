@@ -1,6 +1,46 @@
-
 import * as ui from '@dcl/ui-scene-utils'
 
+
+//#region npcs
+export class npc extends Entity {
+    name: string
+    transform: Transform
+    isComplated: boolean
+
+    constructor(name: string, transform: Transform, isComplated: boolean){
+        super()
+        this.name = name
+        this.transform = transform
+        this.isComplated = isComplated
+    }
+}
+
+const foxTransform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
+const fox = new npc("fox", foxTransform, false)
+
+const racoonTransform = new Transform({ position: new Vector3(111.05, 77.703, 138.8)})
+const racoon = new npc("racoon", racoonTransform, false)
+
+const racoon2Transform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
+const racoon2 = new npc("racoon2", racoon2Transform, false)
+
+const portalToborTransform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
+const portalTobor = new npc("portalTobor", portalToborTransform, false)
+
+const npcsToFind = [fox, racoon, racoon2, portalTobor]
+
+
+class npcState{
+    TOTAL_TO_FIND: number = 4
+    firstNPC: boolean
+    npcs = npcsToFind
+    compassVisible: boolean = false
+    hintedAtPuzzle:boolean = false
+    warnedIfNotWeb3:boolean = false //find better place for this!?!?!
+}
+  
+export const NPC_STATE = new npcState()
+//#endregion
 
 type ClosestDataType = {closestPagePosition?:Vector3,closestPageDistance?:number}
 
@@ -16,6 +56,7 @@ enum compassDirections {
   NONE,
 }
 
+
 let compassDiedMessage = false;
 
 let camera = Camera.instance
@@ -29,8 +70,8 @@ export class compassSystem implements ISystem {
 
     constructor(npcsToFind: Entity[], uiImage: UIImage) {
         this.currentDirection = compassDirections.NONE
-        this.uiImage = uiImage
         this.npcsToFind = npcsToFind
+        this.uiImage = uiImage
     }
 
     update(dt: number) {
@@ -167,11 +208,11 @@ export function showCompass() {
     uiContainer.visible = true
     compassImage.visible = true
 
-    _compassSystem = new compassSystem(PRESENT_STATE.npcs, compassImage)
+    _compassSystem = new compassSystem(NPC_STATE.npcs, compassImage)
     engine.addSystem(_compassSystem)
     _compassSystem.enabled = true
   
-    PRESENT_STATE.compassVisible = true
+    NPC_STATE.compassVisible = true
 }
 
 export function hideCompass() {
@@ -185,7 +226,7 @@ export function hideCompass() {
       _compassSystem.enabled = false
     }
   
-    PRESENT_STATE.compassVisible = false
+    NPC_STATE.compassVisible = false
 }
 
 export function disableCompass() {
@@ -214,22 +255,5 @@ function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entit
     }
 }
 
-class npcState{
-    TOTAL_TO_FIND: number = 4
-    firstNPC: boolean
-    npcs = []
-    compassVisible: boolean = false
-    hintedAtPuzzle:boolean = false
-    warnedIfNotWeb3:boolean = false //find better place for this!?!?!
-}
-  
-export const PRESENT_STATE = new npcState()
 
-export class npc extends Entity {
-    name: string
-    transform: Transform
-    isComplated: boolean
-}
 
-const foxTransform = new Transform({ position: new Vector3(170.31, 68.796, 159.06)})
-const fox = new npc("fox", foxTransform, false )
