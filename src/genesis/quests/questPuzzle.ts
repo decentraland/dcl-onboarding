@@ -17,6 +17,7 @@ import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from 'src/claimi
 import { IClaimProvider } from 'src/claiming-dropin/claiming/defaultClaimProvider'
 import { activatePillarSound4, changeGeneratosSound } from '../components/audio/sounds'
 import { s0_Z3_Prop_Stairs02_Art_3__01, s0_Z3_Prop_Stairs02_Art_4__01, s0_Z3_Prop_Stairs02_Art_5__01, s0_Z3_Prop_Stairs03_Art_01 } from 'src/game'
+import { racoonKit } from 'src/compass'
 
 //Quest restore energy
 
@@ -290,6 +291,11 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
 
                 //End Quest
                 this.dialogQuestFinished()
+
+                Arrows.instance().flipArrows()
+
+                racoonKit.questCompleted = true
+
                 this.spawnparticles(false)
                 this.removeParticleEntity()
                 StateManager.instance().startState("PortalState")
@@ -331,9 +337,6 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
 
     //Dialog End Quest
     private dialogQuestFinished() {
-
-        
-        Arrows.instance().flipArrows()
 
         this.npc3.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.GO_TO_PORTAL)
         this.npc3.getComponent(QuestNpc).bubbleTalk.setActive(true)
