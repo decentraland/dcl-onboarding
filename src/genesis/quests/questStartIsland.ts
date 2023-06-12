@@ -14,6 +14,7 @@ import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
 import { TaskType } from 'src/imports/widgets/widgetTasks';
 import { IndicatorState } from '../components/npcs/questIndicator';
+import { showCompass } from 'src/compass';
 
 export class SpawnIsland {
 
@@ -511,6 +512,8 @@ export class SpawnIsland {
         this.activatePilar()
         this.ativateBridge()
 
+        showCompass()
+        
         //have an onFocusListener now, no need to call this here
         //getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
         //getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true

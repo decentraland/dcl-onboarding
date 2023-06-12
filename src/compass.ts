@@ -202,6 +202,7 @@ compassImage.opacity = 1
 
 export let _compassSystem: compassSystem
 
+
 export function showCompass() {
     log("compass.ts" + "showCompass()")
 
