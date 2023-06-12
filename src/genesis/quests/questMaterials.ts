@@ -497,7 +497,8 @@ export class QuestMaterials implements IClaimProvider {
             //Pilar Turn ON
             this.activatePilar()
 
-            racoonMat.questCompleted = true
+            racoonMat.pointToThisNpc = false
+            racoonKit.pointToThisNpc = true
 
             this.firstTimeClosingRewardUI = false
         }
