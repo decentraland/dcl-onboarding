@@ -20,6 +20,7 @@ import { CONFIG } from "src/config";
 import { activateSoundPillar3 } from "../components/audio/sounds";
 import { QuestPuzzle } from "./questPuzzle";
 import {s0_Z3_Prop_Stairs02_Art_3__01, s0_Z3_Prop_Stairs02_Art_4__01, s0_Z3_Prop_Stairs02_Art_5__01, s0_Z3_Prop_Stairs03_Art_01, s0_Z3_Prop_Stairs03_Art_16__01 } from "src/game";
+import { racoonKit } from "src/compass";
 
 //Quest collect matterials
 export class QuestMaterials implements IClaimProvider {
@@ -495,6 +496,8 @@ export class QuestMaterials implements IClaimProvider {
         if(this.firstTimeClosingRewardUI){
             //Pilar Turn ON
             this.activatePilar()
+
+            racoonKit.questCompleted = true
 
             this.firstTimeClosingRewardUI = false
         }
