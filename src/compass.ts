@@ -170,7 +170,7 @@ export class compassSystem implements ISystem {
 
 
 //#region UI
-export let atlas = new Texture('assets/ui/compass/Compass.png') //CompassSprites
+export let atlas = new Texture('assets/ui/compass/compass6.png') //CompassSprites
 
 let currentHandsY: number = -20
 export const uiContainer = new UIContainerRect(ui.canvas)
