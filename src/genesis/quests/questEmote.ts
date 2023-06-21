@@ -16,6 +16,7 @@ import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 import { doClaim, doClaimSilent, IClaimProvider, showClaimPrompt } from "src/claiming-dropin/claiming/defaultClaimProvider";
 import { CONFIG } from "src/config";
 import { activateSoundPillar2 } from "../components/audio/sounds";
+import { foxBezier, racoonMat } from "src/compass";
 
 export class QuestEmote implements IClaimProvider {
 
@@ -168,7 +169,6 @@ export class QuestEmote implements IClaimProvider {
 
         //Idle animation
         this.npc1.getComponent(QuestNpc).idleAnim()
-
     }
 
     private setUpTriggerHi() {
@@ -476,6 +476,9 @@ export class QuestEmote implements IClaimProvider {
             //Bridge Turn ON
             this.activateBridge()
 
+            foxBezier.pointToThisNpc = false
+            racoonMat.pointToThisNpc = true
+
             this.firstTimeClosingRewardUI = false
         }
 
@@ -520,26 +523,10 @@ export class QuestEmote implements IClaimProvider {
         this.npc1.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.ZONE_1_EMOTE_4)
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(true)
 
-        let zOffset = 1.85
-        let scale = 0.3
-        const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
 
-        const baseMaterial = MaterialPool.instance().getBridgeArrow()
+        const xArrowsOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
+        Arrows.instance().createBridgeArrows(this.bridge_2, false, xArrowsOffsets)
         
-        for (let i = 0; i < 9; i++) {
-            this.arrow = new Entity()
-            this.arrow.addComponent(new PlaneShape()).visible = true
-            this.arrow.setParent(this.bridge_2)
-            this.arrow.addComponent(baseMaterial)
-
-            if(i==4) zOffset = - 1.85
-
-            if(i==8){
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, -90).toQuaternion()}))
-            }else{
-                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, -90).toQuaternion()}))
-            }
-        }
 
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
 

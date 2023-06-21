@@ -10,7 +10,7 @@ export const START_ISLAND_2 = "Follow me to get started.  It should only take 5 
 export const START_ISLAND_3 = "For your first day in the metaverse we have <b>a few quick tasks</b> for you to do so you can get the hang of what Decentraland is all about."
 export const START_ISLAND_4 = "<b>Head over the bridge</b> to meet my friends. They will teach you everything you need to know."
 export const START_ISLAND_5 = "You might meet other newbies here too! Press <b>enter</b> to chat with them."
-
+export const START_ISLAND_6 = "You can borrow this <b>compass.</b> It will help you to find my friends."
 
 // Dialogs  Beizer island
 export const SECOND_ISLAND_0 = "I'm Bezier, I love making friends in Decentraland."
@@ -53,7 +53,8 @@ export const FOURTH_ISLAND_6 = "Tobor wants to talk to you, he’s next to the p
 
 // Dialogs  Tobor portal
 export const PORTAL_ISLAND_0 = "Awesome, the portals are online!"
-export const PORTAL_ISLAND_1 = "From here on out it's up to you... <b>what do you want to do in Decentraland?</b>"
-export const PORTAL_ISLAND_2 = "Don't like these choices? Press <b>tab</b> to open the menu and choose from loads of different experiences."
-export const PORTAL_ISLAND_3 = "Well, what are you waiting for, choose your next experience!"
-export const PORTAL_ISLAND_4 = ()=>{ return CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.puzzle || CONFIG.PLAYER_IS_WEB3_CONNECTED ? "Before you go, don't forget your reward for activating the portals" : "Thanks again for activating the portals!" }
+export const PORTAL_ISLAND_1 = "I hope that the compass has been useful to you. Unfortunally I have to take it back; Many new players would be lost without it."
+export const PORTAL_ISLAND_2 = "From here on out it's up to you... <b>what do you want to do in Decentraland?</b>"
+export const PORTAL_ISLAND_3 = "Don't like these choices? Press <b>tab</b> to open the menu and choose from loads of different experiences."
+export const PORTAL_ISLAND_4 = "Well, what are you waiting for, choose your next experience!"
+export const PORTAL_ISLAND_5 = ()=>{ return CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.puzzle || CONFIG.PLAYER_IS_WEB3_CONNECTED ? "Before you go, don't forget your reward for activating the portals" : "Thanks again for activating the portals!" }

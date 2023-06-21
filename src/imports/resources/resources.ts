@@ -205,3 +205,100 @@ class TexturePool {
     }
 
 }
+
+class Arrows{
+
+    private static instanceRef: Arrows;
+
+    arrowsToFlip: Entity []
+
+    private constructor() {
+        this.arrowsToFlip = []
+    }
+
+    // Singleton Instance of the Object
+    static instance(): Arrows { return this.instanceRef || (this.instanceRef = new this()); }
+
+    public createBridgeArrows(parent: Entity, bridge1: boolean, xOffsets: number[]){
+        
+        const baseMaterial = MaterialPool.instance().getBridgeArrow()
+        
+        let arrow 
+        let zOffset = 1.85
+
+        if(bridge1){
+            for (let i = 0; i < xOffsets.length + 1; i++) {
+                arrow = new Entity()
+                arrow.addComponent(new PlaneShape()).visible = true
+                arrow.setParent(parent)
+                arrow.addComponent(baseMaterial)
+    
+                if(i == xOffsets.length / 2) zOffset = - 1.85
+    
+                if(i==8){
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(-7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                }else{
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(.3, .3, .3), rotation: new Vector3(0, 90, 90).toQuaternion()}))
+                }
+            }
+        }else{
+            for (let i = 0; i < xOffsets.length + 1; i++) {
+                arrow = new Entity()
+                arrow.addComponent(new PlaneShape()).visible = true
+                arrow.setParent(parent)
+                arrow.addComponent(baseMaterial)
+    
+                if(i == xOffsets.length / 2) zOffset = - 1.85
+    
+                if(i==8){
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+                }else{
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(.3, .3, .3), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+                }
+            }
+        }
+    }
+
+    public createStairsArrows(parent: Entity, needToFlip: boolean, yOffsets: number[], zOffsets: number[]){
+
+        const baseMaterial = MaterialPool.instance().getBridgeArrow()
+
+        let arrow
+        let xOffset = 4.5
+
+
+        if(needToFlip){
+            for (let i = 0; i < yOffsets.length; i++) {
+                arrow = new Entity()
+                this.arrowsToFlip.push(arrow)
+                arrow.addComponent(new PlaneShape()).visible = true
+                arrow.addComponent(baseMaterial)
+                if(i < yOffsets.length / 2){
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets[i], zOffsets[i]), scale: new Vector3 (.3,.3,.3), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+                }else{
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (.3,.3,.3), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+                }
+                arrow.setParent(parent)
+            }
+        }else{
+            for (let i = 0; i < yOffsets.length; i++) {
+                arrow = new Entity()
+                arrow.addComponent(new PlaneShape()).visible = true
+                arrow.addComponent(baseMaterial)
+                if(i < yOffsets.length / 2){
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(0.7, yOffsets[i], zOffsets[i]), scale: new Vector3 (.3,.3,.3), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+                }else{
+                    arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffset, yOffsets[i], zOffsets[i]), scale: new Vector3 (.3,.3,.3), rotation: new Vector3(0, 90, 180).toQuaternion()}))
+                }
+                arrow.setParent(parent)
+            }
+        }
+    }
+    
+
+    public flipArrows(){
+        for (let i = 0; i < this.arrowsToFlip.length; i++) {
+            this.arrowsToFlip[i].getComponent(Transform).rotation = new Vector3(0, 90, 0).toQuaternion()
+        }
+    }
+}
