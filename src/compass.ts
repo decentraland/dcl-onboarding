@@ -38,7 +38,7 @@ class NpcState{
 export const NPC_STATE = new NpcState()
 //#endregion
 
-type ClosestDataType = {closestPagePosition?:Vector3,closestPageDistance?:number}
+type closestDataType = {closestPagePosition?:Vector3,closestPageDistance?:number}
 
 enum compassDirections {
   N,
@@ -57,12 +57,12 @@ let compassDiedMessage = false;
 
 let camera = Camera.instance
 
-export class compassSystem implements ISystem {
+export class CompassSystem implements ISystem {
     enabled: boolean = false
     uiImage: UIImage
     currentDirection: compassDirections = compassDirections.NONE
     npcsToFind: Entity[]
-    closestData: ClosestDataType = {}
+    closestData: closestDataType = {}
 
     constructor(npcsToFind: Entity[], uiImage: UIImage) {
         this.currentDirection = compassDirections.NONE
@@ -196,7 +196,7 @@ compassImage.opacity = 1
 //#endregion
 
 
-export let _compassSystem: compassSystem
+export let _compassSystem: CompassSystem
 
 
 export function showCompass() {
@@ -205,7 +205,10 @@ export function showCompass() {
     uiContainer.visible = true
     compassImage.visible = true
 
-    _compassSystem = new compassSystem(NPC_STATE.npcs, compassImage)
+    if(!_compassSystem){
+        engine.removeSystem(_compassSystem)
+    }
+    _compassSystem = new CompassSystem(NPC_STATE.npcs, compassImage)
     engine.addSystem(_compassSystem)
     _compassSystem.enabled = true
   
@@ -235,7 +238,7 @@ export function disableCompass() {
     }
 }
 
-function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entity[]) {
+function computeInPlaceClosestDistance(closestData: closestDataType, npcs: Entity[]) {
     for (let i = 0; i < npcs.length; i++) {
       const currentNpcToPoint = npcs[i] as NpcCompassReference
   
