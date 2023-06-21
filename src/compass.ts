@@ -30,12 +30,12 @@ export const portalTobor = new NpcCompassReference("portalTobor", portalToborTra
 const npcsToFind = [foxBezier, racoonMat, racoonKit, portalTobor]
 
 
-class npcState{
+class NpcState{
     npcs = npcsToFind
     compassVisible: boolean = false
 }
   
-export const NPC_STATE = new npcState()
+export const NPC_STATE = new NpcState()
 //#endregion
 
 type ClosestDataType = {closestPagePosition?:Vector3,closestPageDistance?:number}
