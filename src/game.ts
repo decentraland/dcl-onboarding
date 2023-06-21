@@ -3298,22 +3298,3 @@ onSceneReadyObservable.add(()=>{
         p()
     } 
 })
-
-
-let time
-let oneTime = true
-
-class ButtonChecker implements ISystem {
-    update() {
-      if (Input.instance.isButtonPressed(ActionButton.JUMP).BUTTON_DOWN && oneTime) {
-        executeTask(async () => { 
-            oneTime = false
-            time = await getDecentralandTime()
-            log("ABC" + time.seconds)
-            oneTime = true
-          })
-      }
-    }
-  }
-  
-  engine.addSystem(new ButtonChecker())
