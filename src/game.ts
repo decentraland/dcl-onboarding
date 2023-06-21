@@ -9,7 +9,6 @@ import { getDecentralandTime } from "@decentraland/EnvironmentAPI"
 
 
 
-
 //s0 is Onboarding_Scene
 
 //add entities that are not ciritical to initial load
@@ -892,7 +891,7 @@ s0_Z3_Env_Rocks_Source_art_10__01.addComponent(new GLTFShape("unity_assets/s0_Z3
 s0_Z3_Env_Rocks_Source_art_10__01.getComponent(GLTFShape).withCollisions = false
 s0_Z3_Env_Rocks_Source_art_10__01.addComponent(new Transform({ position: new Vector3(116, 70.18, 157.76), rotation: new Quaternion(0, -0.5921, 0, -0.8058645), scale: new Vector3(0.84586, 0.84586, 0.84586) }))
 
-var s0_Z3_Prop_Stairs03_Art_01 = new Entity("Z3_Prop_Stairs03_Art")
+export var s0_Z3_Prop_Stairs03_Art_01 = new Entity("Z3_Prop_Stairs03_Art")
 s0_Z3_Prop_Stairs03_Art_01.setParent(s0_Z3_COG_01)
 s0_Z3_Prop_Stairs03_Art_01.addComponent(new GLTFShape("unity_assets/s0_Z3_Prop_Stairs03_Art_01.glb"))
 s0_Z3_Prop_Stairs03_Art_01.getComponent(GLTFShape).withCollisions = false
@@ -910,7 +909,7 @@ s0_Z3_Rock_3_art_4__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Rock_3_art
 s0_Z3_Rock_3_art_4__01.getComponent(GLTFShape).withCollisions = false
 s0_Z3_Rock_3_art_4__01.addComponent(new Transform({ position: new Vector3(139.56, 70.16, 141.95), rotation: new Quaternion(-0.002405938, -0.1273662, -0.0611503, 0.989966), scale: new Vector3(2.754061, 2.754061, 2.75406) }))
 
-var s0_Z3_Prop_Stairs02_Art_3__01 = new Entity("Z3_Prop_Stairs02_Art (3)")
+export var s0_Z3_Prop_Stairs02_Art_3__01 = new Entity("Z3_Prop_Stairs02_Art (3)")
 s0_Z3_Prop_Stairs02_Art_3__01.setParent(s0_Z3_COG_01)
 s0_Z3_Prop_Stairs02_Art_3__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Prop_Stairs02_Art_1__01.glb"))
 s0_Z3_Prop_Stairs02_Art_3__01.getComponent(GLTFShape).withCollisions = false
@@ -1020,8 +1019,8 @@ s0_Z3_Env_Mountain_Low_Art_8__01.setParent(s0_Z3_COG_01)
 s0_Z3_Env_Mountain_Low_Art_8__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Env_Mountain_Low_Art_10__01.glb"))
 s0_Z3_Env_Mountain_Low_Art_8__01.getComponent(GLTFShape).withCollisions = false
 s0_Z3_Env_Mountain_Low_Art_8__01.addComponent(new Transform({ position: new Vector3(214.368, 63.41, 143.4479), rotation: new Quaternion(0, -0.6470218, 0, 0.7624714), scale: new Vector3(0.1710182, 0.1710182, 0.1710182) }))
-
-var s0_Z3_Prop_Stairs03_Art_16__01 = new Entity("Z3_Prop_Stairs03_Art (16)")
+    
+export var s0_Z3_Prop_Stairs03_Art_16__01 = new Entity("Z3_Prop_Stairs03_Art (16)")
 s0_Z3_Prop_Stairs03_Art_16__01.setParent(s0_Z3_COG_01)
 s0_Z3_Prop_Stairs03_Art_16__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Prop_Stairs03_Art_01.glb"))
 s0_Z3_Prop_Stairs03_Art_16__01.getComponent(GLTFShape).withCollisions = false
@@ -1641,7 +1640,7 @@ s0_Z3_Prop_Stairs03_Art_5__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Pro
 s0_Z3_Prop_Stairs03_Art_5__01.getComponent(GLTFShape).withCollisions = false
 s0_Z3_Prop_Stairs03_Art_5__01.addComponent(new Transform({ position: new Vector3(130.1413, 74.70654, 141.3221), rotation: new Quaternion(0.00862073, 0.9542042, 0.0276267, -0.2977531), scale: new Vector3(1, 1, 1) }))
 
-var s0_Z3_Prop_Stairs02_Art_4__01 = new Entity("Z3_Prop_Stairs02_Art (4)")
+export var s0_Z3_Prop_Stairs02_Art_4__01 = new Entity("Z3_Prop_Stairs02_Art (4)")
 s0_Z3_Prop_Stairs02_Art_4__01.setParent(s0_Z3_COG_01)
 s0_Z3_Prop_Stairs02_Art_4__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Prop_Stairs02_Art_1__01.glb"))
 s0_Z3_Prop_Stairs02_Art_4__01.getComponent(GLTFShape).withCollisions = false
@@ -1881,7 +1880,7 @@ s0_hill_art_36__01.addComponent(new GLTFShape("unity_assets/s0_hill_art_01.glb")
 s0_hill_art_36__01.getComponent(GLTFShape).withCollisions = false
 s0_hill_art_36__01.addComponent(new Transform({ position: new Vector3(209.16, 64.303, 123.57), rotation: new Quaternion(0, 0.5933857, 0, -0.8049182), scale: new Vector3(267.6592, 0.09243257, 226.612) }))
 
-var s0_Z3_Prop_Stairs02_Art_5__01 = new Entity("Z3_Prop_Stairs02_Art (5)")
+export var s0_Z3_Prop_Stairs02_Art_5__01 = new Entity("Z3_Prop_Stairs02_Art (5)")
 s0_Z3_Prop_Stairs02_Art_5__01.setParent(s0_Z3_COG_01)
 s0_Z3_Prop_Stairs02_Art_5__01.addComponent(new GLTFShape("unity_assets/s0_Z3_Prop_Stairs02_Art_1__01.glb"))
 s0_Z3_Prop_Stairs02_Art_5__01.getComponent(GLTFShape).withCollisions = false

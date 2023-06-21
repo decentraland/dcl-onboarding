@@ -72,15 +72,15 @@ export const textDialogs: Dialog[] = [
         fontSize: 18,
         vAlign: "0%",
         portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Happy.png",
-        bEndDialog: true,
       },
       {
         text: { // text 6
-          en: "",
+          en: text2D.START_ISLAND_6,
         },
         fontSize: 18,
         vAlign: "0%",
         portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Talking.png",
+        bEndDialog: true,
       },
       // {
       //   text: { // text 7
@@ -679,12 +679,20 @@ export const textDialogs: Dialog[] = [
         },
         fontSize: 18,
         vAlign: "0%",
+        portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Talking.png",
+      },
+      {
+        text: {
+          en: text2D.PORTAL_ISLAND_3,
+        },
+        fontSize: 18,
+        vAlign: "0%",
         portrait: "assets/ui/portraits/UI_NPC_Character_Robot_Idle.png",
         bEndDialog: true,
       },
       {
         text: {
-          en: text2D.PORTAL_ISLAND_3,
+          en: text2D.PORTAL_ISLAND_4,
         },
         fontSize: 18,
         vAlign: "0%",
@@ -693,7 +701,7 @@ export const textDialogs: Dialog[] = [
       },
       {
         text: {
-          en: text2D.PORTAL_ISLAND_4,
+          en: text2D.PORTAL_ISLAND_5,
         },
         fontSize: 18,
         vAlign: "0%",
