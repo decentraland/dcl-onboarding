@@ -2,7 +2,7 @@ import * as ui from '@dcl/ui-scene-utils'
 
 
 //#region npcs
-export class npcCompassReference extends Entity {
+export class NpcCompassReference extends Entity {
     name: string
     transform: Transform
     pointToThisNpc: boolean
@@ -16,16 +16,16 @@ export class npcCompassReference extends Entity {
 }
 
 const foxBezierTransform = new Transform({position: new Vector3(160.1, 66.1, 104.3)})
-export const foxBezier = new npcCompassReference("foxBezier", foxBezierTransform, true)
+export const foxBezier = new NpcCompassReference("foxBezier", foxBezierTransform, true)
 
 const racoonMatTransform = new Transform({position: new Vector3(170.4, 68.9, 159)})
-export const racoonMat = new npcCompassReference("racoonMat", racoonMatTransform, false)
+export const racoonMat = new NpcCompassReference("racoonMat", racoonMatTransform, false)
 
 const racoonKitTransform = new Transform({ position: new Vector3(111, 77.6, 138.8)})
-export const racoonKit = new npcCompassReference("racoonKit", racoonKitTransform, false)
+export const racoonKit = new NpcCompassReference("racoonKit", racoonKitTransform, false)
 
 const portalToborTransform = new Transform({ position: new Vector3(117.2, 80.9, 113)})
-export const portalTobor = new npcCompassReference("portalTobor", portalToborTransform, false)
+export const portalTobor = new NpcCompassReference("portalTobor", portalToborTransform, false)
 
 const npcsToFind = [foxBezier, racoonMat, racoonKit, portalTobor]
 
@@ -237,7 +237,7 @@ export function disableCompass() {
 
 function computeInPlaceClosestDistance(closestData: ClosestDataType, npcs: Entity[]) {
     for (let i = 0; i < npcs.length; i++) {
-      const currentNpcToPoint = npcs[i] as npcCompassReference
+      const currentNpcToPoint = npcs[i] as NpcCompassReference
   
       if (!currentNpcToPoint.pointToThisNpc) continue
   
