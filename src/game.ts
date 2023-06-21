@@ -9,6 +9,7 @@ import { getDecentralandTime } from "@decentraland/EnvironmentAPI"
 
 
 
+
 //s0 is Onboarding_Scene
 
 //add entities that are not ciritical to initial load
