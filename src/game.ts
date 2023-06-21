@@ -2,6 +2,13 @@ import { dclTime } from "./imports/index"
 import { StateMachine } from "./imports/index"
 import { GameData } from "./imports/game.data"
 import { isPreviewMode } from "@decentraland/EnvironmentAPI"
+import { getDecentralandTime } from "@decentraland/EnvironmentAPI"
+
+
+
+
+
+
 
 //s0 is Onboarding_Scene
 

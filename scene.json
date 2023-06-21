@@ -413,11 +413,7 @@
   ],
   "requiredPermissions": [
     "ALLOW_TO_MOVE_PLAYER_INSIDE_SCENE",
-    "ALLOW_TO_TRIGGER_AVATAR_EMOTE",
-    "",
-    "",
-    "",
-    ""
+    "ALLOW_TO_TRIGGER_AVATAR_EMOTE"
   ],
   "featureToggles": {
       "voiceChat": "disabled"
@@ -426,6 +422,7 @@
   "tags": [],
   "worldConfiguration" : {
     "fixedAdapter": "offline:offline",
+    "skybox": 21600,
     "name": "dclonboarding.dcl.eth"
   }
 }
