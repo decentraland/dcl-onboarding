@@ -768,7 +768,7 @@ export class ClaimUI {
 
       serverURL = ensureFormat(serverURL)
 
-      if((hasCaptchaData && captchaData.image.indexOf("data")==0 )|| serverURL.indexOf("local")==0){
+      if(hasCaptchaData || serverURL.indexOf("local")==0){
         serverURL = captchaData.image
       }
       const imgScale = 1.4
