@@ -50,6 +50,7 @@ export class Popup extends Widget {
 
     constructor(parentUI: Widget | UIShape) {
         var parent: UIShape;
+        //debugger
         //wg 
         if (parentUI as Widget) {
             parent = (parentUI as Widget).container
@@ -77,7 +78,7 @@ export class Popup extends Widget {
         this.takecontrolBackground.visible = true
         this.takecontrolBackground.hAlign = "center"
         this.takecontrolBackground.vAlign = "bottom"
-        this.takecontrolBackground.width = 647 * 0.5
+        this.takecontrolBackground.width = 647 * .55//0.5
         this.takecontrolBackground.height = 200 * 0.4
         this.takecontrolBackground.positionX = "0%"
         this.takecontrolBackground.positionY = "5%"
@@ -290,17 +291,41 @@ export class Popup extends Widget {
         this.buttonRightText.visible = true
         this.buttonRightText.isPointerBlocker = false
 
-        const MouseRigth = new UIImage(this.takecontrolBackground, new Texture("assets/ui/UI_mouse_2.png"))
-        MouseRigth.sourceWidth = 100
-        MouseRigth.sourceHeight = 100
+        const MouseRigth = new UIImage(this.takecontrolBackground, new Texture("assets/ui/UI_UnlockMouseRightBtn.png"))//UI_mouse_2.png"))
+        MouseRigth.sourceWidth = 61//100
+        MouseRigth.sourceHeight = 76//100
         MouseRigth.width = MouseRigth.sourceWidth * 0.65  //620
         MouseRigth.height = MouseRigth.sourceHeight * 0.65  //356
         MouseRigth.vAlign = 'center'
-        MouseRigth.hAlign = 'left'
+        MouseRigth.hAlign = 'right'
         MouseRigth.positionY = "0%"
-        MouseRigth.positionX = "5%"
+        MouseRigth.positionX = "-5%"
         MouseRigth.opacity = 1
         MouseRigth.visible = true
+
+        const ESCLeft = new UIImage(this.takecontrolBackground, new Texture("assets/ui/UI_EscKey.png"))//UI_mouse_2.png"))
+        ESCLeft.sourceWidth = 57//100
+        ESCLeft.sourceHeight = 38//100
+        ESCLeft.width = ESCLeft.sourceWidth * 0.65  //620
+        ESCLeft.height = ESCLeft.sourceHeight * 0.65  //356
+        ESCLeft.vAlign = 'center'
+        ESCLeft.hAlign = 'left'
+        ESCLeft.positionY = "0%"
+        ESCLeft.positionX = "20%"
+        ESCLeft.opacity = 1
+        ESCLeft.visible = true
+
+        const arrowAttention = new UIImage(this.takecontrolBackground, new Texture("assets/ui/UI_Arrow.png"))
+        arrowAttention.sourceWidth = 45
+        arrowAttention.sourceHeight = 61
+        arrowAttention.width = arrowAttention.sourceWidth * 0.65  //620
+        arrowAttention.height = arrowAttention.sourceHeight * 0.65  //356
+        arrowAttention.vAlign = 'center'
+        arrowAttention.hAlign = 'center'
+        arrowAttention.positionY = 50
+        arrowAttention.positionX = "0%"
+        arrowAttention.opacity = 1
+        arrowAttention.visible = true
 
         const containerTextTakeControl = new UIContainerRect(this.takecontrolBackground)
         containerTextTakeControl.visible = true
@@ -313,16 +338,32 @@ export class Popup extends Widget {
         containerTextTakeControl.isPointerBlocker = false
         //containerTextTakeControl.color = new Color4(0, 1, 1, 0.6)
 
+        const takecontrol2 = new UIText(this.takecontrolBackground)
+        takecontrol2.value = "Press"
+        takecontrol2.width = 80
+        takecontrol2.height = "100%"
+        takecontrol2.hAlign = "left"
+        takecontrol2.vAlign = "center"
+        takecontrol2.hTextAlign = "center"
+        takecontrol2.vTextAlign = "center"
+        takecontrol2.positionY = "0%"
+        takecontrol2.positionX = "0%"
+        takecontrol2.color = Color4.White()
+        takecontrol2.fontSize = 14
+        takecontrol2.textWrapping = false
+        takecontrol2.visible = true
+        takecontrol2.isPointerBlocker = false
+
         const takecontrol = new UIText(containerTextTakeControl)
-        takecontrol.value = "Press the right-click mouse \nbutton to take control"
-        takecontrol.width = "100%"
+        takecontrol.value = "or the right-click mouse \nbutton to take control"
+        takecontrol.width = "80%"
         takecontrol.height = "100%"
-        takecontrol.hAlign = "center"
+        takecontrol.hAlign = "right"
         takecontrol.vAlign = "center"
         takecontrol.hTextAlign = "center"
         takecontrol.vTextAlign = "center"
         takecontrol.positionY = "0%"
-        takecontrol.positionX = "0%"
+        takecontrol.positionX = "-13%"
         takecontrol.color = Color4.White()
         takecontrol.fontSize = 14
         takecontrol.textWrapping = true

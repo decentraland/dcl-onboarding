@@ -36,9 +36,11 @@ export class QuestEmote implements IClaimProvider {
     tick2: Entity
     tick3: Entity
     bridge_2: Entity
+    arrow: Entity
 
     bnpc1isInPlaza: boolean = false
 
+    firstTimeClosingRewardUI: boolean = true
 
     //start claim code
     hasReward: boolean
@@ -70,6 +72,14 @@ export class QuestEmote implements IClaimProvider {
         this.cable_off = GameData.instance().getEntity("cables2_off") as Entity
         this.cable_on = GameData.instance().getEntity("cables2_on") as Entity
 
+
+        this.bridge_2.addComponentOrReplace(new OnPointerDown(()=>{
+
+            }
+            ,{
+                hoverText:'Talk to Bezier Before Crossing'
+            }
+        ))
 
         GenesisData.instance().quest1.npc1 = this.npc1
         GenesisData.instance().quest1.npc1Anim = this.npc1Anim
@@ -424,6 +434,11 @@ export class QuestEmote implements IClaimProvider {
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
             }
         } else {
+            if(!CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.emote){
+                log("CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER",CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER, "skipping showing them DISCLAIMTEXT")
+                this.onCloseRewardUI()
+                return
+            }
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
             getHUD().wgPopUp.setText(CHAPTER2)
@@ -454,15 +469,21 @@ export class QuestEmote implements IClaimProvider {
     private onCloseRewardUI() {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
-        //Pilar Turn ON
-        this.activatePilar()
-        //Bridge Turn ON
-        this.activateBridge()
+
+        if(this.firstTimeClosingRewardUI){
+            //Pilar Turn ON
+            this.activatePilar()
+            //Bridge Turn ON
+            this.activateBridge()
+
+            this.firstTimeClosingRewardUI = false
+        }
 
         this.dialogQuestFinished()
         StateManager.instance().startState("IslandQuest2State")
 
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        //have an onFocusListener now, no need to call this here
+        getHUD().wgPopUpControls.showTakecontrolCameraImage(true,3000)
         getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
 
     }
@@ -482,12 +503,15 @@ export class QuestEmote implements IClaimProvider {
     activateBridge() {
         AudioManager.instance().playBridge(this.bridge_2)
 
+        //remove onclick tooltip
+        if(this.bridge_2.hasComponent(OnPointerDown)) this.bridge_2.removeComponent(OnPointerDown)
+        
         this.bridge_2.getComponent(StateMachine).playClip("Bridge Animation", false, 3, false, () => {
 
             this.bridge_2.getComponent(StateMachine).playClip("Bridge On", false, 1, false, () => {
 
 
-            })
+            }) 
         })
     }
 
@@ -495,6 +519,27 @@ export class QuestEmote implements IClaimProvider {
 
         this.npc1.getComponent(QuestNpc).bubbleTalk.setTextWithDelay(bubbleTalk.ZONE_1_EMOTE_4)
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(true)
+
+        let zOffset = 1.85
+        let scale = 0.3
+        const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
+
+        const baseMaterial = MaterialPool.instance().getBridgeArrow()
+        
+        for (let i = 0; i < 9; i++) {
+            this.arrow = new Entity()
+            this.arrow.addComponent(new PlaneShape()).visible = true
+            this.arrow.setParent(this.bridge_2)
+            this.arrow.addComponent(baseMaterial)
+
+            if(i==4) zOffset = - 1.85
+
+            if(i==8){
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+            }else{
+                this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, -90).toQuaternion()}))
+            }
+        }
 
         this.npc1.addComponentOrReplace(new OnPointerDown(() => {
 
@@ -511,6 +556,7 @@ export class QuestEmote implements IClaimProvider {
     }
 
     private remindPlayerOfReward() {
+
         this.npc1.removeComponent(OnPointerDown)
 
         this.npc1.getComponent(QuestNpc).bubbleTalk.setActive(false)
@@ -527,8 +573,10 @@ export class QuestEmote implements IClaimProvider {
             getHUD().wgTalkNPC1.callback = () => { };
             //Recursive Call
             this.npc1.getComponent(QuestNpc).idleAnimFromTalk();
-            this.giveReward();
+
+            this.giveReward()
         }
+        
     }
 
     private tellPlayerToFindMat() { //Go to Next Island Dialog

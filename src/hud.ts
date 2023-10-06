@@ -122,9 +122,14 @@ export class HUD {
   }
 
   loadHudCallbacks() {
-
-    this.wgKeyBoard.setcallback(() => {
+    log("loadHudCallbacks","ENTRY")
+    this.wgKeyBoard.setcallbackStart(() => { 
+      //must do it at start so that when can click through
+      //does not throw error
       this.setWidgetQuest(0, TaskType.Simple)
+    })  
+    
+    this.wgKeyBoard.setcallback(() => {
       this.wgQuest.show(true)
       this.wgPopUpControls.containerBig.visible = true
     })

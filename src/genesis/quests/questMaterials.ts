@@ -38,7 +38,9 @@ export class QuestMaterials implements IClaimProvider {
     cable_off: Entity;
     cable_on: Entity;
     blocker: Entity;
+    barrier_2: Entity
 
+    firstTimeClosingRewardUI: boolean = true
 
     //start claim code
     hasReward: boolean
@@ -64,16 +66,24 @@ export class QuestMaterials implements IClaimProvider {
         this.box_material = GameData.instance().getEntity("box_material") as Entity
         this.cable_off = GameData.instance().getEntity("cables3_off") as Entity
         this.cable_on = GameData.instance().getEntity("cables3_on") as Entity
-
+        this.barrier_2 = GameData.instance().getEntity("z2_barrier") as Entity
+ 
         this.box_triangle.getComponent(StateMachine).playClip("Box_01_Static", false, 0.5, true, () => { })
 
+        this.barrier_2.addComponentOrReplace(new OnPointerDown(()=>{
+
+        }
+        ,{
+            hoverText:'Talk to Mat Before Continuing'
+        }
+    ))
 
         this.activeCables(false)
         this.spawnparticles(false)
         this.spawnBlockToNextIsalnd()
     }
 
-    private setUpTriggerHi() {
+    private setUpTriggerHi() { 
         let triggerHi = new Entity()
         triggerHi.addComponent(new Transform({ position: this.npc2.getComponent(Transform).position.clone() }))
         triggerHi.addComponent(new utils.TriggerComponent(new utils.TriggerBoxShape(new Vector3(15, 5, 15)), {
@@ -108,13 +118,20 @@ export class QuestMaterials implements IClaimProvider {
     private spawnBlockToNextIsalnd() {
         this.blocker = new Entity("Blocker")
         this.blocker.addComponent(new Transform({ position: new Vector3(149.93, 72.45, 156.78), scale: new Vector3(3, 5, 9) }))
-        this.blocker.addComponent(new BoxShape)
+        this.blocker.addComponent(new BoxShape).isPointerBlocker = false
         this.blocker.addComponent(MaterialPool.instance().getTotalTransMaterial())
         engine.addEntity(this.blocker)
     }
 
     private deleteBlocker() {
         engine.removeEntity(this.blocker)
+    
+        //Remove barrier
+        this.barrier_2.getComponent(GLTFShape).visible = false
+        this.barrier_2.getComponent(GLTFShape).withCollisions = false
+        this.barrier_2.getComponent(Transform).position = new Vector3(0, 0, 0)
+        this.barrier_2.getComponent(Transform).scale = new Vector3(0,0,0) 
+
     }
 
     private setBubbleNpc() {
@@ -403,12 +420,6 @@ export class QuestMaterials implements IClaimProvider {
 
             this.giveReward()
 
-            //Remove barrier
-            GameData.instance().getEntity("z2_barrier").getComponent(GLTFShape).visible = false
-            GameData.instance().getEntity("z2_barrier").getComponent(GLTFShape).withCollisions = false
-            GameData.instance().getEntity("z2_barrier").getComponent(Transform).position = new Vector3(0, 0, 0)
-            GameData.instance().getEntity("z2_barrier").getComponent(Transform).scale = new Vector3(0,0,0) 
-
             //Create puzzle
             QuestPuzzle.instance().puzzleQuest()
         }
@@ -439,7 +450,12 @@ export class QuestMaterials implements IClaimProvider {
             } else {
                 //claim part of the click get reward button getHUD().wgPopUp.rightButtonClic 
             }
-        } else {
+        } else { 
+            if(!CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER.material){
+                log("CONFIG.CLAIM_NONWEB3_ONLY_SHOW_DISCLAIMER_ONCE",CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER, "skipping showing them DISCLAIMTEXT")
+                this.onCloseRewardUI()
+                return
+            }
             //Set up popup with disclaimer
             getHUD().wgPopUp.popUpMode(POPUP_STATE.TwoButtons)
             getHUD().wgPopUp.setText(CHAPTER3)
@@ -471,12 +487,20 @@ export class QuestMaterials implements IClaimProvider {
     private onCloseRewardUI() {
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
-        this.activatePilar()
+
+
+        if(this.firstTimeClosingRewardUI){
+            //Pilar Turn ON
+            this.activatePilar()
+
+            this.firstTimeClosingRewardUI = false
+        }
 
         this.afterEndQuestClick()
         StateManager.instance().startState("IslandQuest3State")
 
-        getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
+        //need this as onfocus listerner has been removed
+        getHUD().wgPopUpControls.showTakecontrolCameraImage(true,3000,true)
         getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
 
     }

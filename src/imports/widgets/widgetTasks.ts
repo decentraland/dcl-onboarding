@@ -130,7 +130,8 @@ export class WidgetTasks extends WidgetTasksBox {
   constructor(taskType: TaskType, parentUI: Widget | UIShape, taskId: number) {
     super(parentUI, taskId)
     this.taskType = taskType
-
+    //debugger
+    log("widgetTasks","constructor","taskType",taskType,"parentUI",parentUI,"taskId",taskId)
     this.setText()
   }
 
@@ -273,6 +274,7 @@ export class WidgetTasks extends WidgetTasksBox {
 
   //Functions used by the openButtonImage to hide and show the tasks
   hideTasks() {
+    log("widgetTasks","hideTasks","this.objectiveId",this.objectiveId,"this.canSetNex",this.canSetNex)
     if (!this.canSetNex) {
       return
     }
@@ -283,10 +285,13 @@ export class WidgetTasks extends WidgetTasksBox {
         this.textUI[i].visible = false
       }
     } else {
+      log("hideTasks",this.objectiveId,this.infoUI[this.objectiveId].value)
       this.checkImage[this.objectiveId].visible = false
       this.checkBoxImage[this.objectiveId].visible = false
       this.textUI[this.objectiveId].visible = false
       this.infoUI[this.objectiveId].visible = false
+
+      log("hideTasks",this.objectiveId,this.infoUI[this.objectiveId].value,"this.infoUI[this.objectiveId].visible",this.infoUI[this.objectiveId].visible)
     }
 
   }
@@ -303,6 +308,7 @@ export class WidgetTasks extends WidgetTasksBox {
         }
       }
     } else {
+      log("showTasks",this.objectiveId,this.infoUI[this.objectiveId].value)
       this.taskBoxImage.source = this.taskBoxMediumTexture
       this.checkBoxImage[this.objectiveId].visible = true
       this.textUI[this.objectiveId].visible = true
@@ -312,10 +318,12 @@ export class WidgetTasks extends WidgetTasksBox {
       } else {
         this.checkImage[this.objectiveId].visible = false
       }
+      log("showTasks",this.objectiveId,this.infoUI[this.objectiveId].value,"this.infoUI[this.objectiveId].visible",this.infoUI[this.objectiveId].visible)
     }
   }
 
   setOtherTask(taskId: number) {
+    log("widgetTasks","setOtherTask","this.objectiveId",this.objectiveId,"this.canSetNex",this.canSetNex)
     if (this.setOtherTaskTimeout) {
       clearDelay(this.setOtherTaskTimeout);
       this.setOtherTaskTimeout = null;
@@ -330,12 +338,14 @@ export class WidgetTasks extends WidgetTasksBox {
    * @param time  in seconds
    */
   setOtherTaskDelay(taskId: number, time: number) {
+    log("widgetTasks","setOtherTaskDelay","taskId",taskId,"time",time)
     if (this.setOtherTaskTimeout) {
       clearDelay(this.setOtherTaskTimeout);
       this.setOtherTaskTimeout = null;
     }
     this.setOtherTaskTimeout = delay(() => {
-      this.hideTasks()
+      log("widgetTasks","setOtherTaskDelay","setOtherTaskDelay","taskId",taskId,"time",time,"this.objectiveId",this.objectiveId,"this.canSetNex",this.canSetNex)
+      this.hideTasks() 
       this.taskId = taskId
       this.setText()
     }, time * 1000)

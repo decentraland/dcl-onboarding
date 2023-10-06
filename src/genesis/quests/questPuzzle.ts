@@ -158,6 +158,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
                 getHUD().wgTalkNPC3.callback = () => { }
 
                 this.accetpQuest()
+                this.cameraModeAngleCheck()
             }
 
 
@@ -184,13 +185,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
 
     }
 
-
-    puzzleQuest() {
-        if (this.connect_game.bStarted) return
-
-        //Create puzzle game
-        this.connect_game.startGame()
-
+    cameraModeAngleCheck(){
         if (CameraModeManager.instance().cameraMode == CameraMode.ThirdPerson) {
             getHUD().wgPopUpControls.showCameraModeImage(true)
             CameraModeManager.instance().addCallbackFirstPerson(() => {
@@ -202,6 +197,13 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         else {
             getHUD().wgPopUpControls.showCablesImage(true)
         }
+
+    }
+    puzzleQuest() {
+        if (this.connect_game.bStarted) return
+
+        //Create puzzle game
+        this.connect_game.startGame()
 
         //when finihs
         this.connect_game.completeEvent2PuzzleCallback = () => {
