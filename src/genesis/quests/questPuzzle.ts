@@ -16,6 +16,8 @@ import { DispenserPos } from 'src/claiming-dropin/claiming/claimTypes'
 import { ClaimTokenResult, ClaimUI, HandleClaimTokenCallbacks } from 'src/claiming-dropin/claiming/loot'
 import { IClaimProvider } from 'src/claiming-dropin/claiming/defaultClaimProvider'
 import { activatePillarSound4, changeGeneratosSound } from '../components/audio/sounds'
+import { s0_Z3_Prop_Stairs02_Art_3__01, s0_Z3_Prop_Stairs02_Art_4__01, s0_Z3_Prop_Stairs02_Art_5__01, s0_Z3_Prop_Stairs03_Art_01 } from 'src/game'
+import { portalTobor, racoonKit } from 'src/compass'
 
 //Quest restore energy
 
@@ -31,6 +33,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
     pilar4: Entity
     cable_off: Entity
     cable_on: Entity
+
 
     /*//start claim code
     hasReward:boolean 
@@ -72,6 +75,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         this.setUpTriggerHi()
         this.setUpClaim()
     }
+
 
     private setUpClaim() {
         /*this.dispenserPos = lookupDispenerPosByCampId( ClaimConfig.campaign.CAP.refId )
@@ -233,6 +237,7 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
         getHUD().wgQuest.show(true)
     }
     private clicOnNPC2PuzzleCompleted() {
+
         this.npc3.addComponentOrReplace(new OnPointerDown(() => {
             this.npc3.removeComponent(OnPointerDown)
             this.spawnparticles(true)
@@ -286,6 +291,12 @@ export class QuestPuzzle /*implements IClaimProvider*/ {
 
                 //End Quest
                 this.dialogQuestFinished()
+
+                Arrows.instance().flipArrows()
+
+                racoonKit.pointToThisNpc = false
+                portalTobor.pointToThisNpc = true
+
                 this.spawnparticles(false)
                 this.removeParticleEntity()
                 StateManager.instance().startState("PortalState")

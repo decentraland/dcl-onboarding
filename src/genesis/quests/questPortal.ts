@@ -18,6 +18,7 @@ import { CONFIG } from "src/config";
 import { initClaimProvider, lookupDispenerPosByCampId } from "src/modules/claiming/claimSetup";
 import { ClaimConfig } from "src/claiming-dropin/claiming/loot-config";
 import { activateInitialSoundPortal, activateLoopSoundPortal } from "../components/audio/sounds";
+import { hideCompass } from "src/compass";
 
 export class QuestPortal implements IClaimProvider{
 
@@ -234,6 +235,9 @@ export class QuestPortal implements IClaimProvider{
     }
 
     private onCloseRewardUI() {
+
+        hideCompass()
+
         getHUD().wgPopUp.rightButtonClic = () => { }
         getHUD().wgPopUp.leftButtonClic = () => { }
     }

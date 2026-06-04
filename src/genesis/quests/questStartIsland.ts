@@ -14,6 +14,7 @@ import { sendTrak } from '../stats/segment';
 import { activateSoundPillar1 } from '../components/audio/sounds';
 import { TaskType } from 'src/imports/widgets/widgetTasks';
 import { IndicatorState } from '../components/npcs/questIndicator';
+import { showCompass } from 'src/compass';
 
 export class SpawnIsland {
 
@@ -63,11 +64,7 @@ export class SpawnIsland {
         this.barrier_1 = GameData.instance().getEntity("z0_barrier") as Entity
 
         
-        //this.arrow = new Entity()
-        //this.arrow.addComponent(new GLTFShape("assets/glb_assets/target_arrow.glb"))
-        //this.arrow.setParent(this.bridge_1)
-        //this.arrow.addComponent(new Transform({position: new Vector3(0, 4, 0), rotation: new Quaternion(0, 0, 1, 0), scale: new Vector3(2,2,2)}))
-        
+ 
             
         this.barrier_1.addComponentOrReplace(new OnPointerDown(()=>{
 
@@ -446,13 +443,6 @@ export class SpawnIsland {
             //BLA Show Pointing arrow
             this.tobor.getComponent(RobotNPC).indicator.updateStatus(IndicatorState.EXCLAMATION)
         
-            
-
-            //BLA removed the bubble with the esxlamation mark to be more in line with the other avatars
-            /*
-            this.bubbleTalk.setTextWithDelay(bubbleText.OVERHERE)
-            this.bubbleTalk.setBubbleMaxScale(1.7)
-            this.bubbleTalk.setActive(true)*/
 
             GenesisData.instance().targeterRobot.translate(utils.getEntityWorldPosition(this.tobor).add(new Vector3(0, 0, 0)))
             GenesisData.instance().targeterRobot.showCircle(true)
@@ -522,6 +512,8 @@ export class SpawnIsland {
         this.activatePilar()
         this.ativateBridge()
 
+        showCompass()
+        
         //have an onFocusListener now, no need to call this here
         //getHUD().wgPopUpControls.showTakecontrolCameraImage(true)
         //getHUD().wgPopUpControls.takecontrolCameraImageContainerBackground.visible = true
@@ -582,26 +574,8 @@ export class SpawnIsland {
                 this.tobor.getComponent(RobotNPC).idleAnim()
 
           
-                let zOffset = 1.85
-                let scale = 0.3
-                const xOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
-
-                const baseMaterial = MaterialPool.instance().getBridgeArrow()
-                
-                for (let i = 0; i < 9; i++) {
-                    this.arrow = new Entity()
-                    this.arrow.addComponent(new PlaneShape()).visible = true
-                    this.arrow.setParent(this.bridge_1)
-                    this.arrow.addComponent(baseMaterial)
-
-                    if(i==4) zOffset = - 1.85
-
-                    if(i==8){
-                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(-7, 1.6, 0), scale: new Vector3(1, 1, 1), rotation: new Vector3(0, 90, 90).toQuaternion()}))
-                    }else{
-                        this.arrow.addComponentOrReplace(new Transform({position: new Vector3(xOffsets[i], 1.4, zOffset), scale: new Vector3(scale, scale, scale), rotation: new Vector3(0, 90, 90).toQuaternion()}))
-                    }
-                }
+                const xArrowsOffsets = [-2.3, -0.6, 0.7, 2.3, -2.3, -0.6, 0.7, 2.3]
+                Arrows.instance().createBridgeArrows(this.bridge_1, true, xArrowsOffsets)
             })
         })
     }
