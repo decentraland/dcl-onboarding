@@ -25,9 +25,9 @@ export const SECOND_ISLAND_8 = ()=>{ return CONFIG.CLAIM_NONWEB3_SHOW_DISCLAIMER
 
 // Dialogs  Mat island
 export const THIRD_ISLAND_0 = "Hey, I'm Mat. I have a business in the metaverse selling NFT wearables."
-export const THIRD_ISLAND_1 = "There are thousands of community created wearables for sale in Decentraland."
+export const THIRD_ISLAND_1 = "There are thousands of community-created wearables for sale in Decentraland."
 export const THIRD_ISLAND_2 = "I’m running low on materials and meshes. If you find them for me I can make it worth your while."
-export const THIRD_ISLAND_3 = "There are some boxes around here bring them to me and maybe i can make something for you."
+export const THIRD_ISLAND_3 = "There are some boxes around here. Bring them to me and maybe i can make something for you."
 
 export const THIRD_ISLAND_4 = "Just one more! We need both, materials and meshes, to craft wearables."
 export const THIRD_ISLAND_5 = "Come back here! That’s everything I need."
@@ -47,7 +47,7 @@ export const FOURTH_ISLAND_2 = "You can get there through these <b>portals.</b> 
 export const FOURTH_ISLAND_3 = "It’s working! Now fix the other connections."
 export const FOURTH_ISLAND_4 = "Cool the power is online, come back to talk to me."
 
-export const FOURTH_ISLAND_5 = "Thanks to you the portals are ready to use. Tobor is waiting you, go talk with him."
+export const FOURTH_ISLAND_5 = "Thanks to you the portals are ready to use. Tobor is waiting for you, go talk with him."
 
 export const FOURTH_ISLAND_6 = "Tobor wants to talk to you, he’s next to the portals."
 
